@@ -400,7 +400,7 @@ void Master::viewMouseMoveEvent(QMouseEvent* event)
       int x = pos.x();
       if (x < 0)
             x = 0;
-      emit timeChanged(editor->rasterVal(x));
+      emit timeChanged(editor->rasterVal(x).to_uint());
       }
 
 //---------------------------------------------------------
@@ -456,11 +456,15 @@ bool Master::deleteVal1(unsigned int x1, unsigned int x2, MusECore::Undo& operat
 
 void Master::deleteVal(int x1, int x2, MusECore::Undo& operations)
       {
+<<<<<<< HEAD:src/muse/master/master.cpp
       if(x1 < 0)
         x1 = 0;
       if(x2 < 0)
         x2 = 0;
       if (deleteVal1(editor->rasterVal1(x1), x2, operations))
+=======
+      if (deleteVal1(editor->rasterVal1(x1).to_uint(), x2))
+>>>>>>> origin/audiostreams:muse2/muse/master/master.cpp
             redraw();
       }
 
@@ -496,12 +500,17 @@ void Master::setTool(int t)
 
 void Master::newVal(int x1, int x2, int y, MusECore::Undo& operations)
       {
+<<<<<<< HEAD:src/muse/master/master.cpp
       if(x1 < 0)
         x1 = 0;
       if(x2 < 0)
         x2 = 0;
       int xx1 = editor->rasterVal1(x1);
       int xx2 = editor->rasterVal2(x2);
+=======
+      int xx1 = editor->rasterVal1(x1).to_uint();
+      int xx2 = editor->rasterVal2(x2).to_uint();
+>>>>>>> origin/audiostreams:muse2/muse/master/master.cpp
 
       if (xx1 > xx2) {
             int tmp = xx2;

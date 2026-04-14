@@ -26,6 +26,11 @@
 #include <stdio.h>
 #include "muse_math.h"
 
+<<<<<<< HEAD:src/muse/part.cpp
+=======
+#include "song.h"
+#include "audioprefetch.h"
+>>>>>>> origin/audiostreams:muse2/muse/part.cpp
 #include "part.h"
 #include "song.h"
 #include "globals.h"
@@ -384,6 +389,7 @@ void removePortCtrlEvents(Part* part, bool doClones)
 
 iEvent Part::addEvent(Event& p)
       {
+      p.setParentalPart(this);
       return _events.add(p);
       }
 
@@ -416,6 +422,7 @@ Part* PartList::find(int idx)
       return nullptr;
       }
 
+<<<<<<< HEAD:src/muse/part.cpp
 Part* PartList::findCloneMaster(const QUuid& cloneUuid) const
 {
   for(const_iterator ip = cbegin(); ip != cend(); ++ip)
@@ -429,6 +436,8 @@ Part* PartList::findCloneMaster(const QUuid& cloneUuid) const
 //---------------------------------------------------------
 //   Part
 //---------------------------------------------------------
+=======
+>>>>>>> origin/audiostreams:muse2/muse/part.cpp
 
 Part::Part(Track* t)
       {
@@ -556,7 +565,6 @@ bool Part::selectEvents(bool select, unsigned long /*t0*/, unsigned long /*t1*/)
 WavePart::WavePart(WaveTrack* t)
    : Part(t)
       {
-      setType(FRAMES);
       }
 
 //---------------------------------------------------------
@@ -578,6 +586,7 @@ iPart PartList::findPart(unsigned tick)
 
 iPart PartList::add(Part* part)
       {
+<<<<<<< HEAD:src/muse/part.cpp
       // Added by T356. A part list containing wave parts should be sorted by
       //  frames. WaveTrack::fetchData() relies on the sorting order, and
       //  there was a bug that waveparts were sometimes muted because of
@@ -592,6 +601,10 @@ iPart PartList::add(Part* part)
         return insert(PartListInsertPair_t(part->frame(), part));
       else
         return insert(PartListInsertPair_t(part->tick(), part));
+=======
+        // TODO FIXME FINDMICHJETZT this must be XTicks for accuracy!
+        return insert(std::pair<const int, Part*> (part->tick(), part));
+>>>>>>> origin/audiostreams:muse2/muse/part.cpp
       }
 
 //---------------------------------------------------------
@@ -628,6 +641,10 @@ void Song::addPart(Part* part)
         _songLenTicks = epos;
 
       part->track()->addPart(part);
+
+      if (part->track()->type()==Track::WAVE)
+          if (MusEGlobal::audioPrefetch->range_possibly_prefetched(part->frame(), part->endFrame()))
+              MusEGlobal::audioPrefetch->msgSeek( MusEGlobal::audio->framePos(), true, false); // force (seek even if already there) but do not block. may lose messages.
       
       // Indicate do not do clones.
       addPortCtrlEvents(part, false);
@@ -643,6 +660,10 @@ void Song::removePart(Part* part)
       removePortCtrlEvents(part, false);
       Track* track = part->track();
       track->parts()->remove(part);
+
+      if (part->track()->type()==Track::WAVE)
+          if (MusEGlobal::audioPrefetch->range_possibly_prefetched(part->frame(), part->endFrame()))
+              MusEGlobal::audioPrefetch->msgSeek( MusEGlobal::audio->framePos(), true, false); // force (seek even if already there) but do not block. may lose messages.
       }
 
 //---------------------------------------------------------

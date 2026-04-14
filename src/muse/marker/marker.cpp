@@ -24,8 +24,24 @@
 
 namespace MusECore {
 
+<<<<<<< HEAD:src/muse/marker/marker.cpp
 // Static.
 EventID_t Marker::_idGen = 0;
+=======
+Marker* MarkerList::add(const Marker& marker)
+      {
+      iMarker i = insert(std::pair<const int, Marker> (marker.tick(), Marker(marker)));
+      return &i->second;
+      }
+
+Marker* MarkerList::add(const QString& s, int t)
+      {
+      Marker marker(s);
+      marker.setTick(t);
+      iMarker i = insert(std::pair<const int, Marker> (t, marker));
+      return &i->second;
+      }
+>>>>>>> origin/audiostreams:muse2/muse/marker/marker.cpp
 
 //---------------------------------------------------------
 //   read
@@ -45,6 +61,7 @@ void Marker::read(Xml& xml)
                         break;
                   case Xml::Attribut:
                         if (tag == "tick")
+<<<<<<< HEAD:src/muse/marker/marker.cpp
                         {
                               setType(TICKS);
                               setTick(xml.s2().toUInt());
@@ -59,6 +76,11 @@ void Marker::read(Xml& xml)
                         {
                               setType(xml.s2().toInt() ? FRAMES:TICKS);
                         }
+=======
+                              setTick(xml.s2().toInt());
+                        else if (tag == "lock")
+                              printf("WARNING: Marker was set to be locked to the current frame. Ignoring this, as it's no more supported!\n");
+>>>>>>> origin/audiostreams:muse2/muse/marker/marker.cpp
                         else if (tag == "name")
                         {
                               _name = xml.s2();
@@ -121,12 +143,17 @@ void MarkerList::write(int level, Xml& xml) const
       {
       for (ciMarker i = begin(); i != end(); ++i) {
             const Marker& m = i->second;
+<<<<<<< HEAD:src/muse/marker/marker.cpp
             if(m.type()==Pos::TICKS)
               xml.put(level, "<marker tick=\"%u\" name=\"%s\" />",
                  m.tick(), Xml::xmlString(m.name()).toUtf8().constData());
             else if(m.type()==Pos::FRAMES)
               xml.put(level, "<marker frame=\"%u\" name=\"%s\" />",
                  m.frame(), Xml::xmlString(m.name()).toUtf8().constData());
+=======
+            xml.put(level, "<marker tick=\"%d\" lock=\"%d\" name=\"%s\" />",
+               m.tick(), false, Xml::xmlString(m.name()).toLatin1().constData());
+>>>>>>> origin/audiostreams:muse2/muse/marker/marker.cpp
             }
       }
 

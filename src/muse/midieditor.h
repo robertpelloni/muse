@@ -25,8 +25,12 @@
 
 #include "type_defs.h"
 #include "cobject.h"
+<<<<<<< HEAD:src/muse/midieditor.h
 #include "ctrl/ctrledit.h"
 #include "event_tag_list.h"
+=======
+#include "pos.h" // for XTick
+>>>>>>> origin/audiostreams:muse2/muse/midieditor.h
 
 #include <set>
 #include <QUuid>
@@ -50,6 +54,8 @@ class ScrollScale;
 class TrackInfoWidget;
 class RasterizerModel;
 
+using MusECore::XTick;
+
 //---------------------------------------------------------
 //   MidiEditor
 //---------------------------------------------------------
@@ -71,6 +77,7 @@ class MidiEditor : public TopWin  {
       TrackInfoWidget* trackInfoWidget;
       MusECore::Track* selected;
 
+<<<<<<< HEAD:src/muse/midieditor.h
       CtrlEditList ctrlEditList;
       int _raster;
       RasterizerModel *_rasterizerModel;
@@ -81,6 +88,16 @@ class MidiEditor : public TopWin  {
       int _minXMag;
       // The X mag maximum that is applied to any ScrollScale controls.
       int _maxXMag;
+=======
+      std::list<CtrlEdit*> ctrlEditList;
+
+      //raster=n raster on n ticks
+      //raster=1 means raster on full ticks (for int-ticks, this does nothing)
+      //raster=0 means raster on measure
+      //raster<0 would mean "don't even touch the subtick" (for XTicks and int-ticks, this does nothing)
+      int _raster;
+      enum {NO_RASTER=-1};
+>>>>>>> origin/audiostreams:muse2/muse/midieditor.h
 
       QGridLayout* mainGrid;
       QWidget* mainw;
@@ -115,12 +132,23 @@ class MidiEditor : public TopWin  {
          QWidget* parent = 0, const char* name = 0);
       virtual ~MidiEditor();
 
+<<<<<<< HEAD:src/muse/midieditor.h
       int rasterStep(unsigned tick) const;
       unsigned rasterVal(unsigned v)  const;
       unsigned rasterVal1(unsigned v) const;
       unsigned rasterVal2(unsigned v) const;
       int raster() const           { return _raster; }
       virtual void setRaster(int val)      { _raster = val; }
+=======
+      // this is ugly. better use XTick everywhere (flo)
+      XTick rasterStep(XTick tick) const { return _raster==NO_RASTER ? tick : XTick(AL::sigmap.rasterStep(tick.to_uint(), _raster)); }
+      XTick rasterVal(XTick tick)  const { return _raster==NO_RASTER ? tick : XTick(AL::sigmap.raster(tick.to_uint(), _raster));  }
+      XTick rasterVal1(XTick tick) const { return _raster==NO_RASTER ? tick : XTick(AL::sigmap.raster1(tick.to_uint(), _raster)); }
+      XTick rasterVal2(XTick tick) const { return _raster==NO_RASTER ? tick : XTick(AL::sigmap.raster2(tick.to_uint(), _raster)); }
+      int raster() const           { return _raster; }
+      void setRaster(int val)      { _raster = val; }
+      void disableRaster()         { _raster = -1; }
+>>>>>>> origin/audiostreams:muse2/muse/midieditor.h
       MusECore::PartList* parts()            { return _pl;  }
       const MusECore::PartList* parts() const { return _pl;  }
       int curDrumInstrument() const  { return _curDrumInstrument; }

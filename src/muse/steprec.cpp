@@ -50,8 +50,13 @@ void StepRec::timeout()
 {
 	if (chord_timer_set_to_tick != MusEGlobal::song->cpos())
 	{
+<<<<<<< HEAD:src/muse/steprec.cpp
 		Pos p(chord_timer_set_to_tick, true);
     MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, false, true);
+=======
+		Pos p(chord_timer_set_to_tick);
+		MusEGlobal::song->setPos(0, p, true, false, true);
+>>>>>>> origin/audiostreams:muse2/muse/steprec.cpp
 	}
 }
 
@@ -198,9 +203,15 @@ void StepRec::record(const Part* part, int pitch, int len, int step, int velo, b
 			chord_timer->stop();
 
 			// simply proceed, inserting a rest
+<<<<<<< HEAD:src/muse/steprec.cpp
 			Pos p(MusEGlobal::song->cpos() + step, true);
             MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, false, true);
 
+=======
+			Pos p(MusEGlobal::song->cpos() + step);
+			MusEGlobal::song->setPos(0, p, true, false, true);
+			
+>>>>>>> origin/audiostreams:muse2/muse/steprec.cpp
 			return;
 		}
 	}
@@ -209,8 +220,13 @@ void StepRec::record(const Part* part, int pitch, int len, int step, int velo, b
 	if (!((lasttick > part->lenTick()) && (part->hasHiddenEvents() & Part::RightEventsHidden))) // allowed?
 	{
 		if (lasttick > part->lenTick()) // we have to expand the part?
+<<<<<<< HEAD:src/muse/steprec.cpp
 			schedule_resize_all_same_len_clone_parts(part, lasttick, operations);
 
+=======
+			schedule_resize_all_same_len_clone_parts(part, lasttick, MusECore::Pos::TICKS, operations);
+		
+>>>>>>> origin/audiostreams:muse2/muse/steprec.cpp
 		MusEGlobal::song->applyOperationGroup(operations);
 	}
 }

@@ -74,7 +74,12 @@ class MarkerList : public MixedPosList_t<unsigned, Marker, std::less<unsigned> >
 
       // Normally to be called from the audio thread only.
       Marker* add(const Marker& m);
+<<<<<<< HEAD:src/muse/marker/marker.h
       Marker* add(const QString& s, unsigned t, bool lck);
+=======
+      Marker* add(const QString& s, int t);
+      void write(int, Xml&) const;
+>>>>>>> origin/audiostreams:muse2/muse/marker/marker.h
       void remove(Marker*);
       void remove(const Marker&);
 

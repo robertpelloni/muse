@@ -27,7 +27,11 @@
 #include <sys/types.h>
 
 #include "eventbase.h"
+<<<<<<< HEAD:src/muse/waveevent.h
 #include "muse_time.h"
+=======
+#include "audiostream.h"
+>>>>>>> origin/audiostreams:muse2/muse/waveevent.h
 
 namespace MusECore {
   
@@ -36,9 +40,22 @@ namespace MusECore {
 //---------------------------------------------------------
 
 class WaveEventBase : public EventBase {
+      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+      // @@                                       @@
+      // @@  When changing members, don't forget  @@
+      // @@  to update the copy-constructor!      @@
+      // @@                                       @@
+      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
       QString _name;
-      SndFileR f;
+      QString filename;
+
+      AudioStream* audiostream;
+      unsigned streamPosition;
+      AudioStream::stretch_mode_t stretch_mode;
+      
       int _spos;            // start sample position in WaveFile
+<<<<<<< HEAD:src/muse/waveevent.h
       Fifo* _prefetchFifo;            // Prefetch Fifo
       MuseCount_t _prefetchWritePos;  // Current fifo write position.
       MuseCount_t _lastSeekPos;       // Remember last seek to optimize seeks.
@@ -55,6 +72,16 @@ class WaveEventBase : public EventBase {
       virtual ~WaveEventBase();
       
       virtual void assign(const EventBase& ev); // Assigns to this event, excluding the _id. 
+=======
+      bool deleted;
+      
+      virtual EventBase* clone() const;
+      
+   public:
+      WaveEventBase(EventType t);
+      WaveEventBase(const WaveEventBase&);
+      virtual ~WaveEventBase();
+>>>>>>> origin/audiostreams:muse2/muse/waveevent.h
       
       virtual bool isSimilarTo(const EventBase& other) const;
 
@@ -68,13 +95,24 @@ class WaveEventBase : public EventBase {
       virtual void setName(const QString& s)   { _name = s;     }
       virtual int spos() const                 { return _spos;  }
       virtual void setSpos(int s)              { _spos = s;     }
-      virtual SndFileR sndFile() const         { return f;      }
-      virtual void setSndFile(SndFileR& sf)    { f = sf;        }
       
+<<<<<<< HEAD:src/muse/waveevent.h
       virtual void readAudio(unsigned frame, float** bpp, int channels, int nn, bool doSeek, bool overwrite);
       virtual void seekAudio(sf_count_t frame);
       virtual Fifo* audioPrefetchFifo()        { return _prefetchFifo; }
       virtual void prefetchAudio(Part* part, sf_count_t frames);
+=======
+      virtual void reloadAudioFile();
+      virtual void setAudioFile(const QString& path);
+      virtual QString audioFilePath()               { return filename; }
+      virtual AudioStream::stretch_mode_t stretchMode() { return stretch_mode; }
+      virtual const AudioStream* getAudioStream()   { return audiostream; }
+
+      virtual void readAudio(WavePart* part, unsigned firstFrame, 
+                             float** bpp, int channels, int nFrames, XTick fromXTick, XTick toXTick, bool doSeek, bool overwrite);
+      
+      virtual bool needCopyOnWrite();
+>>>>>>> origin/audiostreams:muse2/muse/waveevent.h
       };
       
 } // namespace MusECore

@@ -393,7 +393,7 @@ void Audio::msgEraseRangeACEvents(AudioTrack* node, int acid, unsigned int frame
 //   msgSeek
 //---------------------------------------------------------
 
-void Audio::msgSeek(const Pos& pos)
+void Audio::msgSeek(audioframe_t pos)
       {
       if (!MusEGlobal::checkAudioDevice()) return;
       MusEGlobal::audioDevice->seekTransport(pos);
@@ -463,6 +463,7 @@ void Audio::msgPlay(bool val)
       if (val) {
             if (MusEGlobal::audioDevice)
             {
+<<<<<<< HEAD:src/muse/seqmsg.cpp
 // REMOVE Tim. countin. Removed. This is not good. It's been here for years, and the idea 
 //  was that the transport frame should start at what the user sees - the cursor tick position.
 // But cursor tick position should follow audio frame position, not the other way around.
@@ -480,6 +481,12 @@ void Audio::msgPlay(bool val)
 //                 unsigned dcfr = MusEGlobal::audioDevice->getCurFrame();
 //                 if(dcfr != sfr)
 //                   MusEGlobal::audioDevice->seekTransport(MusEGlobal::song->cPos());
+=======
+                unsigned sfr = MusEGlobal::song->cPos().frame();
+                unsigned dcfr = MusEGlobal::audioDevice->getCurFrame();
+                if(dcfr != sfr)
+                  MusEGlobal::audioDevice->seekTransport(sfr);
+>>>>>>> origin/audiostreams:muse2/muse/seqmsg.cpp
                 MusEGlobal::audioDevice->startTransport();
             }
               
@@ -754,6 +761,7 @@ void Audio::msgSetSendMetronome(AudioTrack* track, bool b)
 void Audio::msgBounce()
       {
       if (!MusEGlobal::checkAudioDevice()) return;
+<<<<<<< HEAD:src/muse/seqmsg.cpp
 
       MusEGlobal::audioDevice->seekTransport(MusEGlobal::song->lPos());
       // Wait until seek takes effect.
@@ -792,6 +800,9 @@ void Audio::msgBounce()
         }
       }
       
+=======
+      MusEGlobal::audioDevice->seekTransport(MusEGlobal::song->lPos().frame());
+>>>>>>> origin/audiostreams:muse2/muse/seqmsg.cpp
       }
 
 //---------------------------------------------------------

@@ -21,9 +21,15 @@
 //
 //=========================================================
 
+<<<<<<< HEAD:src/muse/sig.cpp
 #include <stdio.h>
 #include "sig.h"
 #include "gconfig.h"
+=======
+
+#include "gconfig.h"  // Tim
+#include "sig.h"
+>>>>>>> origin/audiostreams:muse2/al/sig.cpp
 
 namespace MusEGlobal {
 MusECore::SigList sigmap;

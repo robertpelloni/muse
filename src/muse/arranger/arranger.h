@@ -29,7 +29,12 @@
 #include <QString>
 
 #include "type_defs.h"
+<<<<<<< HEAD:src/muse/arranger/arranger.h
 #include "tools.h"
+=======
+#include "midieditor.h"
+#include "pcanvas.h"
+>>>>>>> origin/audiostreams:muse2/muse/arranger/arranger.h
 
 #include "ctrl.h"
 
@@ -190,7 +195,12 @@ class Arranger : public QWidget {
           affected_pos=a;
         }
       };
+<<<<<<< HEAD:src/muse/arranger/arranger.h
       static std::vector<custom_col_t> custom_columns;
+=======
+      static std::vector<custom_col_t> custom_columns;     //TODO: eliminate all usage of new_custom_columns
+      static std::vector<custom_col_t> new_custom_columns; //and instead let the arranger update without restarting muse!
+>>>>>>> origin/audiostreams:muse2/muse/arranger/arranger.h
 
       Arranger(ArrangerView* parent, const char* name = 0);
 

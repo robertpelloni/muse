@@ -37,10 +37,15 @@
 
 
 namespace MusECore {
+<<<<<<< HEAD:src/muse/eventbase.h
 
 // Forward declarations:
 class Part;
 class Fifo;
+=======
+class WavePart;
+class Part;
+>>>>>>> origin/audiostreams:muse2/muse/eventbase.h
 
 //---------------------------------------------------------
 //   EventBase
@@ -57,6 +62,7 @@ class EventBase : public PosLen {
    protected:
       int refCount;
       bool _selected;
+      Part* parental_part;
 
    public:
       EventBase(EventType t);
@@ -128,6 +134,7 @@ class EventBase : public PosLen {
       //       Be aware when iterating or modifying clones.
       virtual EventBase* clone() const = 0; 
       
+<<<<<<< HEAD:src/muse/eventbase.h
       // Restores _id to _uniqueId, removing the event from any clone 'group'. 
       virtual void deClone() { _id = _uniqueId; } 
       // Creates a copy of the event base, excluding the 'group' _id. 
@@ -137,6 +144,20 @@ class EventBase : public PosLen {
       virtual void seekAudio(sf_count_t /*frame*/) { }
       virtual Fifo* audioPrefetchFifo()     { return 0; }
       virtual void prefetchAudio(Part* /*part*/, sf_count_t /*frames*/) { }
+=======
+      virtual void setAudioFile(const QString&) { }
+      virtual QString audioFilePath()               { return QString(""); }
+      virtual void reloadAudioFile() { } 
+      virtual AudioStream::stretch_mode_t stretchMode() { return AudioStream::NO_STRETCHING; }
+      virtual const AudioStream* getAudioStream()   { return NULL; }
+      virtual void readAudio(WavePart* /*part*/, unsigned /*offset*/, 
+                             float** /*bpp*/, int /*channels*/, int /*nn*/, XTick /*fromXTick*/, XTick /*toXTick*/, bool /*doSeek*/, bool /*overwrite*/) { }
+      virtual bool needCopyOnWrite() { return false; }
+      
+      void setParentalPart(Part* p) { parental_part = p; }
+      Part* getParentalPart() { return parental_part; }
+
+>>>>>>> origin/audiostreams:muse2/muse/eventbase.h
       };
 
 } // namespace MusECore

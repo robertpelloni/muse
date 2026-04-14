@@ -104,6 +104,7 @@ void SigScale::viewMouseMoveEvent(QMouseEvent* event)
       MusECore::Song::POSTYPE posType;
 
       switch (button) {
+<<<<<<< HEAD:src/muse/components/sigscale.cpp
       case Qt::LeftButton:
           if (event->modifiers() & Qt::ControlModifier)
               posType = MusECore::Song::LPOS;
@@ -122,6 +123,24 @@ void SigScale::viewMouseMoveEvent(QMouseEvent* event)
 
       MusECore::Pos p(x, true);
       MusEGlobal::song->setPos(posType, p);
+=======
+            case Qt::LeftButton:
+                  i = 0;
+                  break;
+            case Qt::MidButton:
+                  i = 1;
+                  break;
+            case Qt::RightButton:
+                  if ((MusEGlobal::config.rangeMarkerWithoutMMB) && (event->modifiers() & Qt::ControlModifier))
+                      i = 1;
+                  else
+                      i = 2;
+                  break;
+            default:
+                  return;
+            }
+      MusEGlobal::song->setPos(i, MusECore::XTick(x));
+>>>>>>> origin/audiostreams:muse2/muse/widgets/sigscale.cpp
       }
 
 //---------------------------------------------------------

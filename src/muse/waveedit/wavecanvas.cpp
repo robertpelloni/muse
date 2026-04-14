@@ -162,8 +162,8 @@ WaveCanvas::WaveCanvas(MidiEditor* pr, QWidget* parent, int sx, int sy)
       pos[2] = MusEGlobal::tempomap.tick2frame(MusEGlobal::song->rpos());
       yScale = sy;
       mode = NORMAL;
-      selectionStart = 0;
-      selectionStop  = 0;
+      selectionStart = XTick::createInvalidXTick();
+      selectionStop  = XTick::createInvalidXTick();
       lastGainvalue = 100;
 
       songChanged(SC_TRACK_INSERTED);
@@ -444,6 +444,35 @@ void WaveCanvas::keyPress(QKeyEvent* event)
 
       // TODO: New WaveCanvas: Convert these to frames, and remove unneeded functions.
             
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
+=======
+      //
+      //  Shortcut for DrumEditor & PianoRoll
+      //  Sets locators to selected events
+      //
+      if (key == shortcuts[SHRT_LOCATORS_TO_SELECTION].key) {
+            int tick_max = 0;
+            int tick_min = INT_MAX;
+            bool found = false;
+
+            for (iCItem i= items.begin(); i != items.end(); i++) {
+                  if (!i->second->isSelected())
+                        continue;
+
+                  int tick = i->second->x();
+                  int len = i->second->event().lenTick();
+                  found = true;
+                  if (tick + len > tick_max)
+                        tick_max = tick + len;
+                  if (tick < tick_min)
+                        tick_min = tick;
+                  }
+            if (found) {
+                  MusEGlobal::song->setPos(1, MusECore::Pos(MusECore::XTick(tick_min)));
+                  MusEGlobal::song->setPos(2, MusECore::Pos(MusECore::XTick(tick_max)));
+                  }
+            }
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
       // Select items by key (PianoRoll & DrumEditor)
       else if (key == shortcuts[SHRT_SEL_RIGHT].key || key == shortcuts[SHRT_SEL_RIGHT_ADD].key) {
               rciCItem i;
@@ -740,9 +769,14 @@ QPoint WaveCanvas::raster(const QPoint& p) const
       int x = p.x();
       if (x < 0)
             x = 0;
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
       // Normally frame to tick methods round down. But here we need it to 'snap'
       //  the frame from either side of a tick to the tick. So round to nearest.
       x = MusEGlobal::tempomap.tick2frame(editor->rasterVal(MusEGlobal::tempomap.frame2tick(x, 0, MusECore::LargeIntRoundNearest)));
+=======
+      //x = editor->rasterVal(x);
+      x = MusEGlobal::tempomap.tick2frame(editor->rasterVal(MusEGlobal::tempomap.frame2xtick(x)));
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
       int pitch = y2pitch(p.y());
       int y = pitch2y(pitch);
       return QPoint(x, y);
@@ -821,14 +855,19 @@ bool WaveCanvas::mousePress(QMouseEvent* event)
                               if (mode == NORMAL)
                               {
                                     // redraw and reset:
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
                                     if (selectionStart != selectionStop) 
                                     {
                                           selectionStart = selectionStop = 0;
+=======
+                                    if (!selectionStart.invalid) {
+                                          selectionStart = selectionStop = XTick::createInvalidXTick();
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
                                           redraw();
                                     }
                                     mode = DRAG;
-                                    dragstartx = x;
-                                    selectionStart = selectionStop = x;
+                                    dragstartx = MusEGlobal::tempomap.frame2xtick(x);
+                                    selectionStart = selectionStop = dragstartx;
                                     drag = DRAG_LASSO_START;
                                     Canvas::start = pt;
                                     cancelMouseOps();
@@ -1065,6 +1104,7 @@ void WaveCanvas::mouseMove(QMouseEvent* event)
       // Snapping those things, even to the minimum 1 tick ('off'), might be undesirable when we're editing at wave level.
       emit timeChanged(x);
 
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
       switch(_tool)
       {
             case StretchTool:
@@ -1205,6 +1245,47 @@ void WaveCanvas::mouseMove(QMouseEvent* event)
                             right_max_stretch_delta_x = 0.0;
                           if((double)delta_pt.x() > right_max_stretch_delta_x)
                             delta_pt.setX(right_max_stretch_delta_x);
+=======
+      XTick x_xtick = MusEGlobal::tempomap.frame2xtick(x);
+      
+      switch (button) {
+            case Qt::LeftButton:
+                  if (mode == DRAG) {
+                        int mx      = mapx(x);
+                        int mstart  = mapx(MusEGlobal::tempomap.tick2frame(selectionStart));
+                        int mstop   = mapx(MusEGlobal::tempomap.tick2frame(selectionStop));
+                        QRect r(0, 0, 0, height());
+                        
+                        if (x_xtick < dragstartx) {
+                              if(x_xtick < selectionStart)
+                              {
+                                r.setLeft(mx);
+                                r.setWidth((selectionStop >= dragstartx ? mstop : mstart) - mx);
+                              }
+                              else
+                              {
+                                r.setLeft(mstart);
+                                r.setWidth(mx - mstart);
+                              }
+                              selectionStart = x_xtick;
+                              selectionStop = dragstartx;
+                              }
+                        else {
+                              if(x_xtick >= selectionStop)
+                              {
+                                r.setLeft(selectionStart < dragstartx ? mstart : mstop);
+                                r.setWidth(mx - (selectionStart < dragstartx ? mstart : mstop));
+                              }
+                              else
+                              {
+                                r.setLeft(mx);
+                                r.setWidth(mstop - mx);
+                              }
+                              selectionStart = dragstartx;
+                              selectionStop = x_xtick;
+                              }
+                        update(r);
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
                         }
 
                         const double left_effective_dx = wave_sr_ratio * (double)delta_pt.x() / left_effective_sr;
@@ -1481,6 +1562,7 @@ void WaveCanvas::drawItem(QPainter& p, const CItem* item, const QRect& mr, const
           p.fillRect(sx, y1, ex - sx + 1, y2, brush);
       }
 
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
       int ev_channels = 0;
       int wav_sx = 0;
       int wav_ex = 0;
@@ -1493,12 +1575,24 @@ void WaveCanvas::drawItem(QPainter& p, const CItem* item, const QRect& mr, const
       {
         ev_channels = f.channels();
         if (ev_channels > 0) {
+=======
+      const MusECore::AudioStream* stream = event.getAudioStream();
+      if(stream)
+      {
+        int ev_channels = stream->get_n_input_channels();
+        if (ev_channels == 0) {
+              p.setWorldMatrixEnabled(wmtxen);
+              printf("WaveCanvas::drawItem: ev_channels==0! %s\n", event.audioFilePath().toLatin1().constData());
+              return;
+              }
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
 
           int h   = hh / (ev_channels * 2);
           int cc  = hh % (ev_channels * 2) ? 0 : 1;
 
           unsigned peoffset = px + event.frame() - ev_spos;
 
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
           const sf_count_t smps = f.samples();
 
           if(-ev_spos < smps && ev_spos <= smps)
@@ -1516,6 +1610,74 @@ void WaveCanvas::drawItem(QPainter& p, const CItem* item, const QRect& mr, const
               wav_ex = event.lenFrame();
               if(wav_ex > 0)
                 --wav_ex;
+=======
+        for (int i = sx; i < ex; i++) {
+              int y = h;
+              MusECore::SampleV sa[ev_channels];
+              stream->readPeakRms(sa, xScale, pos);
+              pos += xScale;
+              if (pos < event.spos())
+                    continue;
+
+              int selectionStartPos = MusEGlobal::tempomap.tick2frame(selectionStart) - peoffset; // Offset transformed to event coords
+              int selectionStopPos  = MusEGlobal::tempomap.tick2frame(selectionStop)  - peoffset;
+
+              for (int k = 0; k < ev_channels; ++k) {
+                    int peak = (sa[k].peak * (h - 1)) / yScale;
+                    int rms  = (sa[k].rms  * (h - 1)) / yScale;
+                    if (peak > h)
+                          peak = h;
+                    if (rms > h)
+                          rms = h;
+                    QColor peak_color = MusEGlobal::config.wavePeakColor;
+                    QColor rms_color  = MusEGlobal::config.waveRmsColor;
+
+                    if (pos > selectionStartPos && pos < selectionStopPos) {
+                          peak_color = MusEGlobal::config.wavePeakColorSelected;
+                          rms_color  = MusEGlobal::config.waveRmsColorSelected;
+                          QLine l_inv = clipQLine(i, y - h + cc, i, y + h - cc, mr);
+                          if(!l_inv.isNull())
+                          {
+                            // Draw inverted
+                            p.setPen(QColor(Qt::black));
+                            p.drawLine(l_inv);
+                          }
+                        }
+
+                    QLine l_peak = clipQLine(i, y - peak - cc, i, y + peak, mr);
+                    if(!l_peak.isNull())
+                    {
+                      p.setPen(peak_color);
+                      p.drawLine(l_peak);
+                    }
+
+                    QLine l_rms = clipQLine(i, y - rms - cc, i, y + rms, mr);
+                    if(!l_rms.isNull())
+                    {
+                      p.setPen(rms_color);
+                      p.drawLine(l_rms);
+                    }
+
+                    y += 2 * h;
+                  }
+              }
+            
+        int hn = hh / ev_channels;
+        int hhn = hn / 2;
+        for (int i = 0; i < ev_channels; ++i) {
+              int h2     = hn * i;
+              int center = hhn + h2;
+              if(center >= y1 && center < y2)
+              {
+                p.setPen(QColor(i & 1 ? Qt::red : Qt::blue));
+                p.drawLine(sx, center, ex, center);
+              }
+              if(i != 0 && h2 >= y1 && h2 < y2)
+              {
+                p.setPen(QColor(Qt::black));
+                p.drawLine(sx, h2, ex, h2);
+              }
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
             }
             wav_ex += event.frame() + wp->frame();
 
@@ -1986,10 +2148,14 @@ MusECore::Undo WaveCanvas::moveCanvasItems(CItemMap& items, int /*dp*/, int dx, 
       x              = newpos.x();
       if(x < 0)
         x = 0;
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
       // Normally frame to tick methods round down. But here we need it to 'snap'
       //  the frame from either side of a tick to the tick. So round to nearest.
       int nframe = (rasterize ? MusEGlobal::tempomap.tick2frame(
         editor->rasterVal(MusEGlobal::tempomap.frame2tick(x, 0, MusECore::LargeIntRoundNearest))) : x) - part->frame();
+=======
+      int nframe = (rasterize ? MusEGlobal::tempomap.tick2frame(editor->rasterVal(MusEGlobal::tempomap.frame2xtick(x))) : x) - part->frame();
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
       if(nframe < 0)
         nframe = 0;
       int diff = nframe + event.lenFrame() - part->lenFrame();
@@ -2068,7 +2234,7 @@ MusECore::Undo WaveCanvas::moveCanvasItems(CItemMap& items, int /*dp*/, int dx, 
       int diff = ip2c->second.xdiff;
       
       //schedule_resize_all_same_len_clone_parts(opart, opart->lenTick() + diff, operations);
-      schedule_resize_all_same_len_clone_parts(opart, opart->lenFrame() + diff, operations);
+      schedule_resize_all_same_len_clone_parts(opart, opart->lenFrame() + diff, MusECore::Pos::FRAMES, operations);
     }    
                                         
         return operations;
@@ -2094,11 +2260,15 @@ bool WaveCanvas::moveItem(MusECore::Undo& operations, CItem* item, const QPoint&
             x = 0;
       
       MusECore::Part* part = wevent->part();
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
       // Normally frame to tick methods round down. But here we need it to 'snap'
       //  the frame from either side of a tick to the tick. So round to nearest.
       int nframe = 
         (rasterize ? MusEGlobal::tempomap.tick2frame(
                      editor->rasterVal(MusEGlobal::tempomap.frame2tick(x, 0, MusECore::LargeIntRoundNearest))) : x) - part->frame();
+=======
+      int nframe = (rasterize ? MusEGlobal::tempomap.tick2frame(editor->rasterVal(MusEGlobal::tempomap.frame2xtick(x))) : x) - part->frame();
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
       if (nframe < 0)
             nframe = 0;
       newEvent.setFrame(nframe);
@@ -2128,8 +2298,12 @@ CItem* WaveCanvas::newItem(const QPoint& p, int key_modifiers)
       // Normally frame to tick methods round down. But here we need it to 'snap'
       //  the frame from either side of a tick to the tick. So round to nearest.
       if(!(key_modifiers & Qt::ShiftModifier))
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
         frame = MusEGlobal::tempomap.tick2frame(
           editor->rasterVal1(MusEGlobal::tempomap.frame2tick(frame, 0, MusECore::LargeIntRoundNearest)));
+=======
+        frame = MusEGlobal::tempomap.tick2frame(editor->rasterVal1(MusEGlobal::tempomap.frame2xtick(frame)));
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
       int len   = p.x() - frame;
       frame     -= curPart->frame();
       if (frame < 0)
@@ -2153,12 +2327,19 @@ void WaveCanvas::newItem(CItem* item, bool noSnap)
       int w = item->width();
 
       if (!noSnap) {
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
             // Normally frame to tick methods round down. But here we need it to 'snap'
             //  the frame from either side of a tick to the tick. So round to nearest.
             x = MusEGlobal::tempomap.tick2frame(
               editor->rasterVal1(MusEGlobal::tempomap.frame2tick(x, 0, MusECore::LargeIntRoundNearest)));
             w = MusEGlobal::tempomap.tick2frame(
               editor->rasterVal(MusEGlobal::tempomap.frame2tick(x + w, 0, MusECore::LargeIntRoundNearest))) - x;
+=======
+            //x = editor->rasterVal1(x); //round down
+            x = MusEGlobal::tempomap.tick2frame(editor->rasterVal1(MusEGlobal::tempomap.frame2xtick(x))); //round down
+            //w = editor->rasterVal(x + w) - x;
+            w = MusEGlobal::tempomap.tick2frame(editor->rasterVal(MusEGlobal::tempomap.frame2xtick(x + w))) - x;
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
             if (w == 0)
                   w = MusEGlobal::tempomap.tick2frame(editor->raster());
             }
@@ -2177,7 +2358,7 @@ void WaveCanvas::newItem(CItem* item, bool noSnap)
         
         if (diff > 0)// part must be extended?
         {
-              schedule_resize_all_same_len_clone_parts(part, event.endFrame(), operations);
+              schedule_resize_all_same_len_clone_parts(part, event.endFrame(), MusECore::Pos::FRAMES, operations);
               printf("newItem: extending\n");
         }
         
@@ -2206,12 +2387,17 @@ void WaveCanvas::resizeItem(CItem* item, bool noSnap, bool ctrl)         // expe
       else
       {
             unsigned frame = event.frame() + part->frame();
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
 
             // Normally frame to tick methods round down. But here we need it to 'snap'
             //  the frame from either side of a tick to the tick. So round to nearest.
             len = MusEGlobal::tempomap.tick2frame(
               editor->rasterVal(MusEGlobal::tempomap.frame2tick(
                 frame + wevent->width(), 0, MusECore::LargeIntRoundNearest))) - frame;
+=======
+            //len = editor->rasterVal(tick + wevent->width()) - tick;
+            len = MusEGlobal::tempomap.tick2frame(editor->rasterVal(MusEGlobal::tempomap.frame2xtick(frame + wevent->width()))) - frame;
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
             if (len <= 0)
                   len = MusEGlobal::tempomap.tick2frame(editor->raster());
       }
@@ -2247,7 +2433,7 @@ void WaveCanvas::resizeItem(CItem* item, bool noSnap, bool ctrl)         // expe
         if (diff > 0)// part must be extended?
         {
               //schedule_resize_all_same_len_clone_parts(part, event.tick()+len, operations);
-              schedule_resize_all_same_len_clone_parts(part, event.frame() + len, operations);
+              schedule_resize_all_same_len_clone_parts(part, event.frame() + len, MusECore::Pos::FRAMES, operations);
               printf("resizeItem: extending\n");
         }
       }
@@ -2363,7 +2549,7 @@ void WaveCanvas::drawCanvas(QPainter& p, const QRect& rect, const QRegion& rg)
 
 void WaveCanvas::waveCmd(int cmd)
       {
-      // TODO: New WaveCanvas: Convert this routine to frames.  
+      // TODO FINDMICH: New WaveCanvas: Convert this routine to frames.  
       switch(cmd) {
             case CMD_LEFT:
                   {
@@ -2371,34 +2557,56 @@ void WaveCanvas::waveCmd(int cmd)
                   if(spos > 0) 
                   {
                     spos -= 1;     // Nudge by -1, then snap down with raster1.
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
                     spos = MusEGlobal::sigmap.raster1(spos, editor->rasterStep(pos[0]));
                   }  
                   if(spos < 0)
                     spos = 0;
                   MusECore::Pos p(spos,true);
                   MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, true, true);
+=======
+                    spos = AL::sigmap.raster1(spos, editor->rasterStep(pos[0]).to_uint());
+                  }  
+                  if(spos < 0)
+                    spos = 0;
+                  MusEGlobal::song->setPos(0, MusECore::Pos(MusECore::XTick(spos)), true, true, true);
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
                   }
                   break;
             case CMD_RIGHT:
                   {
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
                   int spos = MusEGlobal::sigmap.raster2(pos[0] + 1, editor->rasterStep(pos[0]));    // Nudge by +1, then snap up with raster2.
                   MusECore::Pos p(spos,true);
                   MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, true, true);
+=======
+                  int spos = AL::sigmap.raster2(pos[0] + 1, editor->rasterStep(pos[0]).to_uint());    // Nudge by +1, then snap up with raster2.
+                  MusEGlobal::song->setPos(0, MusECore::Pos(MusECore::XTick(spos)), true, true, true); 
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
                   }
                   break;
             case CMD_LEFT_NOSNAP:
                   {
-                  int spos = pos[0] - editor->rasterStep(pos[0]);
+                  int spos = pos[0] - editor->rasterStep(pos[0]).to_uint();
                   if (spos < 0)
                         spos = 0;
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
                   MusECore::Pos p(spos,true);
                   MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, true, true); //CDW
+=======
+                  MusEGlobal::song->setPos(0, MusECore::Pos(MusECore::XTick(spos)), true, true, true); //CDW
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
                   }
                   break;
             case CMD_RIGHT_NOSNAP:
                   {
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
                   MusECore::Pos p(pos[0] + editor->rasterStep(pos[0]), true);
                   MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, true, true); //CDW
+=======
+                  int spos = pos[0] + editor->rasterStep(pos[0]).to_uint();
+                  MusEGlobal::song->setPos(0, MusECore::Pos(MusECore::XTick(spos)), true, true, true); //CDW
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
                   }
                   break;
             case CMD_PUSH:
@@ -2425,8 +2633,13 @@ void WaveCanvas::waveCmd(int cmd)
                         }
                   MusEGlobal::song->applyOperationGroup(operations);
                   
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
                   MusECore::Pos p(editor->rasterVal(pos[0] + editor->rasterStep(pos[0])), true);
                   MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, false, true);
+=======
+                  int spos = editor->rasterVal(pos[0] + editor->rasterStep(pos[0]).to_uint()).to_uint();
+                  MusEGlobal::song->setPos(0, MusECore::Pos(MusECore::XTick(spos)), true, false, true);
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
                   }
                   return;
             case CMD_PULL:
@@ -2451,8 +2664,13 @@ void WaveCanvas::waveCmd(int cmd)
                         operations.push_back(MusECore::UndoOp(MusECore::UndoOp::ModifyEvent, newEvent, event, part, false, false));
                         }
                   MusEGlobal::song->applyOperationGroup(operations);
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
                   MusECore::Pos p(editor->rasterVal(pos[0] - editor->rasterStep(pos[0])), true);
                   MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, false, true);
+=======
+                  int spos=editor->rasterVal(pos[0] - editor->rasterStep(pos[0]).to_uint()).to_uint();
+                  MusEGlobal::song->setPos(0, MusECore::Pos(MusECore::XTick(spos)), true, false, true);
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
                   }
                   break;
             }
@@ -2477,8 +2695,8 @@ void WaveCanvas::cmd(int cmd)
                           iEnd--;
                           MusECore::WavePart* beg = (MusECore::WavePart*) iBeg->second;
                           MusECore::WavePart* end = (MusECore::WavePart*) iEnd->second;
-                          selectionStart = beg->frame();
-                          selectionStop  = end->frame() + end->lenFrame();
+                          selectionStart = beg->xtick();
+                          selectionStop  = end->endXTick();
                           redraw();
                           }
                   }
@@ -2488,7 +2706,7 @@ void WaveCanvas::cmd(int cmd)
                         }
                   break;
             case CMD_SELECT_NONE:     // select none
-                  selectionStart = selectionStop = 0;
+                  selectionStart = selectionStop = XTick::createInvalidXTick();
                   deselectAll();
                   break;
             case CMD_SELECT_INVERT:     // invert selection
@@ -2652,7 +2870,7 @@ void WaveCanvas::cmd(int cmd)
                       MusECore::WavePart *tempPart = new MusECore::WavePart(origPart->track());
                       unsigned origFrame = origPart->frame();
                       unsigned frameDistance = MusEGlobal::song->lPos().frame() - origFrame;
-                      tempPart->setPos(MusEGlobal::song->lpos());
+                      tempPart->setPos(XTick(MusEGlobal::song->lpos()));
                       tempPart->setLenTick(MusEGlobal::song->rpos() - MusEGlobal::song->lpos());
                       // loop through the events and set them accordingly
                       for (MusECore::ciEvent iWaveEvent = origPart->events().begin(); iWaveEvent != origPart->events().end(); iWaveEvent++)
@@ -2685,7 +2903,7 @@ void WaveCanvas::cmd(int cmd)
             }
             
       if (modifyoperation != -1) {
-            if (selectionStart == selectionStop && modifyoperation!=PASTE) {
+            if ((selectionStart.invalid || selectionStart == selectionStop) && modifyoperation!=PASTE) {
                   printf("No selection. Ignoring\n"); //@!TODO: Disable menu options when no selection
                   QMessageBox::information(this, 
                      QString("MusE"),
@@ -2713,6 +2931,7 @@ void WaveCanvas::cmd(int cmd)
 //---------------------------------------------------------
 //   getSelection
 //---------------------------------------------------------
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
 
 MusECore::WaveSelectionList WaveCanvas::getSelection(unsigned startpos, unsigned stoppos)
       {
@@ -2839,22 +3058,74 @@ MusECore::WaveSelectionList WaveCanvas::getSelection(unsigned startpos, unsigned
             return selection;
 #endif
       }
+=======
+MusECore::WaveSelectionList WaveCanvas::getSelection(XTick startpos, XTick stoppos)
+{
+	MusECore::WaveSelectionList selection;
+	
+	for (MusECore::iPart ip = editor->parts()->begin(); ip != editor->parts()->end(); ++ip) {
+		MusECore::WavePart* wp = (MusECore::WavePart*)(ip->second);
+		XTick part_offset = wp->xtick();
+		
+		const MusECore::EventList& el = wp->events();
+		
+		for (MusECore::ciEvent e = el.begin(); e != el.end(); ++e) {
+			MusECore::Event event  = e->second;
+			if (event.empty())
+				continue;
+			
+			if (event.getAudioStream()==NULL) // TODO sollte passen
+				continue;
+			
+			// Respect part end: Don't modify stuff outside of part boundary.
+			XTick event_length = event.lenXTick();
+			if(event.xtick() + event.lenXTick() >= wp->lenXTick())
+			{
+				// Adjust apparent operation length:
+				if(event.xtick() > wp->lenXTick())
+					continue; // ignore this event
+				else
+					               event_length = wp->lenXTick() - event.xtick();
+			}
+			
+			XTick event_begin = event.xtick() + part_offset;
+			XTick event_end    = event_begin + event_length;
+			
+			if (!(event_end <= startpos || event_begin > stoppos)) { // if event is affected by selection
+				XTick temp_startpos = (startpos < event_begin) ? event_begin : startpos;
+				XTick temp_stoppos  = (stoppos  > event_end)   ? event_end   : stoppos;
+				
+				MusECore::WaveEventSelection s;
+				s.event = event;
+				s.startframe = event.getAudioStream()->relTick2FrameInFile(temp_startpos);
+				s.endframe   = event.getAudioStream()->relTick2FrameInFile(temp_stoppos)+1;
+				selection.push_back(s);
+			}
+		}
+	}
+	
+	return selection;
+}
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
 
+      
 //---------------------------------------------------------
 //   modifySelection
 //---------------------------------------------------------
-void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stoppos, double paramA)
+void WaveCanvas::modifySelection(int operation, XTick startpos, XTick stoppos, double paramA)
       {
-        if (operation == PASTE) {
-          // we need to redefine startpos and stoppos
+	         
+    
+        if (operation == PASTE) { // TODO FINDMICHJETZT migrate PASTE
+          /* // we need to redefine startpos and stoppos
           if (copiedPart =="")
             return;
           MusECore::SndFile pasteFile(copiedPart);
           pasteFile.openRead();
           startpos = pos[0];
-          stoppos = startpos+ pasteFile.samples(); // possibly this is wrong if there are tempo changes
+          stoppos = startpos+ pasteFile. DONOTCOMPILE samples(); // this is WRONG! this will cast samples implicitly into XTicks and then run havoc!
           pasteFile.close();
-          pos[0]=stoppos;
+          pos[0]=stoppos; */
         }
 
         //
@@ -2863,9 +3134,10 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
         //
         
         MusECore::WaveSelectionList selection = getSelection(startpos, stoppos);
-        std::vector<MusECore::SndFileR> copy_files_proj_dir;
-        for(MusECore::iWaveSelection i = selection.begin(); i != selection.end(); i++) 
+        std::vector<QString> copy_files_proj_dir;
+        for(MusECore::iWaveSelection wavesel_it = selection.begin(); wavesel_it != selection.end(); wavesel_it++) 
         {
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
           MusECore::WaveEventSelection w = *i;
           if(w.event.empty())
             continue;
@@ -2873,23 +3145,27 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
           if(file.isNull())
             continue;
           if(sndFileCheckCopyOnWrite(file))
+=======
+          if(wavesel_it->event.needCopyOnWrite())
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
           {
-            std::vector<MusECore::SndFileR>::iterator i = copy_files_proj_dir.begin();
+            QString canonical_path = QFileInfo(wavesel_it->event.audioFilePath()).canonicalPath();
+            std::vector<QString>::iterator i = copy_files_proj_dir.begin();
             for( ; i != copy_files_proj_dir.end(); ++i)
             {
-              if(i->canonicalPath() == file.canonicalPath())
+              if(*i == canonical_path)
                 break; 
             }  
             if(i == copy_files_proj_dir.end())
-              copy_files_proj_dir.push_back(file);
+              copy_files_proj_dir.push_back(canonical_path);
           }
         }
         if(!copy_files_proj_dir.empty())
         {
           CopyOnWriteDialog* dlg = new CopyOnWriteDialog();
-          for(std::vector<MusECore::SndFileR>::iterator i = copy_files_proj_dir.begin(); i != copy_files_proj_dir.end(); ++i)
+          for(std::vector<QString>::iterator i = copy_files_proj_dir.begin(); i != copy_files_proj_dir.end(); ++i)
           {
-            qint64 sz = QFile(i->canonicalPath()).size();
+            qint64 sz = QFile(*i).size();
             QString s;
             if(sz > 1048576)
               s += QString::number(sz / 1048576) + "MB ";
@@ -2898,7 +3174,7 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
               s += QString::number(sz / 1024) + "KB ";
             else
               s += QString::number(sz) + "B ";
-            s += i->canonicalPath();
+            s += *i;
             dlg->addProjDirFile(s);
           }
           int rv = dlg->exec();
@@ -2913,20 +3189,25 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
               return; // No project, don't want to copy without one.
             //setFocus(); // For some reason focus is given away to Arranger
           }
-          for(MusECore::iWaveSelection i = selection.begin(); i != selection.end(); i++)
+          for(MusECore::iWaveSelection wavesel_it = selection.begin(); wavesel_it != selection.end(); wavesel_it++)
           {
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
             MusECore::WaveEventSelection w = *i;
             if(w.event.empty())
               continue;
             MusECore::SndFileR file = w.event.sndFile();
             if(file.isNull() || !sndFileCheckCopyOnWrite(file)) // Make sure to re-check
+=======
+            if(!wavesel_it->event.needCopyOnWrite()) // Make sure to re-check
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
               continue;
-            QString filePath = MusEGlobal::museProject + QString("/") + file.name();
+            
+            QString filePath = MusEGlobal::museProject + QString("/") + QFileInfo(wavesel_it->event.audioFilePath()).fileName();
             QString newFilePath;
             if(MusECore::getUniqueFileName(filePath, newFilePath))
             {
               {
-                QFile qf(file.canonicalPath());
+                QFile qf(QFileInfo(wavesel_it->event.audioFilePath()).canonicalPath());
                 if(!qf.copy(newFilePath)) // Copy the file
                 {
                   printf("MusE Error: Could not copy to new sound file (file exists?): %s\n", newFilePath.toLocal8Bit().constData());
@@ -2972,6 +3253,7 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
                   continue; 
                 }
               }
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
               MusECore::SndFile* newSF = new MusECore::SndFile(newFilePath);
               MusECore::SndFileR newSFR(newSF);  // Create a sndFileR for the new file
               if(newSFR.openRead())  
@@ -2979,8 +3261,10 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
                 printf("MusE Error: Could not open new sound file: %s\n", newSFR.canonicalPath().toLocal8Bit().constData());
                 continue; // newSF will be deleted when newSFR goes out of scope and is deleted
               }
+=======
+
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
               MusEGlobal::audio->msgIdle(true); 
-              w.event.sndFile().close();             // Close the old file.
               // NOTE: For now, don't bother providing undo for this. Reason: If the user undoes
               //  and then modifies again, it will prompt to create new copies each time. There is
               //  no mechanism ("touched"?) to tell if an existing copy would be suitable to just 'drop in'.
@@ -2990,7 +3274,7 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
               //  NEW wave file (as if they always did). It also means the user CANNOT change back 
               //  to the old file...    Oh well, this IS Copy On Write.
               // FIXME: Find a conceptual way to make undo work with or without deleting the copies. 
-              w.event.setSndFile(newSFR);            // Set the new file.
+              wavesel_it->event.setAudioFile(newFilePath);            // Set the new file.
               MusEGlobal::audio->msgIdle(false); 
             }
           }
@@ -2999,6 +3283,7 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
          MusEGlobal::song->startUndo();
          for (MusECore::iWaveSelection i = selection.begin(); i != selection.end(); i++) {
                MusECore::WaveEventSelection w = *i;
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
                if(w.event.empty())
                  continue;
                MusECore::SndFileR file         = w.event.sndFile();
@@ -3006,6 +3291,15 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
                  continue;
                unsigned sx            = w.startframe;
                unsigned ex            = w.endframe;
+=======
+               MusECore::SndFile file         = MusECore::SndFile(w.event.audioFilePath());
+               if (file.openRead()) {
+                     MusEGlobal::audio->msgIdle(false);
+                     printf("Could not open original file...\n");
+                     break;
+                     }
+	       
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
                unsigned file_channels = file.channels();
 
                QString tmpWavFile;
@@ -3023,10 +3317,10 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
                      }
 
                //
-               // Write out data that will be changed to temp file
+               // Write out original data that will be changed to temp file (i.e. save it, for being able to undo it later)
                //
-               unsigned tmpdatalen = ex - sx;
-               off_t    tmpdataoffset = sx;
+               unsigned tmpdatalen = w.endframe - w.startframe;
+               off_t    tmpdataoffset = w.startframe;
                float*   tmpdata[file_channels];
 
                for (unsigned i=0; i<file_channels; i++) {
@@ -3093,14 +3387,19 @@ void WaveCanvas::modifySelection(int operation, unsigned startpos, unsigned stop
                file.write(file_channels, tmpdata, tmpdatalen, MusEGlobal::config.liveWaveUpdate);
                file.update();
                file.close();
-               file.openRead();
+               
+               w.event.reloadAudioFile();
 
                for (unsigned i=0; i<file_channels; i++) {
                      delete[] tmpdata[i];
                      }
 
                // Undo handling
+<<<<<<< HEAD:src/muse/waveedit/wavecanvas.cpp
                MusEGlobal::song->cmdChangeWave(w.event, tmpWavFile, sx, ex);
+=======
+               MusEGlobal::song->cmdChangeWave(file.dirPath() + "/" + file.name(), tmpWavFile, w.startframe, w.endframe);
+>>>>>>> origin/audiostreams:muse2/muse/waveedit/wavecanvas.cpp
                MusEGlobal::audio->msgIdle(false); // Not good with playback during operations
                }
          MusEGlobal::song->endUndo(SC_CLIP_MODIFIED);

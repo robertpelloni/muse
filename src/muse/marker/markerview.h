@@ -61,8 +61,12 @@ class MarkerItem : public QTreeWidgetItem {
       const QString name() const;
       bool lock() const;
       void setName(const QString& s);
+<<<<<<< HEAD:src/muse/marker/markerview.h
       void setPos(const MusECore::Pos& v);
       void setLock(bool lck);
+=======
+      void setTick(unsigned t);
+>>>>>>> origin/audiostreams:muse2/muse/marker/markerview.h
       };
 
 //---------------------------------------------------------
@@ -74,9 +78,14 @@ class MarkerView : public QWidget {
     
       QTreeWidget* table;
       QLineEdit* editName;
+<<<<<<< HEAD:src/muse/marker/markerview.h
       PosEdit* editSMPTE;
       PosEdit* editTick;
       QToolButton* lock;
+=======
+      Awl::PosEdit* editSMPTE;
+      Awl::PosEdit* editTick;
+>>>>>>> origin/audiostreams:muse2/muse/marker/markerview.h
       QToolBar* tools;
 
       QSize sizeHint() const override;
@@ -89,7 +98,6 @@ class MarkerView : public QWidget {
       void markerSelectionChanged();
       void nameChanged();
       void tickChanged(const MusECore::Pos&);
-      void lockChanged(bool);
       void markerChanged(int);
       void clicked(QTreeWidgetItem*);
       void rebuildList();

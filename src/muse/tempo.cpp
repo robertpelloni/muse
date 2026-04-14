@@ -43,8 +43,13 @@ namespace MusECore {
 //   TempoList
 //---------------------------------------------------------
 
-TempoList::TempoList()
+TempoList::TempoList(int sampling_rate)
       {
+      if (sampling_rate==0)
+          sampRate=MusEGlobal::sampleRate;
+      else
+          sampRate=sampling_rate;
+      
       _tempo   = 500000;
       insert(std::pair<const unsigned, TEvent*> (MAX_TICK+1, new TEvent(_tempo, 0)));
       _tempoSN     = 1;
@@ -143,12 +148,18 @@ void TempoList::normalize()
       
       for (iTEvent e = begin(); e != end(); ++e) {
             e->second->frame = frame;
+<<<<<<< HEAD:src/muse/tempo.cpp
             // Tick resolution is less than frame resolution. 
             // Round up so that the reciprocal function (frame to tick) matches value for value.
             frame += muse_multiply_64_div_64_to_64(
               numer * (uint64_t)e->second->tempo, 
               e->first - e->second->tick,
               denom, LargeIntRoundUp);
+=======
+            unsigned dtick = e->first - e->second->tick;
+            double dtime = double(dtick) / (MusEGlobal::config.division * _globalTempo * 10000.0/e->second->tempo);
+            frame += lrint(dtime * sampRate);
+>>>>>>> origin/audiostreams:muse2/muse/tempo.cpp
             }
       // Invalidate all cached frame or tick values used in the program, such as in class Pos.
       // On the very next call of tick2frame() or frame2tick(), serial numbers are compared
@@ -195,11 +206,11 @@ void TempoList::eraseRange(unsigned stick, unsigned etick)
     if(etick > MAX_TICK)
       etick = MAX_TICK;
     
-    iTEvent se = MusEGlobal::tempomap.upper_bound(stick);
+    iTEvent se = upper_bound(stick);
     if(se == end() || (se->first == MAX_TICK+1))
       return;
 
-    iTEvent ee = MusEGlobal::tempomap.upper_bound(etick);
+    iTEvent ee = upper_bound(etick);
 
     ee->second->tempo = se->second->tempo;
     ee->second->tick = se->second->tick;
@@ -209,7 +220,45 @@ void TempoList::eraseRange(unsigned stick, unsigned etick)
     erase(se, ee); // Erase range does NOT include the last element.
     normalize();
 }
-      
+
+TempoList TempoList::extractRange(XTick stick_, XTick etick_) const
+{
+	TempoList result;
+	
+	result.useList=useList;
+	result._tempo=_tempo;
+	result._globalTempo=_globalTempo;
+	
+	unsigned stick=stick_.tick, etick=etick_.tick; // TODO FINDMICH FIXME use XTicks everywhere!
+	if (stick >= etick || stick > MAX_TICK)
+		return result;
+	
+	if (etick > MAX_TICK)
+		etick=MAX_TICK;
+	
+	ciTEvent se = upper_bound(stick);
+	ciTEvent ee = upper_bound(etick);
+	// se->second is relevant for stick, and ee->second is relevant for etick.
+
+	if(se == end() || (se->first == MAX_TICK+1))
+	{
+		printf ("ERROR: nothing copied in TempoList::extractRange!\n");
+	}
+	else
+	{
+		ee++;
+		for (ciTEvent it = se; it!=ee; it++)
+		{
+			unsigned tick = (it->second->tick > stick) ? (it->second->tick - stick) : 0;
+			result.add(tick,it->second->tempo,false);
+		}
+	}
+	
+	result.normalize();
+	return result;
+}
+
+
 //---------------------------------------------------------
 //   tempo
 //---------------------------------------------------------
@@ -379,7 +428,11 @@ unsigned TempoList::ticks2frames(unsigned ticks, unsigned tempoTick, LargeIntRou
 //   tick2frame
 //---------------------------------------------------------
 
+<<<<<<< HEAD:src/muse/tempo.cpp
 unsigned TempoList::tick2frame(unsigned tick, unsigned frame, int* sn, LargeIntRoundMode round_mode) const
+=======
+unsigned TempoList::tick2frame(XTick tick, unsigned frame, int* sn) const
+>>>>>>> origin/audiostreams:muse2/muse/tempo.cpp
       {
       return (*sn == _tempoSN) ? frame : tick2frame(tick, sn, round_mode);
       }
@@ -388,17 +441,22 @@ unsigned TempoList::tick2frame(unsigned tick, unsigned frame, int* sn, LargeIntR
 //   tick2frame
 //---------------------------------------------------------
 
+<<<<<<< HEAD:src/muse/tempo.cpp
 unsigned TempoList::tick2frame(unsigned tick, int* sn, LargeIntRoundMode round_mode) const
+=======
+unsigned TempoList::tick2frame(XTick tick, int* sn) const
+>>>>>>> origin/audiostreams:muse2/muse/tempo.cpp
       {
       unsigned f;
       const uint64_t numer = (uint64_t)MusEGlobal::sampleRate;
       const uint64_t denom = (uint64_t)MusEGlobal::config.division * (uint64_t)_globalTempo * 10000UL;
       if (useList) {
-            ciTEvent i = upper_bound(tick);
+            ciTEvent i = upper_bound(tick.tick);
             if (i == end()) {
-                  printf("tick2frame(%d,0x%x): not found\n", tick, tick);
+                  printf("tick2frame(%d,0x%x): not found\n", tick.tick, tick.tick);
                   return 0;
                   }
+<<<<<<< HEAD:src/muse/tempo.cpp
             // Tick resolution is less than frame resolution. 
             // Round up so that the reciprocal function (frame to tick) matches value for value.
             f = i->second->frame + muse_multiply_64_div_64_to_64(
@@ -408,6 +466,16 @@ unsigned TempoList::tick2frame(unsigned tick, int* sn, LargeIntRoundMode round_m
             // Tick resolution is less than frame resolution. 
             // Round up so that the reciprocal function (frame to tick) matches value for value.
             f = muse_multiply_64_div_64_to_64(numer * (uint64_t)_tempo, tick, denom, round_mode);
+=======
+            double dtick = tick.tick + tick.subtick - i->second->tick; 
+            double dtime   = dtick / (MusEGlobal::config.division * _globalTempo * 10000.0/ i->second->tempo);
+            unsigned dframe   = lrint(dtime * sampRate);
+            f = i->second->frame + dframe;
+            }
+      else {
+            double t = (double(tick.tick+tick.subtick) * double(_tempo)) / (double(MusEGlobal::config.division) * _globalTempo * 10000.0);
+            f = lrint(t * sampRate);
+>>>>>>> origin/audiostreams:muse2/muse/tempo.cpp
             }
       if (sn)
             *sn = _tempoSN;
@@ -419,7 +487,11 @@ unsigned TempoList::tick2frame(unsigned tick, int* sn, LargeIntRoundMode round_m
 //    return cached value t if list did not change
 //---------------------------------------------------------
 
+<<<<<<< HEAD:src/muse/tempo.cpp
 unsigned TempoList::frame2tick(unsigned frame, unsigned t, int* sn, LargeIntRoundMode round_mode) const
+=======
+XTick TempoList::frame2xtick(unsigned frame, XTick t, int* sn) const
+>>>>>>> origin/audiostreams:muse2/muse/tempo.cpp
       {
       return (*sn == _tempoSN) ? t : frame2tick(frame, sn, round_mode);
       }
@@ -428,11 +500,17 @@ unsigned TempoList::frame2tick(unsigned frame, unsigned t, int* sn, LargeIntRoun
 //   frame2tick
 //---------------------------------------------------------
 
+<<<<<<< HEAD:src/muse/tempo.cpp
 unsigned TempoList::frame2tick(unsigned frame, int* sn, LargeIntRoundMode round_mode) const
       {
       unsigned tick;
       const uint64_t numer = (uint64_t)MusEGlobal::config.division * (uint64_t)_globalTempo * 10000UL;
       const uint64_t denom = (uint64_t)MusEGlobal::sampleRate;
+=======
+XTick TempoList::frame2xtick(unsigned frame, int* sn) const
+      {
+      XTick tick;
+>>>>>>> origin/audiostreams:muse2/muse/tempo.cpp
       if (useList) {
             ciTEvent e;
             for (e = begin(); e != end();) {
@@ -444,6 +522,7 @@ unsigned TempoList::frame2tick(unsigned frame, int* sn, LargeIntRoundMode round_
                         break;
                   e = ee;
                   }
+<<<<<<< HEAD:src/muse/tempo.cpp
             // Normally do not round up here since (audio) frame resolution is higher than tick resolution.
             tick = e->second->tick + muse_multiply_64_div_64_to_64(
               numer, frame - e->second->frame, denom * (uint64_t)e->second->tempo, round_mode);
@@ -451,8 +530,26 @@ unsigned TempoList::frame2tick(unsigned frame, int* sn, LargeIntRoundMode round_
       else
             // Normally do not round up here since (audio) frame resolution is higher than tick resolution.
             tick = muse_multiply_64_div_64_to_64(numer, frame, denom * (uint64_t)_tempo, round_mode);
+=======
+            unsigned te  = e->second->tempo;
+            int dframe   = frame - e->second->frame;
+            double dtime = double(dframe) / double(sampRate);
+            
+            double dticks = dtime * _globalTempo * MusEGlobal::config.division * 10000.0 / te;
+            tick.tick = e->second->tick + floor(dticks);
+            tick.subtick = dticks-floor(dticks);
+            }
+      else
+      {
+            double dticks = (double(frame)/double(sampRate)) * _globalTempo * MusEGlobal::config.division * 10000.0 / double(_tempo);
+            tick.tick = floor(dticks);
+            tick.subtick = dticks-floor(dticks);
+      }
+            
+>>>>>>> origin/audiostreams:muse2/muse/tempo.cpp
       if (sn)
             *sn = _tempoSN;
+            
       return tick;
       }
 
@@ -460,6 +557,7 @@ unsigned TempoList::frame2tick(unsigned frame, int* sn, LargeIntRoundMode round_
 //   deltaTick2frame
 //---------------------------------------------------------
 
+<<<<<<< HEAD:src/muse/tempo.cpp
 unsigned TempoList::deltaTick2frame(unsigned tick1, unsigned tick2, int* sn, LargeIntRoundMode round_mode) const
       {
       unsigned int f1, f2;
@@ -496,9 +594,13 @@ unsigned TempoList::deltaTick2frame(unsigned tick1, unsigned tick2, int* sn, Lar
             }
       if (sn)
             *sn = _tempoSN;
+=======
+unsigned TempoList::deltaTick2frame(XTick tick1, XTick tick2, int* sn) const
+      {
+>>>>>>> origin/audiostreams:muse2/muse/tempo.cpp
       // FIXME: Caution: This should be rounded off properly somehow, but how to do that? 
       //                 But it seems to work so far.
-      return f2 - f1;
+      return tick2frame(tick2,sn) - tick2frame(tick1,sn);
       }
 
 
@@ -506,6 +608,7 @@ unsigned TempoList::deltaTick2frame(unsigned tick1, unsigned tick2, int* sn, Lar
 //   deltaFrame2tick
 //---------------------------------------------------------
 
+<<<<<<< HEAD:src/muse/tempo.cpp
 unsigned TempoList::deltaFrame2tick(unsigned frame1, unsigned frame2, int* sn, LargeIntRoundMode round_mode) const
       {
       unsigned tick1, tick2;
@@ -549,6 +652,12 @@ unsigned TempoList::deltaFrame2tick(unsigned frame1, unsigned frame2, int* sn, L
             *sn = _tempoSN;
       // FIXME: Caution: This should be rounded off properly somehow, but how to do that? 
       //                 But it seems to work so far.
+=======
+XTick TempoList::deltaFrame2xtick(unsigned frame1, unsigned frame2, int* sn) const
+      {
+	  XTick tick1=frame2tick(frame1,sn);
+	  XTick tick2=frame2tick(frame2,sn);
+>>>>>>> origin/audiostreams:muse2/muse/tempo.cpp
       return tick2 - tick1;
       }
     

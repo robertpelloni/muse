@@ -72,8 +72,14 @@ struct PrefetchMsg : public ThreadMsg {
 AudioPrefetch::AudioPrefetch(const char* name)
    : Thread(name)
       {
+<<<<<<< HEAD:src/muse/audioprefetch.cpp
       seekPos  = ~0;
       seekCount.store(0);
+=======
+      seekPos  = ~0U;
+      writePos = ~0U;
+      seekCount = 0;
+>>>>>>> origin/audiostreams:muse2/muse/audioprefetch.cpp
       }
 
 //---------------------------------------------------------
@@ -134,7 +140,7 @@ void AudioPrefetch::processMsg1(const void* m)
                     prefetch(false);
                   }
                   
-                  seekPos = ~0;     // invalidate cached last seek position
+                  seekPos = ~0U;     // invalidate cached last seek position
                   break;
             case PREFETCH_SEEK:
                   #ifdef AUDIOPREFETCH_DEBUG
@@ -176,6 +182,7 @@ void AudioPrefetch::msgTick(bool isRecTick, bool isPlayTick)
 //    called from audio RT context
 //---------------------------------------------------------
 
+<<<<<<< HEAD:src/muse/audioprefetch.cpp
 void AudioPrefetch::msgSeek(unsigned samplePos, bool force)
       {
       #ifdef AUDIOPREFETCH_DEBUG
@@ -183,6 +190,10 @@ void AudioPrefetch::msgSeek(unsigned samplePos, bool force)
               samplePos, force, seekPos, isRunning(), seekCount.load());
       #endif
 
+=======
+void AudioPrefetch::msgSeek(unsigned samplePos, bool force, bool may_block)
+{
+>>>>>>> origin/audiostreams:muse2/muse/audioprefetch.cpp
       if (samplePos == seekPos && !force)
             return;
 
@@ -195,11 +206,25 @@ void AudioPrefetch::msgSeek(unsigned samplePos, bool force)
       PrefetchMsg msg;
       msg.id  = PREFETCH_SEEK;
       msg.pos = samplePos;
+<<<<<<< HEAD:src/muse/audioprefetch.cpp
       while (sendMsg1(&msg, sizeof(msg))) {
             fprintf(stderr, "AudioPrefetch::msgSeek::sleep(1)\n");
             sleep(1);
+=======
+      
+      if (may_block)
+      {
+            while (sendMsg1(&msg, sizeof(msg))) {
+                  printf("AudioPrefetch::msgSeek::sleep(1)\n");
+                  sleep(1);
+>>>>>>> origin/audiostreams:muse2/muse/audioprefetch.cpp
             }
       }
+      else
+      {
+            sendMsg1(&msg, sizeof(msg));
+      }
+}
 
 //---------------------------------------------------------
 //   prefetch
@@ -207,6 +232,7 @@ void AudioPrefetch::msgSeek(unsigned samplePos, bool force)
 
 void AudioPrefetch::prefetch(bool doSeek)
       {
+<<<<<<< HEAD:src/muse/audioprefetch.cpp
       unsigned lpos_frame = 0;
       unsigned rpos_frame = 0;
       const bool do_loops = MusEGlobal::song->loop() && !MusEGlobal::audio->bounce() && !MusEGlobal::extSyncFlag;
@@ -216,6 +242,30 @@ void AudioPrefetch::prefetch(bool doSeek)
         rpos_frame = MusEGlobal::song->rPos().frame();
       }
 
+=======
+      if (writePos == ~0U) {
+            printf("AudioPrefetch::prefetch: invalid write position\n");
+            return;
+            }
+      if (MusEGlobal::song->loop() && !MusEGlobal::audio->bounce() && !MusEGlobal::extSyncFlag.value()) {
+            const Pos& loop = MusEGlobal::song->rPos();
+            unsigned n = loop.frame() - writePos;
+            if (n < MusEGlobal::segmentSize) {
+                  unsigned lpos = MusEGlobal::song->lPos().frame();
+                  // adjust loop start so we get exact loop len
+                  if (n > lpos)
+                        n = 0;
+                  writePos = lpos - n;
+                  }
+            }
+      
+      
+      // now we know we need to fetch audio data from the frame number "writePos" until "writePos+segmentSize"
+      // we need to find out which XTicks correspond to this, for stretching
+      XTick startOfSegmentXTick = MusEGlobal::tempomap.frame2xtick(writePos);
+      XTick endOfSegmentXTick = MusEGlobal::tempomap.frame2xtick(writePos+MusEGlobal::segmentSize);
+      
+>>>>>>> origin/audiostreams:muse2/muse/audioprefetch.cpp
       WaveTrackList* tl = MusEGlobal::song->waves();
       for (iWaveTrack it = tl->begin(); it != tl->end(); ++it) {
             WaveTrack* track = *it;
@@ -246,6 +296,7 @@ void AudioPrefetch::prefetch(bool doSeek)
             int ch           = track->channels();
             float* bp[ch];
 
+<<<<<<< HEAD:src/muse/audioprefetch.cpp
             AUDIO_PREFETCH_DEBUG_TRANSPORT_SYNC(stderr, "AudioPrefetch::prefetch: Filling empty_count:%d do_loops:%d lpos_frame:%d rpos_frame:%d\n",
                     empty_count, do_loops, lpos_frame, rpos_frame);
 
@@ -286,6 +337,10 @@ void AudioPrefetch::prefetch(bool doSeek)
               
               write_pos += MusEGlobal::segmentSize;
               track->setPrefetchWritePos(write_pos);
+=======
+            track->fetchData(writePos, MusEGlobal::segmentSize, startOfSegmentXTick, endOfSegmentXTick, bp, doSeek);
+            
+>>>>>>> origin/audiostreams:muse2/muse/audioprefetch.cpp
             }
           }
       }
@@ -323,6 +378,7 @@ void AudioPrefetch::seek(unsigned seekTo)
             track->setPrefetchWritePos(seekTo);
             track->seekData(seekTo);
             }
+<<<<<<< HEAD:src/muse/audioprefetch.cpp
 
       // Indicate do a seek command before read (only on the first fetch).
       prefetch(true);
@@ -332,6 +388,23 @@ void AudioPrefetch::seek(unsigned seekTo)
       {
         --seekCount;
         return;
+=======
+      
+      bool isFirstPrefetch = true;
+      for (unsigned int i = 0; i < (MusEGlobal::fifoLength)-1; ++i)//prevent compiler warning: comparison of signed/unsigned
+      {
+            // Indicate do a seek command before read, but only on the first pass. 
+            prefetch(isFirstPrefetch);
+            
+            isFirstPrefetch = false;
+            
+            // To help speed things up even more, check the count again. Return if more seek messages are pending. (p3.3.20)
+            if(seekCount > 1)
+            {
+              --seekCount;
+              return;
+            }
+>>>>>>> origin/audiostreams:muse2/muse/audioprefetch.cpp
       }
 
       seekPos  = seekTo;
@@ -342,7 +415,19 @@ void AudioPrefetch::seek(unsigned seekTo)
       #endif
       }
 
+<<<<<<< HEAD:src/muse/audioprefetch.cpp
 bool AudioPrefetch::seekDone() const { return seekCount.load() == 0; }
+=======
+bool AudioPrefetch::range_possibly_prefetched(unsigned begin, unsigned end)
+{
+    // this is a bit ugly because of usage of unsigned :/
+    unsigned first = (writePos>MusEGlobal::segmentSize*MusEGlobal::fifoLength) ? (writePos - MusEGlobal::segmentSize*MusEGlobal::fifoLength) : 0;
+    unsigned last = writePos+ MusEGlobal::segmentSize*MusEGlobal::fifoLength/2;
+    
+    return ( (first<=begin && begin<=last) || (first<=end && end<=last) ||
+             (begin<=first && first<=end)  || (begin<=last && last<=end) );
+}
+>>>>>>> origin/audiostreams:muse2/muse/audioprefetch.cpp
 
 } // namespace MusECore
 

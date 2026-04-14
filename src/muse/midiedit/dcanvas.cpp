@@ -235,7 +235,7 @@ MusECore::Undo DrumCanvas::moveCanvasItems(CItemMap& items, int dp, int dx, Drag
       x              = newpos.x();
       if(x < 0)
         x = 0;
-      int ntick = (rasterize ? editor->rasterVal(x) : x) - part->tick();
+      int ntick = (rasterize ? editor->rasterVal(x).to_uint() : x) - part->tick();
       if(ntick < 0)
         ntick = 0;
       int diff = ntick + event.lenTick() - part->lenTick();
@@ -320,7 +320,7 @@ MusECore::Undo DrumCanvas::moveCanvasItems(CItemMap& items, int dp, int dx, Drag
 			MusECore::Part* opart = ip2c->first;
 			int diff = ip2c->second.xdiff;
 			
-			schedule_resize_all_same_len_clone_parts(opart, opart->lenTick() + diff, operations); 
+			schedule_resize_all_same_len_clone_parts(opart, opart->lenTick() + diff, MusECore::Pos::TICKS, operations); 
 		}    
 					
   	return operations;
@@ -363,7 +363,7 @@ bool DrumCanvas::moveItem(MusECore::Undo& operations, CItem* item, const QPoint&
       int x            = pos.x();
       if (x < 0)
             x = 0;
-      int ntick        = (rasterize ? editor->rasterVal(x) : x) - dest_part->tick();
+      int ntick        = (rasterize ? editor->rasterVal(x).to_uint() : x) - dest_part->tick();
       if (ntick < 0)
             ntick = 0;
 
@@ -424,7 +424,7 @@ CItem* DrumCanvas::newItem(const QPoint& p, int state)
       if(tick < 0)
         tick = 0;
       if(!(state & Qt::ShiftModifier))
-        tick = editor->rasterVal(tick);
+        tick = editor->rasterVal(tick).to_uint();
       return newItem(tick, instr, velo);
       }
 
@@ -496,7 +496,7 @@ void DrumCanvas::newItem(CItem* item, bool noSnap, bool replace)
     if (x<ptick)
           x=ptick;
     if (!noSnap)
-          x = editor->rasterVal(x);
+          x = editor->rasterVal(x).to_uint();
     if (x<ptick)
           x=ptick;
     event.setTick(x - ptick);
@@ -541,8 +541,13 @@ void DrumCanvas::newItem(CItem* item, bool noSnap, bool replace)
       
       if (diff > 0) // part must be extended?
       {
-            schedule_resize_all_same_len_clone_parts(part, event.endTick(), operations);
-            printf("newItem: extending\n");
+        operations.push_back(MusECore::UndoOp(MusECore::UndoOp::AddEvent,event, part, false, false));
+        
+        if (diff > 0) // part must be extended?
+        {
+              schedule_resize_all_same_len_clone_parts(part, event.endTick(), MusECore::Pos::TICKS, operations);
+              printf("newItem: extending\n");
+        }
       }
     }
     else // forbid action by not applying it
@@ -1006,35 +1011,57 @@ void DrumCanvas::cmd(int cmd)
                       if(spos > 0)
                       {
                         spos -= 1;     // Nudge by -1, then snap down with raster1.
+<<<<<<< HEAD:src/muse/midiedit/dcanvas.cpp
                         spos = MusEGlobal::sigmap.raster1(spos, editor->rasterStep(pos[0]));
                       }
                       if(spos < 0)
                         spos = 0;
                       MusECore::Pos p(spos,true);
                       MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, true, true);
+=======
+                        spos = AL::sigmap.raster1(spos, editor->rasterStep(pos[0]).to_uint());
+                      }
+                      if(spos < 0)
+                        spos = 0;
+                      MusEGlobal::song->setPos(0, MusECore::Pos(MusECore::XTick(spos)), true, true, true);
+>>>>>>> origin/audiostreams:muse2/muse/midiedit/dcanvas.cpp
                   }
                   break;
             case CMD_RIGHT:
                   {
+<<<<<<< HEAD:src/muse/midiedit/dcanvas.cpp
                       int spos = MusEGlobal::sigmap.raster2(pos[0] + 1, editor->rasterStep(pos[0]));    // Nudge by +1, then snap up with raster2.
                       MusECore::Pos p(spos,true);
                       MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, true, true);
+=======
+                      int spos = AL::sigmap.raster2(pos[0] + 1, editor->rasterStep(pos[0]).to_uint());    // Nudge by +1, then snap up with raster2.
+                      MusEGlobal::song->setPos(0, MusECore::Pos(MusECore::XTick(spos)), true, true, true);
+>>>>>>> origin/audiostreams:muse2/muse/midiedit/dcanvas.cpp
                   }
                   break;
             case CMD_LEFT_NOSNAP:
                   {
                     printf("left no snap\n");
-                  int spos = pos[0] - editor->rasterStep(pos[0]);
+                  int spos = pos[0] - editor->rasterStep(pos[0]).to_uint();
                   if (spos < 0)
                         spos = 0;
+<<<<<<< HEAD:src/muse/midiedit/dcanvas.cpp
                   MusECore::Pos p(spos,true);
                   MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, true, true); //CDW
+=======
+                  MusEGlobal::song->setPos(0, MusECore::Pos(MusECore::XTick(spos)), true, true, true); //CDW
+>>>>>>> origin/audiostreams:muse2/muse/midiedit/dcanvas.cpp
                   }
                   break;
             case CMD_RIGHT_NOSNAP:
                   {
+<<<<<<< HEAD:src/muse/midiedit/dcanvas.cpp
                   MusECore::Pos p(pos[0] + editor->rasterStep(pos[0]), true);
                   MusEGlobal::song->setPos(MusECore::Song::CPOS, p, true, true, true); //CDW
+=======
+                  int spos = pos[0] + editor->rasterStep(pos[0]).to_uint();
+                  MusEGlobal::song->setPos(0, MusECore::Pos(MusECore::XTick(spos)), true, true, true); //CDW
+>>>>>>> origin/audiostreams:muse2/muse/midiedit/dcanvas.cpp
                   }
                   break;
             }
@@ -1394,6 +1421,7 @@ void DrumCanvas::curPartChanged()
 //---------------------------------------------------------
 int DrumCanvas::getNextStep(unsigned int currentPos, int basicStep, int stepSize)
 {
+<<<<<<< HEAD:src/muse/midiedit/dcanvas.cpp
   int newPos = currentPos; // newPos will be updated for every loop
   for (int i = 0; i < stepSize; i++)
   {
@@ -1403,9 +1431,17 @@ int DrumCanvas::getNextStep(unsigned int currentPos, int basicStep, int stepSize
       newPos = MusEGlobal::sigmap.raster2(newPos + basicStep, editor->rasterStep(newPos));
       if (newPos > signed(curPart->endTick() - editor->rasterStep(curPart->endTick())))
       {
+=======
+  int newPos = pos;
+  for (int i =0; i<stepSize;i++) {
+    if (basicStep > 0) { // moving right
+      newPos = AL::sigmap.raster2(newPos + basicStep, editor->rasterStep(newPos).to_uint());    // Nudge by +1, then snap up with raster2.
+      if (unsigned(newPos) > curPart->endTick()- editor->rasterStep(curPart->endTick()).to_uint())
+>>>>>>> origin/audiostreams:muse2/muse/midiedit/dcanvas.cpp
         newPos = curPart->tick();
       }
     }
+<<<<<<< HEAD:src/muse/midiedit/dcanvas.cpp
     else // moving left
     {
       // Nudge by -1, then snap up with raster1.
@@ -1414,6 +1450,12 @@ int DrumCanvas::getNextStep(unsigned int currentPos, int basicStep, int stepSize
       if (newPos < signed(curPart->tick()))
       {
         newPos = MusEGlobal::sigmap.raster1(curPart->endTick()-1, editor->rasterStep(curPart->endTick()));
+=======
+    else { // moving left
+      newPos = AL::sigmap.raster1(newPos + basicStep, editor->rasterStep(newPos).to_uint());    // Nudge by -1, then snap up with raster1.
+      if (unsigned(newPos) < curPart->tick() ) {
+        newPos = AL::sigmap.raster1(curPart->endTick()-1, editor->rasterStep(curPart->endTick()).to_uint());
+>>>>>>> origin/audiostreams:muse2/muse/midiedit/dcanvas.cpp
       }
     }
   }

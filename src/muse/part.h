@@ -34,6 +34,11 @@
 
 #include "pos.h"
 #include "event.h"
+<<<<<<< HEAD:src/muse/part.h
+=======
+
+class QString;
+>>>>>>> origin/audiostreams:muse2/muse/part.h
 
 namespace MusECore {
 
@@ -191,6 +196,9 @@ class Part : public PosLen {
       void chainClone(Part* p); // *this is made a sibling of p! p is not touched (except for its clone-chain), whereas this->events will get altered
       void rechainClone(); // re-chains the part to the same clone chain it was unchained before
       
+      virtual bool isMidiPart() const = 0;
+      virtual bool isWavePart() const = 0;
+      
       // Returns combination of HiddenEventsType enum.
       virtual int hasHiddenEvents() const { return _hiddenEvents; }
       
@@ -231,6 +239,9 @@ class MidiPart : public Part {
       // Returns combination of HiddenEventsType enum.
       int hasHiddenEvents() const;
       
+      virtual bool isMidiPart() const { return true; }
+      virtual bool isWavePart() const { return false; }
+      
       virtual void dump(int n = 0) const;
       };
 
@@ -241,9 +252,12 @@ class MidiPart : public Part {
 
 class WavePart : public Part {
 
+<<<<<<< HEAD:src/muse/part.h
       // p3.3.31
       //AudioConvertMap _converters;
 
+=======
+>>>>>>> origin/audiostreams:muse2/muse/part.h
    public:
       WavePart(WaveTrack* t);
       virtual ~WavePart() {}
@@ -261,6 +275,9 @@ class WavePart : public Part {
       bool openAllEvents();
       // Returns true if any event was closed. Does not operate on the part's clones, if any.
       bool closeAllEvents();
+
+      virtual bool isMidiPart() const { return false; }
+      virtual bool isWavePart() const { return true; }
 
       virtual void dump(int n = 0) const;
       };

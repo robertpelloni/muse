@@ -26,6 +26,7 @@
 
 #include <map>
 #include <vector>
+#include "pos.h"
 
 #include "large_int.h"
 
@@ -81,21 +82,34 @@ class TempoList : public TEMPOLIST {
       int _globalTempo;       // %percent 50-200%
 
       void add(unsigned tick, int tempo, bool do_normalize = true);
+<<<<<<< HEAD:src/muse/tempo.h
       void add(unsigned tick, TEvent* e, bool do_normalize = true);
       void del(iTEvent, bool do_normalize = true);
       void del(unsigned tick, bool do_normalize = true);
+=======
+      void change(unsigned tick, int newTempo);
+      void del(iTEvent);
+      void del(unsigned tick);
+      
+      int sampRate;
+>>>>>>> origin/audiostreams:muse2/muse/tempo.h
 
    public:
-      TempoList();
+      TempoList(int sampling_rate=0);
       ~TempoList();
+<<<<<<< HEAD:src/muse/tempo.h
 
       // Makes a copy of the source list including all allocated items.
       // This clears and deletes existing items in the destination list.
       void copy(const TempoList& src);
 
+=======
+      void setSampRate(int s) {sampRate=s;}
+>>>>>>> origin/audiostreams:muse2/muse/tempo.h
       void normalize();
       void clear();
       void eraseRange(unsigned stick, unsigned etick);
+      TempoList extractRange(XTick stick, XTick etick) const;
 
       void read(Xml&);
       void write(int, Xml&) const;
@@ -112,6 +126,7 @@ class TempoList : public TEMPOLIST {
       // This is not in the same units as BPM.
       int tempoAt(unsigned tick) const;
       
+<<<<<<< HEAD:src/muse/tempo.h
       
       //-------------------------------------------------------------------------------------------------------
       // Normally do not round these tick to frame methods down since (audio) frame resolution is higher than tick
@@ -140,6 +155,21 @@ class TempoList : public TEMPOLIST {
       unsigned frame2tick(unsigned frame, int* sn = 0, LargeIntRoundMode round_mode = LargeIntRoundDown) const;
       unsigned frame2tick(unsigned frame, unsigned tick, int* sn, LargeIntRoundMode round_mode = LargeIntRoundDown) const;
       unsigned deltaFrame2tick(unsigned frame1, unsigned frame2, int* sn = 0, LargeIntRoundMode round_mode = LargeIntRoundDown) const;
+=======
+      unsigned tick2frame(unsigned tick, unsigned frame, int* sn) const { return tick2frame(XTick(tick,0.0), frame, sn); }
+      unsigned tick2frame(unsigned tick, int* sn = 0) const { return tick2frame(XTick(tick,0.0), sn); }
+      unsigned deltaTick2frame(unsigned tick1, unsigned tick2, int* sn = 0) const { return deltaTick2frame(XTick(tick1,0.0),XTick(tick2,0.0),sn); }
+      unsigned tick2frame(XTick tick, unsigned frame, int* sn) const;
+      unsigned tick2frame(XTick tick, int* sn = 0) const;
+      unsigned deltaTick2frame(XTick tick1, XTick tick2, int* sn = 0) const;
+
+      unsigned frame2tick(unsigned frame, int* sn = 0) const { XTick tmp = frame2xtick(frame,sn); return tmp.to_uint(); }
+      unsigned frame2tick(unsigned frame, unsigned tick, int* sn) const { XTick tmp = frame2xtick(frame, XTick(tick,0.0), sn); return tmp.to_uint(); }
+      unsigned deltaFrame2tick(unsigned frame1, unsigned frame2, int* sn = 0) const {XTick tmp = deltaFrame2xtick(frame1,frame2,sn); return tmp.to_uint(); }
+      XTick frame2xtick(unsigned frame, int* sn = 0) const;
+      XTick frame2xtick(unsigned frame, XTick tick, int* sn) const;
+      XTick deltaFrame2xtick(unsigned frame1, unsigned frame2, int* sn = 0) const;
+>>>>>>> origin/audiostreams:muse2/muse/tempo.h
       
       int tempoSN() const { return _tempoSN; }
       // Sets the tempo value in the list if master is on, or else the static tempo value.

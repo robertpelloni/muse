@@ -52,6 +52,7 @@ class Undo;
 class PendingOperationList;
 class ExtMidiClock;
 
+typedef unsigned audioframe_t;
 //---------------------------------------------------------
 //   AudioMsgId
 //    this are the messages send from the GUI thread to
@@ -128,10 +129,18 @@ class Audio {
       unsigned _loopFrame;     // Startframe of loop if in LOOP mode. Not quite the same as left marker !
       int _loopCount;         // Number of times we have looped so far
 
+<<<<<<< HEAD:src/muse/audio.h
       Pos _pos;               // current play position
       unsigned int _curCycleFrames;   // Number of frames in the current process cycle.
       // Simulated current frame during precount.
       unsigned int _precountFramePos;
+=======
+      audioframe_t _frame;            // current play position
+      
+#ifdef _AUDIO_USE_TRUE_FRAME_
+      audioframe_t _previousFrame;       // previous play position
+#endif
+>>>>>>> origin/audiostreams:muse2/muse/audio.h
       
       unsigned curTickPos;   // pos at start of frame during play/record
       unsigned nextTickPos;  // pos at start of next frame during play/record
@@ -191,8 +200,16 @@ class Audio {
       // record values:
       Pos startRecordPos;
       Pos endRecordPos;
+<<<<<<< HEAD:src/muse/audio.h
       unsigned startExternalRecTick;
       unsigned endExternalRecTick;
+=======
+      XTick startExternalRecTick;
+      XTick endExternalRecTick;
+      
+      AudioOutput* _audioMaster;
+      AudioOutput* _audioMonitor;
+>>>>>>> origin/audiostreams:muse2/muse/audio.h
 
       long m_Xruns;
 
@@ -253,7 +270,7 @@ class Audio {
       // To be called from audio thread only.
       bool start();
       void stop(bool);
-      void seek(const Pos& pos);
+      void seek(audioframe_t frame);
 
       bool isStarting() const   { return state == START_PLAY; }
       bool isPlaying() const    { return state == PLAY || state == LOOP1 || state == LOOP2; }
@@ -266,7 +283,7 @@ class Audio {
       //   message interface
       //-----------------------------------------
 
-      void msgSeek(const Pos&);
+      void msgSeek(audioframe_t pos);
       void msgPlay(bool val);
       // For starting the transport in external sync mode.
       // Starts the transport immediately, bypassing waiting for transport sync,
@@ -311,13 +328,20 @@ class Audio {
 
       void midiPortsChanged();
 
+<<<<<<< HEAD:src/muse/audio.h
       const Pos& pos() const { return _pos; }
       // Number of frames in the current process cycle.
       unsigned curCycleFrames() const { return _curCycleFrames; }
+=======
+      audioframe_t framePos() const { return _frame; }
+#ifdef _AUDIO_USE_TRUE_FRAME_
+      audioframe_t previousFramePos() const { return _previousFrame; }
+#endif
+>>>>>>> origin/audiostreams:muse2/muse/audio.h
       const Pos& getStartRecordPos() const { return startRecordPos; }
       const Pos& getEndRecordPos() const { return endRecordPos; }
-      unsigned getStartExternalRecTick() const { return startExternalRecTick; }
-      unsigned getEndExternalRecTick() const { return endExternalRecTick; }
+      XTick getStartExternalRecTick() const { return startExternalRecTick; }
+      XTick getEndExternalRecTick() const { return endExternalRecTick; }
       int loopCount() { return _loopCount; }         // Number of times we have looped so far
       unsigned loopFrame() { return _loopFrame; }          
 

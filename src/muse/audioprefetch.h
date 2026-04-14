@@ -45,12 +45,29 @@ class AudioPrefetch : public Thread {
 
    public:
       AudioPrefetch(const char* name);
-      
       ~AudioPrefetch();
+<<<<<<< HEAD:src/muse/audioprefetch.h
       virtual void start(int, void* pty = nullptr);
 
       void msgTick(bool isRecTick, bool isPlayTick);
       void msgSeek(unsigned samplePos, bool force=false);
+=======
+      
+      /** determines whether the samples between begin and end might be
+       *  already prefetched */
+      bool range_possibly_prefetched(unsigned begin, unsigned end);
+      
+      virtual void start(int);
+
+      void msgTick();
+      
+      /** is may_block is true, then msgSeek will block until the message has been sent.
+       *  upon return, it is guaranteed that the message was sent successfully.
+       *  if may_block is false, then msgSeek will not block. The message may have been lost,
+       *  however, if the control fifo is full.
+       *  In both cases is no guarantee made that the message will be processed at a given time */
+      void msgSeek(unsigned samplePos, bool force=false, bool may_block=false);
+>>>>>>> origin/audiostreams:muse2/muse/audioprefetch.h
       
       bool seekDone() const;
       };
