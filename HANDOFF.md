@@ -10,15 +10,16 @@ This handoff file documents repository discoveries, structural shifts, environme
   - Active branch: `jules-7731780132859257498-b9e355ef` tracking `origin/master`.
   - Remote: `https://github.com/robertpelloni/muse`.
   - Submodules: No external submodules are currently active in this tree.
-- **Application & UI Improvements Completed**:
-  - Added native `QSystemTrayIcon` support with background control in `src/muse/app.h` and `src/muse/app.cpp` (`initSystemTray()`, `toggleWindowVisibility()`, `panicStop()`).
-  - Added enhanced descriptive tooltips for primary transport actions (Play, Stop, Record).
-  - Modernized unified build automation with `scripts/build_muse.sh` and archived historical scripts into `scripts/archive/`.
-  - Established universal documentation suite: `VERSION.md`, `VISION.md`, `MEMORY.md`, `DEPLOY.md`, `IDEAS.md`, `ROADMAP.md`, `TODO.md`, `CHANGELOG.md`.
+- **Application & Build System Improvements Completed**:
+  - **CMake Decoupling**: Converted `find_package(ECM)` from `REQUIRED` to `QUIET` with graceful local module fallbacks, removing unnecessary build blockers on minimal Linux setups.
+  - **System Tray Daemon Integration**: Added native `QSystemTrayIcon` support with background control in `src/muse/app.h` and `src/muse/app.cpp` (`initSystemTray()`, `toggleWindowVisibility()`, `panicStop()`).
+  - **UI Tooltips**: Added enhanced descriptive tooltips for primary transport actions (Play, Stop, Record).
+  - **Build Automation**: Modernized unified build automation with `scripts/build_muse.sh` and archived historical scripts into `scripts/archive/`.
+  - **Centralized Governance**: Established universal documentation suite (`VERSION.md`, `VISION.md`, `MEMORY.md`, `DEPLOY.md`, `IDEAS.md`, `ROADMAP.md`, `TODO.md`, `CHANGELOG.md`).
 
 ---
 
 ## 2. Next Steps for Successor Autopilot
 1. Expand system tray telemetry to display current audio driver status (e.g. JACK sample rate and buffer underrun/xrun notifications).
 2. Continue single-window dashboard layout refactoring across editor sub-windows.
-3. Install missing optional dependencies when full packaging/AppImage creation is triggered.
+3. Install Qt5 dev libraries (`qtbase5-dev`, `libqt5svg5-dev`) and audio dev packages for complete local binary compilation when full compilation in this container is scheduled.

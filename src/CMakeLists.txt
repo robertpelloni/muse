@@ -52,17 +52,23 @@ endif(ISTRINGSTREAM_SUPPORTS_HEXFLOAT EQUAL 1)
 # =========================================================
 
 
-find_package(ECM REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
+find_package(ECM QUIET NO_MODULE)
+if (ECM_FOUND)
+  set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
+  message(STATUS "Found ECM (Extra CMake Modules): ${ECM_DIR}")
+else (ECM_FOUND)
+  message(STATUS "ECM (Extra CMake Modules) not found. Using local CMake fallback modules.")
+endif (ECM_FOUND)
+
 ## FIXME FIXME: For the github automatic build actions:
 ## This is not found in ECM in Ubuntu 18.04 or 20.04. Only 22.04 and later !!!
 ## To avoid seriously major trouble upgrading to 22.04, use a local copy if not found. 
 # include(CheckAtomic)
 include(CheckAtomic OPTIONAL RESULT_VARIABLE CheckAtomic_Result)
-if (CheckAtomic_Result STREQUAL "NOTFOUND")
+if (CheckAtomic_Result STREQUAL "NOTFOUND" OR NOT CheckAtomic_Result)
   message("CheckAtomic module not found! Using local copy instead.")
   include(cmake/CheckAtomic.cmake)
-endif (CheckAtomic_Result STREQUAL "NOTFOUND")
+endif ()
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.10.2)
 if (COMMAND cmake_policy)

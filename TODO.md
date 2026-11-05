@@ -5,7 +5,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
 ---
 
 ## 1. Build System & Tooling Enhancements
-- [ ] **Optionalize ECM Dependency**: In `src/CMakeLists.txt`, make `ECM` optional or provide graceful fallbacks so developers on minimal Linux installations (without `extra-cmake-modules`) can build using native CMake scripts.
+- [x] **Optionalize ECM Dependency**: In `src/CMakeLists.txt`, made `ECM` optional (`find_package(ECM QUIET NO_MODULE)`) with graceful fallback to local CMake modules (`CheckAtomic.cmake`), allowing minimal Linux systems to configure CMake without `extra-cmake-modules`.
 - [x] **Unified Multi-target Build Script**: Created and verified `scripts/build_muse.sh` with interactive flags (`--release`, `--debug`, `--check-deps`, `--clean`, `--jobs`) alongside non-destructively archived legacy scripts in `scripts/archive/`.
 - [ ] **Modernize Compiler Flags**: Audit C++17 compliance flags and warnings across all subdirectories (`src/muse`, `src/synti`, `src/libs`).
 
