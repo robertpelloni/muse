@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev8] - 2025-11-04
+
+### Changed
+- **Arranger View Edit Action Tooltips**:
+  - Enriched interactive tooltips in `src/muse/arranger/arrangerview.cpp` for core editing operations: Delete, Cut, Copy, Copy in Range, Paste, Paste Clone, Delete Selected Track, and Duplicate Selected Track.
+  - Bumped version to `4.2.1-autonomous-rev8` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev7] - 2025-11-04
 
 ### Changed
