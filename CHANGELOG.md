@@ -4,6 +4,17 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev7] - 2025-11-04
+
+### Changed
+- **Arranger Toolbar UX Tooltips**:
+  - Enriched interactive tooltips in `src/muse/arranger/arranger.cpp` across the main timeline toolbar.
+  - Added descriptive tips for playhead cursor position, grid snap toggling, raster division picker, song bar length, global MIDI pitch shift, global tempo scaling, and quick speed multiplier buttons (50%, Normal, 200%).
+  - Bumped version to `4.2.1-autonomous-rev7` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev6] - 2025-11-04
 
 ### Added
