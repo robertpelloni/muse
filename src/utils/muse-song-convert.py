@@ -693,9 +693,13 @@ def help():
 print("MusE Song converter %s"%version)
 print("")
 
-if len(sys.argv) < 2:
+if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
 	help()
-	sys.exit("")
+	sys.exit(0)
+
+if not os.path.isfile(sys.argv[1]):
+	print("Error: Input file '%s' does not exist." % sys.argv[1])
+	sys.exit(1)
 	
 print("Processing file ", sys.argv[1])
 print("")

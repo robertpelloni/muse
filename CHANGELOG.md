@@ -4,6 +4,18 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev6] - 2025-11-04
+
+### Added
+- **Automated Regression Test Suite**:
+  - Created `tests/test_song_convert.py` validating CLI flags, error handling, and song XML conversion.
+- **Enhanced Song Converter CLI**:
+  - In `src/utils/muse-song-convert.py`, added `--help` / `-h` handling and file existence checks with clean exit codes.
+  - Bumped version to `4.2.1-autonomous-rev6` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev5] - 2025-11-04
 
 ### Changed
