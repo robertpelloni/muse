@@ -4,6 +4,17 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev4] - 2025-11-04
+
+### Changed
+- **Mixer Channel Strip UX Tooltips**:
+  - Enriched interactive tooltips in `src/muse/mixer/astrip.cpp` (audio channel strips) and `src/muse/mixer/mstrip.cpp` (MIDI channel strips).
+  - Explicitly clarified Record Arm, Mute (proxy/phantom mute propagation), and Solo monitoring functions.
+  - Bumped version to `4.2.1-autonomous-rev4` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev3] - 2025-11-04
 
 ### Changed

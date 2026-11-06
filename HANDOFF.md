@@ -10,10 +10,11 @@ This handoff file documents repository discoveries, structural shifts, environme
   - Active branch: `jules-7731780132859257498-b9e355ef` tracking `origin/master`.
   - Remote: `https://github.com/robertpelloni/muse`.
   - Submodules: No external submodules are currently active in this tree.
-- **Application & Build System Improvements Completed**:
+- **Application & UI Improvements Completed**:
+  - **Mixer Channel Strip Tooltips**: Updated `src/muse/mixer/astrip.cpp` and `mstrip.cpp` with descriptive guidance on Record arm, Mute (proxy/phantom mute mechanics), and Solo isolation.
   - **CMake Decoupling**: Converted `find_package(ECM)` from `REQUIRED` to `QUIET` with graceful local module fallbacks, removing unnecessary build blockers on minimal Linux setups.
   - **System Tray Daemon Integration**: Added native `QSystemTrayIcon` support with background control in `src/muse/app.h` and `src/muse/app.cpp` (`initSystemTray()`, `toggleWindowVisibility()`, `panicStop()`).
-  - **UI Tooltips**: Added enhanced descriptive tooltips for primary transport actions (Play, Stop, Record).
+  - **Transport Tooltips**: Added enhanced descriptive tooltips for primary transport actions (Play, Stop, Record).
   - **Build Automation**: Modernized unified build automation with `scripts/build_muse.sh` and archived historical scripts into `scripts/archive/`.
   - **Roadmap Expansion**: Detailed 5 long-term strategic milestones in `ROADMAP.md` covering headless daemon `mused`, single-window dashboard layout, out-of-process plugin sandboxing, PipeWire native backend, and AI/ML audio tooling.
   - **Centralized Governance**: Established universal documentation suite (`VERSION.md`, `VISION.md`, `MEMORY.md`, `DEPLOY.md`, `IDEAS.md`, `ROADMAP.md`, `TODO.md`, `CHANGELOG.md`).
@@ -21,6 +22,6 @@ This handoff file documents repository discoveries, structural shifts, environme
 ---
 
 ## 2. Next Steps for Successor Autopilot
-1. Implement the next granular task from `TODO.md` (e.g. expanding mixer fader tooltips or advancing the unified single-window dockable arrangement).
+1. Implement the next granular task from `TODO.md` (e.g. advancing the unified single-window dockable arrangement or PipeWire driver investigation).
 2. Expand system tray telemetry to display current audio driver status (e.g. JACK sample rate and buffer underrun/xrun notifications).
 3. Install Qt5 dev libraries (`qtbase5-dev`, `libqt5svg5-dev`) and audio dev packages for complete local binary compilation when full compilation in this container is scheduled.

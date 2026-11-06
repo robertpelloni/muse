@@ -1807,9 +1807,9 @@ AudioStrip::AudioStrip(QWidget* parent, MusECore::AudioTrack* at, bool hasHandle
           record->setFocusPolicy(Qt::NoFocus);
           record->setCheckable(true);
           if (type == MusECore::Track::AUDIO_OUTPUT)
-              record->setToolTip(tr("Record downmix to a file..."));
+              record->setToolTip(tr("Record downmix to audio file on playback"));
           else
-              record->setToolTip(tr("Record arm"));
+              record->setToolTip(tr("Record arm: Toggle track to record audio when master transport records"));
           record->setChecked(at->recordFlag());
           record->setContextMenuPolicy(Qt::CustomContextMenu);
           connect(record, SIGNAL(toggled(bool)), SLOT(recordToggled(bool)));
@@ -1828,7 +1828,7 @@ AudioStrip::AudioStrip(QWidget* parent, MusECore::AudioTrack* at, bool hasHandle
       mute->setIcon(*muteStateSVGIcon);
       mute->setFocusPolicy(Qt::NoFocus);
       mute->setCheckable(!MusEGlobal::config.momentaryMute);
-      mute->setToolTip(tr("Mute or proxy mute"));
+      mute->setToolTip(tr("Mute: Silence this track output (connected tracks reflect proxy mute)"));
       mute->setStatusTip(tr("Mute or proxy mute. Connected tracks are 'phantom' muted."));
       mute->setDown(at->mute());
       updateMuteIcon();
@@ -1843,7 +1843,7 @@ AudioStrip::AudioStrip(QWidget* parent, MusECore::AudioTrack* at, bool hasHandle
       solo  = new QPushButton(this);
       solo->setIcon(*soloStateSVGIcon);
       solo->setObjectName("SoloButton");
-      solo->setToolTip(tr("Solo or proxy solo"));
+      solo->setToolTip(tr("Solo: Isolate this audio track in the monitor mix"));
       solo->setStatusTip(tr("Solo or proxy solo. Connected tracks are 'phantom' soloed. Press F1 for help."));
       solo->setFocusPolicy(Qt::NoFocus);
       solo->setCheckable(!MusEGlobal::config.momentarySolo);
