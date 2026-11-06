@@ -4,6 +4,21 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev3] - 2025-11-04
+
+### Changed
+- **Roadmap Architecture Expansion**:
+  - Significantly expanded `ROADMAP.md` covering five comprehensive structural milestones:
+    1. Multi-platform headless audio daemon (`mused`) and WebAssembly remote control client.
+    2. Single-window consolidated dashboard workspace with Qt Advanced Docking, deep tooltip coverage, and SVG asset vectorization.
+    3. IPC out-of-process plugin sandboxing for VST2/VST3/LV2/CLAP to prevent host DAW crashes.
+    4. Native direct PipeWire audio driver and adaptive lock-free audio graph scheduler.
+    5. Machine-learning studio workflows including Demucs stem splitting, beat transient slicing, and harmonic MIDI generation.
+  - Bumped version to `4.2.1-autonomous-rev3` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev2] - 2025-11-04
 
 ### Changed

@@ -64,6 +64,7 @@ class QMdiSubWindow;
 class MuseMdiArea;
 class QDockWidget;
 class QAction;
+class QSystemTrayIcon;
 
 namespace MusECore {
 class AudioOutput;

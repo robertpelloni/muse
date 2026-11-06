@@ -21,15 +21,16 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
   - [x] Enriched transport tooltips for Play, Stop, and Record actions with clear keyboard shortcuts and workflow descriptions.
   - [ ] Add tooltips across all mixer fader controls, pan pots, mute/solo buttons, and aux sends.
 - [ ] **Workspace Layout Consolidation**:
-  - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views.
+  - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.
 
 ## 3. Engine & Driver Stability
-- [ ] **PipeWire / JACK Hot-swapping**: Verify graceful reconnection when audio drivers or PipeWire-JACK sessions restart.
-- [ ] **ALSA / RtAudio Fallbacks**: Ensure robust error messages when audio devices are claimed exclusively by other processes.
+- [ ] **PipeWire Native Backend**: Implement direct PipeWire SPA driver as specified in `ROADMAP.md` Milestone 4.
+- [ ] **Plugin Sandboxing Host**: Develop IPC shared-memory plugin runner to isolate third-party VST/LV2 plugins (`ROADMAP.md` Milestone 3).
 - [ ] **XRun Logging & Telemetry**: Provide a non-intrusive status bar indicator counting audio underruns with clickable diagnostics.
 
 ## 4. Documentation & Autonomous Governance
 - [x] Maintain synchronized single source of truth for versions in `VERSION.md`.
 - [x] Keep `CHANGELOG.md` updated with every minor and major release iteration.
 - [x] Maintain `MEMORY.md`, `DEPLOY.md`, `VISION.md`, and `IDEAS.md` reflecting all architectural decisions.
+- [x] Comprehensive expansion of `ROADMAP.md` across 5 core long-term structural milestones.

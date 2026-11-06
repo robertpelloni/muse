@@ -1,51 +1,63 @@
-# MusE Roadmap
+# MusE Long-Term Architecture & Engineering Roadmap
 
-This roadmap establishes the structural evolution and long-term milestones for MusE (Linux Digital Audio Workstation and Sequencer).
-
----
-
-## Milestone 1: Unified Architecture & Qt6 Modernization
-- **Phase 1.1: Complete Qt6 Compatibility**
-  - Modernize CMake build system to support both Qt 5.15 LTS and Qt 6.x natively.
-  - Audit and refactor deprecated Qt5 widgets, containers, and event handling loops (`QRegExp` -> `QRegularExpression`, `QString::null` removals, high-DPI pixel ratio adaptations).
-  - Eliminate strict ECM (Extra CMake Modules) hard dependencies where standard CMake 3.16+ features suffice.
-- **Phase 1.2: Modernized Audio & MIDI Engine Core**
-  - Decouple engine core from GUI thread structures, providing a clean headless/daemon mode (`mused`).
-  - Strengthen real-time thread safety for JACK, ALSA, and PulseAudio/PipeWire backends.
-  - Standardize lock-free ring buffers across all audio routing channels and plugin instances.
+This comprehensive roadmap outlines the structural evolution, technical milestones, and user-experience transformations planned for **MusE** (Linux Digital Audio Workstation and Sequencer).
 
 ---
 
-## Milestone 2: UI Redesign & Dashboard Consolidation
-- **Phase 2.1: Single-Window Consolidated Workspace**
-  - Consolidate fragmented multi-window dialogs (Arranger, Pianoroll, Score, Wave Edit, Mixer, Transport) into a flexible, dockable single-window dashboard layout using Qt Advanced Docking or Qt Quick / modern QDockWidgets.
-  - Prioritize high-value workflows:
-    1. Primary Track Arranger & Timeline (dominant center view).
-    2. Contextual Inspector / Clip Property Panel (left or bottom collapsible dock).
-    3. Master Mixer & Channel Strips (dockable lower panel or floating toggle).
-    4. Unified Master Transport & Telemetry Bar (persistent top/bottom bar with zero latency indicators).
-- **Phase 2.2: Comprehensive UX Tooltips & Guidance**
-  - Implement full-coverage descriptive tooltips across all sliders, buttons, dials, routing matrix entries, and transport elements.
-  - Introduce contextual "What's This?" (`QWhatsThis`) documentation integrated into interactive controls.
+## Milestone 1: Multi-Platform Headless Engine & Remote Client Architecture (`mused`)
+- **Phase 1.1: Core Audio / Sequencer Decoupling**
+  - Architect a clean separation between the sequencer data model (`Song`, `Track`, `Part`, `Event`), the real-time audio/MIDI DSP engine, and the Qt graphical user interface.
+  - Create `mused`: a lightweight, high-performance headless sequencer daemon capable of running as a systemd service or on embedded studio appliances (e.g. Raspberry Pi, studio rack units).
+  - Provide a standardized C++ asynchronous API and lock-free message bus for external frontend clients.
+- **Phase 1.2: Remote Control Bus & WebAssembly Frontend**
+  - Implement OSC (Open Sound Control) and WebSocket remote bridges.
+  - Build a lightweight HTML5/WebAssembly web client providing remote fader mixing, transport triggering, and real-time metering on tablet and mobile browser screens.
+  - Enable multi-user collaborative studio sessions where multiple performers monitor and tweak independent sub-mixes on local Wi-Fi.
 
 ---
 
-## Milestone 3: System Tray Controller & Daemon Management
-- **Phase 3.1: MusE System Tray Daemon (`QSystemTrayIcon`)**
-  - Integrated persistent System Tray / Notification Area controller for MusE (`QSystemTrayIcon`).
-  - Quick action menu from tray:
-    - Transport controls: Play / Pause / Record / Rewind to Start.
-    - Server status monitor: JACK / PipeWire server status, CPU load, buffer underrun (xrun) count.
-    - Emergency Audio Panic: All-notes-off and controls reset.
-    - Clean shutdown handler: Safely stop servers, release audio device locks, save state, and terminate background workers.
-- **Phase 3.2: Headless & Remote Operation**
-  - Support background sequencing and MIDI routing while GUI is minimized to the system tray.
-  - Expose OSC (Open Sound Control) and MIDI remote control hooks for hardware control surfaces.
+## Milestone 2: Single-Window Consolidated Workspace & Modern UI Overhaul
+- **Phase 2.1: Dockable Modern Dashboard (Qt Advanced Docking)**
+  - Transition away from legacy MDI window clutter into a fluid, responsive single-window dashboard.
+  - **Upper Center**: Primary Arranger timeline with track canvas, markers, loop bounds, and automation lanes.
+  - **Lower Deck**: Context-sensitive tabbed/split panel hosting the Piano Roll (Matrix), Waveform Editor, Audio Mixer, or Plugin Rack depending on active track focus.
+  - **Left Sidebar**: Collapsible Track Inspector and File/Preset Browser.
+  - **Persistent Header/Footer**: Master Transport, tempo controls, punch in/out, DSP load telemetry, and xrun counter.
+- **Phase 2.2: Deep Tooltip Coverage & Contextual Guidance**
+  - Guarantee 100% tooltip coverage across all dials, buttons, sliders, routing matrices, and audio bus selectors.
+  - Integrate interactive contextual guidance (`QWhatsThis`) with keyboard shortcut displays and signal flow diagrams.
+- **Phase 2.3: Modern Theme Engine & High-DPI Polish**
+  - Revamp Qt stylesheets (`src/qss/`) with modern flat dark and high-contrast themes.
+  - Full vectorization of all legacy XPM icons to high-resolution SVG assets with native support for multi-monitor fractional display scaling.
 
 ---
 
-## Milestone 4: Next-Generation Plugin Architecture
-- **Phase 4.1: Modern Plugin Ecosystem**
-  - Robust LV2, VST2, VST3, CLAP, and LADSPA/DSSI hosting.
-  - Out-of-process plugin sandboxing to prevent plugin crashes from crashing the sequencer engine.
-  - Preset management overhaul with tag-based search and instant auditioning.
+## Milestone 3: Next-Generation Plugin Architecture & Process Sandboxing
+- **Phase 3.1: IPC Out-of-Process Plugin Sandboxing**
+  - Isolate external VST2, VST3, LV2, and CLAP plugin instances in sandboxed worker sub-processes using shared-memory audio buffers.
+  - A crash or memory corruption in a buggy third-party plugin will never crash the host MusE sequencer; the UI displays a non-destructive "Plugin Crashed - Click to Reload" prompt.
+- **Phase 3.2: Universal Format Support (CLAP & VST3 Native)**
+  - Implement native CLAP (Clever Audio Plugin) hosting with per-note automation and non-destructive parameter modulation.
+  - Overhaul VST3 hosting layer with dynamic bus configuration and state serialization.
+- **Phase 3.3: Preset Management & Instant Audition**
+  - Unified tag-based search database for instrument presets, SoundFonts, and synth patches with real-time audio preview.
+
+---
+
+## Milestone 4: Audio Backend Modernization & Zero-Latency Routing
+- **Phase 4.1: Direct PipeWire-Native Driver Integration**
+  - Provide a native PipeWire SPA/libpipewire client backend alongside JACK and ALSA, enabling zero-configuration studio operation on modern Linux distros (Fedora, Arch, Ubuntu).
+  - Seamless audio device hot-plugging without restarting the sequencer session.
+- **Phase 4.2: Lock-Free Audio Graph Engine**
+  - Implement an adaptive lock-free dependency audio graph scheduler with multi-core load balancing for extreme track counts.
+  - Zero-latency software monitoring with automatic PDC (Plugin Delay Compensation) visualization.
+
+---
+
+## Milestone 5: Intelligent Studio Workflow & Machine Learning Assistance
+- **Phase 5.1: Native Audio Stem Separation**
+  - Integrate local ONNX/Demucs model execution for instant, non-destructive stem splitting (Vocals, Drums, Bass, Other) directly inside the timeline.
+- **Phase 5.2: Transient Detection & Slicing**
+  - Intelligent beat transient markers with one-click slice-to-MIDI capabilities routed to SimpleDrums or FluidSynth.
+- **Phase 5.3: Harmonic MIDI Assistant**
+  - Scale-aware note snapping, chord progression generator, and polyphonic voice leading helpers in the Piano Roll.

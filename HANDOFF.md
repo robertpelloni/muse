@@ -15,11 +15,12 @@ This handoff file documents repository discoveries, structural shifts, environme
   - **System Tray Daemon Integration**: Added native `QSystemTrayIcon` support with background control in `src/muse/app.h` and `src/muse/app.cpp` (`initSystemTray()`, `toggleWindowVisibility()`, `panicStop()`).
   - **UI Tooltips**: Added enhanced descriptive tooltips for primary transport actions (Play, Stop, Record).
   - **Build Automation**: Modernized unified build automation with `scripts/build_muse.sh` and archived historical scripts into `scripts/archive/`.
+  - **Roadmap Expansion**: Detailed 5 long-term strategic milestones in `ROADMAP.md` covering headless daemon `mused`, single-window dashboard layout, out-of-process plugin sandboxing, PipeWire native backend, and AI/ML audio tooling.
   - **Centralized Governance**: Established universal documentation suite (`VERSION.md`, `VISION.md`, `MEMORY.md`, `DEPLOY.md`, `IDEAS.md`, `ROADMAP.md`, `TODO.md`, `CHANGELOG.md`).
 
 ---
 
 ## 2. Next Steps for Successor Autopilot
-1. Expand system tray telemetry to display current audio driver status (e.g. JACK sample rate and buffer underrun/xrun notifications).
-2. Continue single-window dashboard layout refactoring across editor sub-windows.
+1. Implement the next granular task from `TODO.md` (e.g. expanding mixer fader tooltips or advancing the unified single-window dockable arrangement).
+2. Expand system tray telemetry to display current audio driver status (e.g. JACK sample rate and buffer underrun/xrun notifications).
 3. Install Qt5 dev libraries (`qtbase5-dev`, `libqt5svg5-dev`) and audio dev packages for complete local binary compilation when full compilation in this container is scheduled.

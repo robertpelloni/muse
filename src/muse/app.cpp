@@ -1337,7 +1337,8 @@ void MusE::initSystemTray()
       if (!QSystemTrayIcon::isSystemTrayAvailable())
             return;
 
-      trayIcon = new QSystemTrayIcon(*MusEGui::museIcon, this);
+      QIcon icon = MusEGui::museIcon ? *MusEGui::museIcon : windowIcon();
+      trayIcon = new QSystemTrayIcon(icon, this);
       trayMenu = new QMenu(this);
 
       QAction* toggleShowAction = trayMenu->addAction(tr("Show / Hide MusE"));
