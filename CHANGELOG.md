@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev5] - 2025-11-04
+
+### Changed
+- **Mixer Component Rack Tooltips**:
+  - Enriched interactive tooltips in `src/muse/mixer/astrip.cpp` for aux send levels (`Aux send level to auxiliary bus (dB)`), volume fader (`Track volume/gain fader (dB)`), pan controls (`Stereo panorama / balance position`), and mute toggles (`Track output mute toggle`).
+  - Bumped version to `4.2.1-autonomous-rev5` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev4] - 2025-11-04
 
 ### Changed

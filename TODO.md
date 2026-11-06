@@ -19,7 +19,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
     - Quit MusE and safely disconnect audio servers (`quitDoc()`).
 - [x] **UI Tooltips & Guidance Audit**:
   - [x] Enriched transport tooltips for Play, Stop, and Record actions with clear keyboard shortcuts and workflow descriptions.
-  - [x] Enriched mixer channel strip tooltips in `astrip.cpp` and `mstrip.cpp` for Record Arm, Mute (proxy mute explanation), and Solo.
+  - [x] Enriched mixer channel strip tooltips in `astrip.cpp` and `mstrip.cpp` for Record Arm, Mute (proxy mute explanation), Solo, Volume faders, Pan pots, and Aux send knobs.
 - [ ] **Workspace Layout Consolidation**:
   - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.

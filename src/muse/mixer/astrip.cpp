@@ -145,7 +145,7 @@ void AudioComponentRack::newComponent( ComponentDescriptor* desc, const Componen
         desc->_label = ((MusECore::AudioAux*)(MusEGlobal::song->auxs()->at(desc->_index)))->name();
       }
       if(desc->_toolTipText.isEmpty())
-        desc->_toolTipText = tr("Aux send level (dB)");
+        desc->_toolTipText = tr("Aux send level to auxiliary bus (dB)");
     }
     break;
 
@@ -187,15 +187,15 @@ void AudioComponentRack::newComponent( ComponentDescriptor* desc, const Componen
         switch(desc->_index)
         {
           case MusECore::AC_VOLUME:
-            desc->_toolTipText = tr("Volume/gain");
+            desc->_toolTipText = tr("Track volume/gain fader (dB)");
           break;
 
           case MusECore::AC_PAN:
-            desc->_toolTipText = tr("Panorama/Balance");
+            desc->_toolTipText = tr("Stereo panorama / balance position");
           break;
 
           case MusECore::AC_MUTE:
-            desc->_toolTipText = tr("Mute");
+            desc->_toolTipText = tr("Track output mute toggle");
           break;
 
           default:

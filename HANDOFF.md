@@ -11,7 +11,7 @@ This handoff file documents repository discoveries, structural shifts, environme
   - Remote: `https://github.com/robertpelloni/muse`.
   - Submodules: No external submodules are currently active in this tree.
 - **Application & UI Improvements Completed**:
-  - **Mixer Channel Strip Tooltips**: Updated `src/muse/mixer/astrip.cpp` and `mstrip.cpp` with descriptive guidance on Record arm, Mute (proxy/phantom mute mechanics), and Solo isolation.
+  - **Mixer Channel Strip & Rack Tooltips**: Updated `src/muse/mixer/astrip.cpp` and `mstrip.cpp` with descriptive guidance on Record arm, Mute (proxy/phantom mute mechanics), Solo isolation, Volume/gain fader dB levels, Pan positions, and Aux send knobs.
   - **CMake Decoupling**: Converted `find_package(ECM)` from `REQUIRED` to `QUIET` with graceful local module fallbacks, removing unnecessary build blockers on minimal Linux setups.
   - **System Tray Daemon Integration**: Added native `QSystemTrayIcon` support with background control in `src/muse/app.h` and `src/muse/app.cpp` (`initSystemTray()`, `toggleWindowVisibility()`, `panicStop()`).
   - **Transport Tooltips**: Added enhanced descriptive tooltips for primary transport actions (Play, Stop, Record).
