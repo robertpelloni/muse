@@ -25,6 +25,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
   - [x] Enriched mixer channel strip tooltips in `astrip.cpp` and `mstrip.cpp` for Record Arm, Mute (proxy mute explanation), Solo, Volume faders, Pan pots, and Aux send knobs.
   - [x] Enriched arranger timeline toolbar tooltips in `arranger.cpp` (playhead position, snap grid, raster division, song length, pitch shift, tempo scaling and speed multipliers).
   - [x] Enriched arranger view edit action tooltips in `arrangerview.cpp` (Delete, Cut, Copy, Copy in Range, Paste, Paste Clone, Delete Selected Track, Duplicate Selected Track).
+  - [x] Enriched clip list editor tooltips in `cliplisteditorbase.ui` (clip tree view, clip start offset, clip duration length).
 - [ ] **Workspace Layout Consolidation**:
   - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.

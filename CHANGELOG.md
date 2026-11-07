@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev11] - 2025-11-04
+
+### Changed
+- **Clip List Editor UI Guidance**:
+  - Enriched interactive tooltips in `src/muse/cliplist/cliplisteditorbase.ui` for the audio clip tree view, clip start offset (`SMPTE time`), and clip playback duration length (`SMPTE time`).
+  - Bumped version to `4.2.1-autonomous-rev11` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev10] - 2025-11-04
 
 ### Changed
