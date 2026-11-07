@@ -28,6 +28,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
   - [x] Enriched clip list editor tooltips in `cliplisteditorbase.ui` (clip tree view, clip start offset, clip duration length).
   - [x] Enriched master editor tooltips in `masteredit.cpp` (cursor position, tempo label, grid snap button, raster division picker).
   - [x] Enriched marker view tooltips in `markerview.cpp` (add marker, delete marker, marker table, measure edit, SMPTE edit, timecode lock toggle, description edit).
+  - [x] Enriched PosEdit timeline widget fallback tooltip in `posedit.cpp` with wheel/key navigation instructions.
 - [ ] **Workspace Layout Consolidation**:
   - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.

@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev15] - 2025-11-04
+
+### Changed
+- **PosEdit Component Guidance**:
+  - Added helpful default fallback tooltip to `MusEGui::PosEdit` in `src/muse/components/posedit.cpp`, instructing users on mouse wheel and arrow key segment adjustments.
+  - Bumped version to `4.2.1-autonomous-rev15` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev14] - 2025-11-04
 
 ### Changed
