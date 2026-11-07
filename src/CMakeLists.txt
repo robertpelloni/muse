@@ -204,26 +204,34 @@ SET(MusE_LIB_DIR ${LIB_INSTALL_DIR}/${MusE_INSTALL_NAME})
 
 include(FindGit)
 if (GIT_FOUND)
-      EXEC_PROGRAM( ${GIT_EXECUTABLE}
-            ARGS "status"
-            OUTPUT_VARIABLE GIT_RET_NOTUSED
-            RETURN_VALUE IS_GIT_REPO )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} status
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_RET_NOTUSED
+        ERROR_QUIET
+        RESULT_VARIABLE IS_GIT_REPO )
     if(IS_GIT_REPO EQUAL 0)
-        EXEC_PROGRAM( ${GIT_EXECUTABLE}
-            ARGS "log -1 --format='%ci'"
-            OUTPUT_VARIABLE MusE_GITDATE )
-        EXEC_PROGRAM( ${GIT_EXECUTABLE}
-            ARGS "rev-parse --abbrev-ref HEAD"
-            OUTPUT_VARIABLE MusE_GITBRANCH )
-        EXEC_PROGRAM( ${GIT_EXECUTABLE}
-            ARGS "describe --dirty --always"
-            OUTPUT_VARIABLE MusE_GITDESCRIBE )
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} log -1 --format=%ci
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE MusE_GITDATE
+            OUTPUT_STRIP_TRAILING_WHITESPACE )
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE MusE_GITBRANCH
+            OUTPUT_STRIP_TRAILING_WHITESPACE )
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} describe --dirty --always
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE MusE_GITDESCRIBE
+            OUTPUT_STRIP_TRAILING_WHITESPACE )
         SET(MusE_GITSTRING "${MusE_GITBRANCH} | ${MusE_GITDESCRIBE} | ${MusE_GITDATE}")
     else (IS_GIT_REPO EQUAL 0)
         SET(MusE_GITSTRING "")
     endif (IS_GIT_REPO EQUAL 0)
 else (GIT_FOUND)
-      SET(MusE_GITSTRING "")
+    SET(MusE_GITSTRING "")
 endif (GIT_FOUND)
 
 

@@ -7,6 +7,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
 ## 1. Build System & Tooling Enhancements
 - [x] **Optionalize ECM Dependency**: In `src/CMakeLists.txt`, made `ECM` optional (`find_package(ECM QUIET NO_MODULE)`) with graceful fallback to local CMake modules (`CheckAtomic.cmake`), allowing minimal Linux systems to configure CMake without `extra-cmake-modules`.
 - [x] **Unified Multi-target Build Script**: Created and verified `scripts/build_muse.sh` with interactive flags (`--release`, `--debug`, `--check-deps`, `--clean`, `--jobs`) alongside non-destructively archived legacy scripts in `scripts/archive/`.
+- [x] **Modernize CMake Executables & Policy CMP0153**: Replaced obsolete `EXEC_PROGRAM` with `execute_process` for Git metadata extraction in `src/CMakeLists.txt`.
 - [x] **Automated Regression Testing**: Created unit test suite in `tests/test_song_convert.py` verifying headless XML conversion and CLI reliability.
 - [x] **Automated Audio Asset Cleanup Testing**: Created unit test suite in `tests/test_find_unused_wavs.py` verifying non-interactive asset cleanup and dry-run reporting.
 - [ ] **Modernize Compiler Flags**: Audit C++17 compliance flags and warnings across all subdirectories (`src/muse`, `src/synti`, `src/libs`).

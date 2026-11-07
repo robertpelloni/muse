@@ -4,6 +4,17 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev10] - 2025-11-04
+
+### Changed
+- **CMake Modernization**:
+  - Replaced obsolete `EXEC_PROGRAM` calls in `src/CMakeLists.txt` with modern `execute_process(...)` for Git metadata extraction.
+  - Eliminated CMake policy CMP0153 deprecation warnings.
+  - Bumped version to `4.2.1-autonomous-rev10` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev9] - 2025-11-04
 
 ### Added
