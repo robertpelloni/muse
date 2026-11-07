@@ -166,7 +166,7 @@ MarkerView::MarkerView(QWidget* parent)
 
     QAction* markerAdd = new QAction(*plusSVGIcon, tr("Add marker"), this);
     markerAdd->setShortcut(Qt::Key_A);
-    markerAdd->setToolTip(tr("Add marker") + " (A)");
+    markerAdd->setToolTip(tr("Add timeline marker at current playhead position (A)"));
     addAction(markerAdd);
     markerAdd->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
@@ -174,7 +174,7 @@ MarkerView::MarkerView(QWidget* parent)
 
     QAction* markerDelete = new QAction(*minusSVGIcon, tr("Delete marker"), this);
     markerDelete->setShortcut(shortcuts[SHRT_DELETE].key);
-    markerDelete->setToolTip(tr("Delete marker") + " (" + markerDelete->shortcut().toString() + ")");
+    markerDelete->setToolTip(tr("Delete selected timeline marker") + " (" + markerDelete->shortcut().toString() + ")");
     addAction(markerDelete);
     markerDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     connect(markerDelete, SIGNAL(triggered()), SLOT(deleteMarker()));
@@ -198,6 +198,7 @@ MarkerView::MarkerView(QWidget* parent)
 
     table->setIndentation(2);
     table->setFocusPolicy(Qt::StrongFocus);
+    table->setToolTip(tr("List of timeline markers in current song"));
 
     QStringList columnnames;
     columnnames << tr("Bar:Beat:Tick")
@@ -220,21 +221,21 @@ MarkerView::MarkerView(QWidget* parent)
     ///editTick = new PosEdit;
     editTick = new PosEdit;
     editTick->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
-    editTick->setToolTip(tr("Edit tick"));
+    editTick->setToolTip(tr("Marker position in musical measures, beats, and ticks"));
 
     editSMPTE = new PosEdit;
     editSMPTE->setSmpte(true);
     editSMPTE->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
-    editSMPTE->setToolTip(tr("Edit SMPTE timecode"));
+    editSMPTE->setToolTip(tr("Marker SMPTE timecode (Hours:Minutes:Seconds:Frames:Subframes)"));
 
     lock = new QToolButton;
     lock->setIcon(*lockSVGIcon);
     lock->setCheckable(true);
-    lock->setToolTip(tr("Toggle timecode editing"));
+    lock->setToolTip(tr("Lock marker to absolute SMPTE time (prevents shifting with tempo changes)"));
 
     editName = new QLineEdit;
     editName->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
-    editName->setToolTip(tr("Edit marker description"));
+    editName->setToolTip(tr("Edit selected marker description / label"));
     editName->setPlaceholderText(tr("<Description>"));
 
     hbox->addWidget(editTick);

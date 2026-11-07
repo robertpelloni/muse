@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev13] - 2025-11-04
+
+### Changed
+- **Marker View UI Guidance**:
+  - Enriched interactive tooltips in `src/muse/marker/markerview.cpp` for adding markers (A), deleting markers, the marker list table, musical beat edit controls, SMPTE timecode editing, SMPTE lock toggle, and description field.
+  - Bumped version to `4.2.1-autonomous-rev13` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev12] - 2025-11-04
 
 ### Changed
