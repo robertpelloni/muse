@@ -50,6 +50,11 @@ sudo apt-get install -y \
 ./scripts/build_muse.sh --check-deps
 ```
 
+### Running Automated Test Suite:
+```bash
+./scripts/build_muse.sh --test
+```
+
 ### Manual CMake commands:
 ```bash
 mkdir -p build && cd build

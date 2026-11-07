@@ -13,6 +13,7 @@ BUILD_DIR="${REPO_ROOT}/build"
 BUILD_TYPE="Release"
 CLEAN_BUILD=false
 CHECK_DEPS=false
+RUN_TESTS=false
 NUM_JOBS=$(nproc 2>/dev/null || echo "4")
 INSTALL_PREFIX="/usr/local"
 EXTRA_CMAKE_ARGS=()
@@ -31,12 +32,14 @@ Options:
   -j, --jobs N          Number of concurrent compilation jobs (default: ${NUM_JOBS})
   --prefix PATH         Installation prefix (default: /usr/local)
   --check-deps          Verify required and optional dependencies without building
+  -t, --test            Run automated regression test suites
   --cmake-arg ARG       Pass additional argument to CMake configure step
 
 Examples:
   $0 --release --jobs 8
   $0 --clean --debug
   $0 --check-deps
+  $0 --test
 EOF
 }
 
@@ -116,6 +119,10 @@ while [[ $# -gt 0 ]]; do
       CHECK_DEPS=true
       shift
       ;;
+    -t|--test)
+      RUN_TESTS=true
+      shift
+      ;;
     --cmake-arg)
       EXTRA_CMAKE_ARGS+=("$2")
       shift 2
@@ -130,6 +137,18 @@ done
 
 if [ "$CHECK_DEPS" = true ]; then
   check_dependencies
+  exit 0
+fi
+
+run_test_suite() {
+  echo "=============================================="
+  echo " Running MusE Automated Regression Test Suite"
+  echo "=============================================="
+  python3 -m unittest discover -s "${REPO_ROOT}/tests" -v
+}
+
+if [ "$RUN_TESTS" = true ]; then
+  run_test_suite
   exit 0
 fi
 

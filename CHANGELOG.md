@@ -4,6 +4,17 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev14] - 2025-11-04
+
+### Changed
+- **Build Runner Test Automation**:
+  - Added `-t` / `--test` flag to `scripts/build_muse.sh` to execute the automated Python regression test suite (`tests/`) standalone or post-build.
+  - Updated `DEPLOY.md` with instructions for running test suites via the build script.
+  - Bumped version to `4.2.1-autonomous-rev14` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev13] - 2025-11-04
 
 ### Changed
