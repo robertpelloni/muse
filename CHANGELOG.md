@@ -4,6 +4,17 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev9] - 2025-11-04
+
+### Added
+- **Unused WAV Cleaner Modernization & Testing**:
+  - Upgraded `src/utils/muse-find-unused-wavs` to Python 3 with `argparse`, supporting `--dry-run`, non-interactive execution (`-y` / `--yes`), and custom target directories (`-d` / `--dir`).
+  - Added unit test suite `tests/test_find_unused_wavs.py` verifying CLI handling, dry-run scanning, and automated file relocation.
+  - Bumped version to `4.2.1-autonomous-rev9` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev8] - 2025-11-04
 
 ### Changed

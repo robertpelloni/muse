@@ -11,6 +11,7 @@ This handoff file documents repository discoveries, structural shifts, environme
   - Remote: `https://github.com/robertpelloni/muse`.
   - Submodules: No external submodules are currently active in this tree.
 - **Application & UI Improvements Completed**:
+  - **Asset Cleaner & Automation**: Modernized `src/utils/muse-find-unused-wavs` with `--dry-run`, non-interactive flags, and target directory selection; added `tests/test_find_unused_wavs.py`.
   - **Arranger View Edit Tooltips**: Added descriptive tooltips to core edit operations in `src/muse/arranger/arrangerview.cpp` (Delete, Cut, Copy, Copy in Range, Paste, Paste Clone, Delete Selected Track, Duplicate Selected Track).
   - **Arranger Timeline Tooltips**: Updated `src/muse/arranger/arranger.cpp` with descriptive guidance on playhead cursor position, snap grid toggling, raster division picker, song bar length, global pitch shift, global tempo scaling, and quick speed multiplier buttons (50%, Normal, 200%).
   - **Automated Regression Suite**: Created `tests/test_song_convert.py` testing XML conversion and CLI reliability; improved `src/utils/muse-song-convert.py`.
