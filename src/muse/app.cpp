@@ -41,6 +41,7 @@
 #include <QIODevice>
 #include <QProcess>
 #include <QStatusBar>
+#include <QSystemTrayIcon>
 #if QT_VERSION >= 0x050b00
 #include <QScreen>
 #endif
@@ -704,7 +705,8 @@ MusE::MusE() : QMainWindow()
                                             MusEGlobal::transportAction);
       MusEGlobal::stopAction->setCheckable(true);
 
-      MusEGlobal::stopAction->setWhatsThis(tr("Stop sequencer"));
+      MusEGlobal::stopAction->setToolTip(tr("Stop sequencer playback and recording (Space)"));
+      MusEGlobal::stopAction->setWhatsThis(tr("Stop sequencer playback and halt active recording."));
       MusEGlobal::stopAction->setChecked(true);
       connect(MusEGlobal::stopAction, SIGNAL(toggled(bool)), MusEGlobal::song, SLOT(setStop(bool)));
 
@@ -714,13 +716,15 @@ MusE::MusE() : QMainWindow()
                      MusEGlobal::transportAction);
       MusEGlobal::playAction->setCheckable(true);
 
-      MusEGlobal::playAction->setWhatsThis(tr("Start sequencer play"));
+      MusEGlobal::playAction->setToolTip(tr("Start or pause sequencer playback (Space)"));
+      MusEGlobal::playAction->setWhatsThis(tr("Start sequencer playback or continue from the current playhead marker position."));
       MusEGlobal::playAction->setChecked(false);
       connect(MusEGlobal::playAction, SIGNAL(toggled(bool)), MusEGlobal::song, SLOT(setPlay(bool)));
 
       MusEGlobal::recordAction = new QAction(*MusEGui::recMasterSVGIcon, tr("Record"), 
                                               MusEGlobal::transportAction);
       MusEGlobal::recordAction->setCheckable(true);
+      MusEGlobal::recordAction->setToolTip(tr("Arm master recording (press Record then Play to begin capturing)"));
       MusEGlobal::recordAction->setWhatsThis(tr("To record press record and then play"));
       MusEGlobal::recordAction->setStatusTip(tr("To record press record and then play"));
       connect(MusEGlobal::recordAction, SIGNAL(toggled(bool)), MusEGlobal::song, SLOT(setRecord(bool)));
@@ -1318,6 +1322,74 @@ MusE::MusE() : QMainWindow()
 
       MusEGlobal::song->update();
       updateWindowMenu();
+
+      initSystemTray();
+}
+
+//---------------------------------------------------------
+//   initSystemTray
+//   Sets up system tray icon with background controls
+//   and quick audio engine / server control.
+//---------------------------------------------------------
+
+void MusE::initSystemTray()
+{
+      if (!QSystemTrayIcon::isSystemTrayAvailable())
+            return;
+
+      QIcon icon = MusEGui::museIcon ? *MusEGui::museIcon : windowIcon();
+      trayIcon = new QSystemTrayIcon(icon, this);
+      trayMenu = new QMenu(this);
+
+      QAction* toggleShowAction = trayMenu->addAction(tr("Show / Hide MusE"));
+      connect(toggleShowAction, &QAction::triggered, this, &MusE::toggleWindowVisibility);
+
+      trayMenu->addSeparator();
+
+      if (MusEGlobal::playAction)
+            trayMenu->addAction(MusEGlobal::playAction);
+      if (MusEGlobal::stopAction)
+            trayMenu->addAction(MusEGlobal::stopAction);
+      if (MusEGlobal::recordAction)
+            trayMenu->addAction(MusEGlobal::recordAction);
+
+      QAction* panicAct = trayMenu->addAction(tr("Panic / All Sound Off"));
+      connect(panicAct, &QAction::triggered, this, &MusE::panicStop);
+
+      trayMenu->addSeparator();
+
+      QAction* quitAct = trayMenu->addAction(tr("Quit MusE & Stop Servers"));
+      connect(quitAct, &QAction::triggered, this, &MusE::quitDoc);
+
+      trayIcon->setContextMenu(trayMenu);
+      trayIcon->setToolTip(tr("MusE - Linux Music Editor (DAW)"));
+      trayIcon->show();
+
+      connect(trayIcon, &QSystemTrayIcon::activated, [this](QSystemTrayIcon::ActivationReason reason) {
+            if (reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick) {
+                  toggleWindowVisibility();
+            }
+      });
+}
+
+void MusE::toggleWindowVisibility()
+{
+      if (isVisible()) {
+            hide();
+      } else {
+            show();
+            raise();
+            activateWindow();
+      }
+}
+
+void MusE::panicStop()
+{
+      if (MusEGlobal::audio) {
+            MusEGlobal::audio->msgPanic();
+      } else if (MusEGlobal::song) {
+            MusEGlobal::song->panic();
+      }
 }
 
 MusE::~MusE()

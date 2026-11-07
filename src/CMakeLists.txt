@@ -52,17 +52,23 @@ endif(ISTRINGSTREAM_SUPPORTS_HEXFLOAT EQUAL 1)
 # =========================================================
 
 
-find_package(ECM REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
+find_package(ECM QUIET NO_MODULE)
+if (ECM_FOUND)
+  set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
+  message(STATUS "Found ECM (Extra CMake Modules): ${ECM_DIR}")
+else (ECM_FOUND)
+  message(STATUS "ECM (Extra CMake Modules) not found. Using local CMake fallback modules.")
+endif (ECM_FOUND)
+
 ## FIXME FIXME: For the github automatic build actions:
 ## This is not found in ECM in Ubuntu 18.04 or 20.04. Only 22.04 and later !!!
 ## To avoid seriously major trouble upgrading to 22.04, use a local copy if not found. 
 # include(CheckAtomic)
 include(CheckAtomic OPTIONAL RESULT_VARIABLE CheckAtomic_Result)
-if (CheckAtomic_Result STREQUAL "NOTFOUND")
+if (CheckAtomic_Result STREQUAL "NOTFOUND" OR NOT CheckAtomic_Result)
   message("CheckAtomic module not found! Using local copy instead.")
   include(cmake/CheckAtomic.cmake)
-endif (CheckAtomic_Result STREQUAL "NOTFOUND")
+endif ()
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.10.2)
 if (COMMAND cmake_policy)
@@ -198,26 +204,34 @@ SET(MusE_LIB_DIR ${LIB_INSTALL_DIR}/${MusE_INSTALL_NAME})
 
 include(FindGit)
 if (GIT_FOUND)
-      EXEC_PROGRAM( ${GIT_EXECUTABLE}
-            ARGS "status"
-            OUTPUT_VARIABLE GIT_RET_NOTUSED
-            RETURN_VALUE IS_GIT_REPO )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} status
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_RET_NOTUSED
+        ERROR_QUIET
+        RESULT_VARIABLE IS_GIT_REPO )
     if(IS_GIT_REPO EQUAL 0)
-        EXEC_PROGRAM( ${GIT_EXECUTABLE}
-            ARGS "log -1 --format='%ci'"
-            OUTPUT_VARIABLE MusE_GITDATE )
-        EXEC_PROGRAM( ${GIT_EXECUTABLE}
-            ARGS "rev-parse --abbrev-ref HEAD"
-            OUTPUT_VARIABLE MusE_GITBRANCH )
-        EXEC_PROGRAM( ${GIT_EXECUTABLE}
-            ARGS "describe --dirty --always"
-            OUTPUT_VARIABLE MusE_GITDESCRIBE )
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} log -1 --format=%ci
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE MusE_GITDATE
+            OUTPUT_STRIP_TRAILING_WHITESPACE )
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE MusE_GITBRANCH
+            OUTPUT_STRIP_TRAILING_WHITESPACE )
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} describe --dirty --always
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE MusE_GITDESCRIBE
+            OUTPUT_STRIP_TRAILING_WHITESPACE )
         SET(MusE_GITSTRING "${MusE_GITBRANCH} | ${MusE_GITDESCRIBE} | ${MusE_GITDATE}")
     else (IS_GIT_REPO EQUAL 0)
         SET(MusE_GITSTRING "")
     endif (IS_GIT_REPO EQUAL 0)
 else (GIT_FOUND)
-      SET(MusE_GITSTRING "")
+    SET(MusE_GITSTRING "")
 endif (GIT_FOUND)
 
 

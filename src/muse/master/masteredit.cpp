@@ -194,24 +194,25 @@ MasterEdit::MasterEdit(QWidget* parent, const char* name)
 
       cursorPos = new MusEGui::PosLabel(nullptr, "PosLabel");
       cursorPos->setFixedHeight(22);
-      cursorPos->setToolTip(tr("Time at cursor position"));
+      cursorPos->setToolTip(tr("Time at cursor position (Bar:Beat:Tick)"));
       info->addWidget(cursorPos);
       tempo = new MusEGui::TempoLabel(nullptr, "TempoLabel");
       tempo->setFixedHeight(22);
-      tempo->setToolTip(tr("Tempo at cursor position"));
+      tempo->setToolTip(tr("Tempo at cursor position (BPM)"));
       info->addWidget(tempo);
 
       gridOnButton = new QToolButton();
       gridOnButton->setIcon(*gridOnSVGIcon);
       gridOnButton->setFocusPolicy(Qt::NoFocus);
       gridOnButton->setCheckable(true);
-      gridOnButton->setToolTip(tr("Show grid"));
+      gridOnButton->setToolTip(tr("Toggle master tempo grid snapping on / off"));
       gridOnButton->setWhatsThis(tr("Show grid"));
       info->addWidget(gridOnButton);
       connect(gridOnButton, &QToolButton::toggled, [this](bool v) { gridOnChanged(v); } );
 
       rasterLabel = new RasterLabelCombo(RasterLabelCombo::TableView, _rasterizerModel, this, "RasterLabelCombo");
       rasterLabel->setFocusPolicy(Qt::TabFocus);
+      rasterLabel->setToolTip(tr("Master editor quantize raster division"));
       info->addWidget(rasterLabel);
 
       //---------------------------------------------------

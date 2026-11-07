@@ -1746,7 +1746,7 @@ MidiStrip::MidiStrip(QWidget* parent, MusECore::MidiTrack* t, bool hasHandle, bo
       record->setIcon(*recArmStateSVGIcon);
       record->setFocusPolicy(Qt::NoFocus);
       record->setCheckable(true);
-      record->setToolTip(tr("Record arm"));
+      record->setToolTip(tr("Record arm: Toggle MIDI track for live recording when transport starts"));
       record->setChecked(track->recordFlag());
       record->setContextMenuPolicy(Qt::CustomContextMenu);
       connect(record, SIGNAL(toggled(bool)), SLOT(recordToggled(bool)));
@@ -1757,7 +1757,7 @@ MidiStrip::MidiStrip(QWidget* parent, MusECore::MidiTrack* t, bool hasHandle, bo
       mute->setIcon(*muteStateSVGIcon);
       mute->setFocusPolicy(Qt::NoFocus);
       mute->setCheckable(!MusEGlobal::config.momentaryMute);
-      mute->setToolTip(tr("Mute or proxy mute"));
+      mute->setToolTip(tr("Mute: Silence MIDI events from this track"));
       mute->setStatusTip(tr("Mute or proxy mute. Connected tracks are 'phantom' muted."));
       mute->setDown(track->mute());
       updateMuteIcon();
@@ -1772,7 +1772,7 @@ MidiStrip::MidiStrip(QWidget* parent, MusECore::MidiTrack* t, bool hasHandle, bo
       solo  = new QPushButton(this);
       solo->setIcon(*soloStateSVGIcon);
       solo->setObjectName("SoloButton");
-      solo->setToolTip(tr("Solo or proxy solo"));
+      solo->setToolTip(tr("Solo: Isolate this MIDI track in the sequencer playback"));
       solo->setStatusTip(tr("Solo or proxy solo. Connected tracks are 'phantom' soloed. Press F1 for help."));
       solo->setFocusPolicy(Qt::NoFocus);
       solo->setCheckable(!MusEGlobal::config.momentarySolo);
