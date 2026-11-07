@@ -4,6 +4,17 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev12] - 2025-11-04
+
+### Changed
+- **Master Editor Toolbar UI Guidance**:
+  - Enriched interactive tooltips in `src/muse/master/masteredit.cpp` across the master tempo/time info toolbar.
+  - Added descriptive tips for playhead cursor position (Bar:Beat:Tick), tempo indicator (BPM), master grid snap toggling, and quantize raster division picker.
+  - Bumped version to `4.2.1-autonomous-rev12` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev11] - 2025-11-04
 
 ### Changed

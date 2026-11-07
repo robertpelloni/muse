@@ -11,6 +11,7 @@ This handoff file documents repository discoveries, structural shifts, environme
   - Remote: `https://github.com/robertpelloni/muse`.
   - Submodules: No external submodules are currently active in this tree.
 - **Application & UI Improvements Completed**:
+  - **Master Editor Tooltips**: Updated `src/muse/master/masteredit.cpp` with descriptive guidance on playhead position, tempo indicators, grid snapping, and raster divisions.
   - **Clip List Tooltips**: Enriched `src/muse/cliplist/cliplisteditorbase.ui` with tooltips on clip tree view, SMPTE start offset, and SMPTE playback length.
   - **CMake Modernization**: Replaced deprecated `EXEC_PROGRAM` with `execute_process(...)` for Git metadata extraction in `src/CMakeLists.txt`, resolving CMP0153 warnings.
   - **Asset Cleaner & Automation**: Modernized `src/utils/muse-find-unused-wavs` with `--dry-run`, non-interactive flags, and target directory selection; added `tests/test_find_unused_wavs.py`.
