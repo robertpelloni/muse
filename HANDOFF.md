@@ -11,6 +11,7 @@ This handoff file documents repository discoveries, structural shifts, environme
   - Remote: `https://github.com/robertpelloni/muse`.
   - Submodules: No external submodules are currently active in this tree.
 - **Application & UI Improvements Completed**:
+  - **Wave Edit Gain Tooltips**: Added descriptive tooltip in `src/muse/waveedit/editgainbase.ui` for clip gain slider percentage adjustments.
   - **PosEdit Tooltip**: Added default fallback tooltip to `MusEGui::PosEdit` in `src/muse/components/posedit.cpp` with scroll wheel and arrow key usage tips.
   - **Build Automation & Testing**: Added `-t` / `--test` flag to `scripts/build_muse.sh` executing the automated regression test suite (`tests/`).
   - **Marker View Tooltips**: Added descriptive tooltips across `src/muse/marker/markerview.cpp` (add marker (A), delete marker, marker table, beat position, SMPTE timecode, lock to timecode, and description label).

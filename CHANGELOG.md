@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev16] - 2025-11-04
+
+### Changed
+- **Wave Edit Gain Dialog UI Guidance**:
+  - Added descriptive tooltip to `sliderGain` in `src/muse/waveedit/editgainbase.ui` clarifying audio clip gain percentage scaling (0% to 200%).
+  - Bumped version to `4.2.1-autonomous-rev16` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev15] - 2025-11-04
 
 ### Changed
