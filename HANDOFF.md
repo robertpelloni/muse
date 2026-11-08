@@ -11,8 +11,16 @@ This handoff file documents repository discoveries, structural shifts, environme
   - Remote: `https://github.com/robertpelloni/muse`.
   - Submodules: No external submodules are currently active in this tree.
 - **Application & UI Improvements Completed**:
-  - **Drum Editor Tooltips**: Added descriptive tooltips to core drum editing operations in `src/muse/midiedit/drumedit.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part, Delete).
-  - **Piano Roll Edit Tooltips**: Added descriptive tooltips to core MIDI editing operations in `src/muse/midiedit/pianoroll.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part).
+  - **LineEdit Component Tooltips (Rev 26)**: Added default fallback tooltip to `MusEGui::LineEdit` in `src/muse/widgets/line_edit.cpp` explaining Enter key to commit changes and Escape to cancel.
+  - **CheckBox Component Tooltips (Rev 25)**: Added default fallback tooltip to `MusEGui::CheckBox` in `src/muse/widgets/checkbox.cpp` explaining left-click toggling and right-click context menu options.
+  - **SliderBase & Faders Tooltips (Rev 24)**: Added default fallback tooltip to `MusEGui::SliderBase` in `src/muse/widgets/sliderbase.cpp` explaining click-and-drag adjustment, double-click, and Ctrl+click reset.
+  - **Rotary Knob Component Tooltips (Rev 23)**: Added default fallback tooltip to `MusEGui::Knob` in `src/muse/widgets/knob.cpp` explaining drag, mouse wheel, double-click, and Ctrl+click reset.
+  - **Wave Editor Functions Menu Tooltips (Rev 22)**: Added rich tooltips in `src/muse/waveedit/waveedit.cpp` for Mute Selection, Normalize, Fade-in, Fade-out, Reverse, and Gain presets.
+  - **Wave Editor Edit Menu Tooltips (Rev 21)**: Added rich tooltips in `src/muse/waveedit/waveedit.cpp` for Cut, Copy, Paste, Create Part from Range, Edit in External Editor, Select All, Deselect All, Set Range to Selection, Next Part, and Previous Part.
+  - **Score Editor Functions Menu Tooltips (Rev 20)**: Added rich tooltips in `src/muse/midiedit/scoreedit.cpp` for Quantize, Change Note Velocity, Crescendo/Decrescendo, Move Notes, Delete Overlaps, Erase Events, Change Note Length, Set Fixed Length, Transpose, and Legato.
+  - **Score Editor Edit & Select Menu Tooltips (Rev 19)**: Added rich tooltips in `src/muse/midiedit/scoreedit.cpp` for Cut, Copy, Copy Events in Range, Paste, Paste (With Dialog), Delete Events, Select All, Deselect All, Invert Selection, Select Inside Loop, and Select Outside Loop.
+  - **Drum Editor Tooltips (Rev 18)**: Added descriptive tooltips to core drum editing operations in `src/muse/midiedit/drumedit.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part, Delete).
+  - **Piano Roll Edit Tooltips (Rev 17)**: Added descriptive tooltips to core MIDI editing operations in `src/muse/midiedit/pianoroll.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part).
   - **Wave Edit Gain Tooltips**: Added descriptive tooltip in `src/muse/waveedit/editgainbase.ui` for clip gain slider percentage adjustments.
   - **PosEdit Tooltip**: Added default fallback tooltip to `MusEGui::PosEdit` in `src/muse/components/posedit.cpp` with scroll wheel and arrow key usage tips.
   - **Build Automation & Testing**: Added `-t` / `--test` flag to `scripts/build_muse.sh` executing the automated regression test suite (`tests/`).
