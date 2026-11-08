@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev28] - 2025-11-04
+
+### Changed
+- **Controller Panel UI Guidance**:
+  - Enriched interactive tooltips in `src/muse/ctrl/ctrlpanel.cpp` for controller selection button and lane removal button.
+  - Bumped version to `4.2.1-autonomous-rev28` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev27] - 2025-11-04
 
 ### Changed
