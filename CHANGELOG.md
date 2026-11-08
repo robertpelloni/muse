@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev17] - 2025-11-04
+
+### Changed
+- **Piano Roll Edit Menu UI Guidance**:
+  - Enriched interactive tooltips in `src/muse/midiedit/pianoroll.cpp` for core MIDI editing operations: Cut (Ctrl+X), Copy (Ctrl+C), Copy in Range, Paste (Ctrl+V), and Paste to Current Part.
+  - Bumped version to `4.2.1-autonomous-rev17` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev16] - 2025-11-04
 
 ### Changed

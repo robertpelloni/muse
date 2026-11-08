@@ -30,6 +30,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
   - [x] Enriched marker view tooltips in `markerview.cpp` (add marker, delete marker, marker table, measure edit, SMPTE edit, timecode lock toggle, description edit).
   - [x] Enriched PosEdit timeline widget fallback tooltip in `posedit.cpp` with wheel/key navigation instructions.
   - [x] Enriched wave edit gain dialog tooltip in `editgainbase.ui` for clip gain scaling.
+  - [x] Enriched piano roll editor edit menu tooltips in `pianoroll.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part).
 - [ ] **Workspace Layout Consolidation**:
   - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.
