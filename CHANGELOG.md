@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev21] - 2025-11-04
+
+### Changed
+- **Wave Editor Edit Menu UI Guidance**:
+  - Enriched interactive tooltips in `src/muse/waveedit/waveedit.cpp` for core audio editing and selection actions: Cut, Copy, Paste, Create Part from Range, Edit in External Editor, Select All, Deselect All, Set Range to Selection, Next Part, and Previous Part.
+  - Bumped version to `4.2.1-autonomous-rev21` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev20] - 2025-11-04
 
 ### Changed

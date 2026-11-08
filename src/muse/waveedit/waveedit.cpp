@@ -140,20 +140,25 @@ WaveEdit::WaveEdit(MusECore::PartList* pl, QWidget* parent, const char* name)
       QMenu* menuEdit = menuBar()->addMenu(tr("&Edit"));
       
       cutAction = menuEdit->addAction(*cutSVGIcon, tr("C&ut"));
+      cutAction->setToolTip(tr("Cut selected waveform audio data to clipboard"));
       connect(cutAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_EDIT_CUT); } );
 
       copyAction = menuEdit->addAction(*copySVGIcon, tr("&Copy"));
+      copyAction->setToolTip(tr("Copy selected waveform audio data to clipboard"));
       connect(copyAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_EDIT_COPY); } );
 
       pasteAction = menuEdit->addAction(*pasteSVGIcon, tr("&Paste"));
+      pasteAction->setToolTip(tr("Paste audio data from clipboard into wave track"));
       connect(pasteAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_EDIT_PASTE); } );
 
       menuEdit->addSeparator();
 
       copyPartRegionAction = menuEdit->addAction(tr("Create Part &from Range"));
+      copyPartRegionAction->setToolTip(tr("Generate a new independent wave part from current selection range"));
       connect(copyPartRegionAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_CREATE_PART_REGION); } );
 
       act = menuEdit->addAction(tr("Edit in E&xternal Editor..."));
+      act->setToolTip(tr("Open active audio file in configured external sample editor"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_EDIT_EXTERNAL); } );
 
       menuEdit->addSeparator();
@@ -161,20 +166,25 @@ WaveEdit::WaveEdit(MusECore::PartList* pl, QWidget* parent, const char* name)
 //      select = menuEdit->addMenu(QIcon(*selectIcon), tr("Select"));
 
       selectAllAction = menuEdit->addAction(*selectAllSVGIcon, tr("Select &All"));
+      selectAllAction->setToolTip(tr("Select the entire duration of the active wave part"));
       connect(selectAllAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_SELECT_ALL); } );
 
       selectNoneAction = menuEdit->addAction(*deselectAllSVGIcon, tr("&Deselect All"));
+      selectNoneAction->setToolTip(tr("Clear waveform selection range"));
       connect(selectNoneAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_SELECT_NONE); } );
 
       menuEdit->addSeparator();
 
       selectRangeToSelectionAction = menuEdit->addAction(*rangeToSelectionSVGIcon, tr("Set &Range to Selection"));
+      selectRangeToSelectionAction->setToolTip(tr("Snap transport loop/punch markers to match active audio selection"));
       connect(selectRangeToSelectionAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_RANGE_TO_SELECTION); } );
 
       if (parts()->size() > 1) {
           menuEdit->addSeparator();
           selectNextPartAction = menuEdit->addAction(*nextPartSVGIcon, tr("&Next Part"));
+          selectNextPartAction->setToolTip(tr("Cycle selection forward to the next wave part"));
           selectPrevPartAction = menuEdit->addAction(*lastPartSVGIcon, tr("&Previous Part"));
+          selectPrevPartAction->setToolTip(tr("Cycle selection backward to the previous wave part"));
           connect(selectNextPartAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_SELECT_NEXT_PART); } );
           connect(selectPrevPartAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_SELECT_PREV_PART); } );
       } else {
