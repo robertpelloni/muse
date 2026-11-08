@@ -39,6 +39,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
   - [x] Enriched Knob rotary component fallback tooltip in `widgets/knob.cpp` (drag, mouse wheel, double-click, and Ctrl+click interaction guide).
   - [x] Enriched SliderBase component fallback tooltip in `widgets/sliderbase.cpp` (drag, double-click, and Ctrl+click reset guide).
   - [x] Enriched CheckBox component fallback tooltip in `widgets/checkbox.cpp` (click toggle and right-click menu guide).
+  - [x] Enriched LineEdit component fallback tooltip in `widgets/line_edit.cpp` (Enter to commit and Escape to cancel guide).
 - [ ] **Workspace Layout Consolidation**:
   - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.

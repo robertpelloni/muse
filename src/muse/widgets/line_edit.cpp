@@ -48,6 +48,8 @@ LineEdit::LineEdit(QWidget* parent, const char* name) : QLineEdit(parent)
   setObjectName(name);
   //setAutoFillBackground(true);
   _enableStyleHack = true;
+  if (toolTip().isEmpty())
+    setToolTip(tr("Press Enter to commit changes, Escape to cancel"));
 }
 
 LineEdit::LineEdit(const QString& contents, QWidget* parent, const char* name)
@@ -56,6 +58,8 @@ LineEdit::LineEdit(const QString& contents, QWidget* parent, const char* name)
   setObjectName(name);
   //setAutoFillBackground(true);
   _enableStyleHack = true;
+  if (toolTip().isEmpty())
+    setToolTip(tr("Press Enter to commit changes, Escape to cancel"));
 }
 
 void LineEdit::setEnableStyleHack(bool v)

@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev26] - 2025-11-04
+
+### Changed
+- **LineEdit Component UI Guidance**:
+  - Added default fallback tooltip to `MusEGui::LineEdit` (`src/muse/widgets/line_edit.cpp`) explaining Enter key to commit changes and Escape to cancel.
+  - Bumped version to `4.2.1-autonomous-rev26` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev25] - 2025-11-04
 
 ### Changed
