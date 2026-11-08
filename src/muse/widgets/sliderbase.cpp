@@ -138,6 +138,8 @@ SliderBase::SliderBase(QWidget *parent, const char *name)
       d_valueAtPress = 0.0;
       d_scrollMode  = ScrNone;
       setRange(0.0, 1.0, 0.1);
+      if (toolTip().isEmpty())
+            setToolTip(tr("Click and drag to adjust level. Double-click or Ctrl+click to reset to default value"));
       }
 
 //------------------------------------------------------------

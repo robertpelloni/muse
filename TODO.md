@@ -37,6 +37,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
   - [x] Enriched wave editor edit menu tooltips in `waveedit.cpp` (Cut, Copy, Paste, Create Part from Range, Edit in External Editor, Select All, Deselect All, Set Range to Selection, Next Part, Previous Part).
   - [x] Enriched wave editor functions menu tooltips in `waveedit.cpp` (Mute Selection, Normalize, Fade-in, Fade-out, Reverse, Gain presets).
   - [x] Enriched Knob rotary component fallback tooltip in `widgets/knob.cpp` (drag, mouse wheel, double-click, and Ctrl+click interaction guide).
+  - [x] Enriched SliderBase component fallback tooltip in `widgets/sliderbase.cpp` (drag, double-click, and Ctrl+click reset guide).
 - [ ] **Workspace Layout Consolidation**:
   - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.
