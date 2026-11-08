@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev22] - 2025-11-04
+
+### Changed
+- **Wave Editor Functions Menu UI Guidance**:
+  - Enriched interactive tooltips in `src/muse/waveedit/waveedit.cpp` for core audio manipulation functions: Mute Selection, Normalize Selection, Fade-in Selection, Fade-out Selection, Reverse Selection, and Gain presets (200%, 150%, 75%, 50%, 25%, Other).
+  - Bumped version to `4.2.1-autonomous-rev22` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev21] - 2025-11-04
 
 ### Changed

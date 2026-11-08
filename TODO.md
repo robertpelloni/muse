@@ -35,6 +35,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
   - [x] Enriched score editor edit and select menu tooltips in `scoreedit.cpp` (Cut, Copy, Copy in Range, Paste, Paste Dialog, Delete Events, Select All, Deselect All, Invert Selection, Select Inside Loop, Select Outside Loop).
   - [x] Enriched score editor functions menu tooltips in `scoreedit.cpp` (Quantize, Note Velocity, Crescendo, Move Notes, Delete Overlaps, Erase Events, Note Length, Fixed Length, Transpose, Legato).
   - [x] Enriched wave editor edit menu tooltips in `waveedit.cpp` (Cut, Copy, Paste, Create Part from Range, Edit in External Editor, Select All, Deselect All, Set Range to Selection, Next Part, Previous Part).
+  - [x] Enriched wave editor functions menu tooltips in `waveedit.cpp` (Mute Selection, Normalize, Fade-in, Fade-out, Reverse, Gain presets).
 - [ ] **Workspace Layout Consolidation**:
   - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.
