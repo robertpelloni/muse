@@ -271,13 +271,19 @@ DrumEdit::DrumEdit(MusECore::PartList* pl, QWidget* parent, const char* name, un
 
       menuEdit->addSeparator();
       cutAction = menuEdit->addAction(*cutSVGIcon, tr("C&ut"));
+      cutAction->setToolTip(tr("Cut selected drum events to clipboard (Ctrl+X)"));
       copyAction = menuEdit->addAction(*copySVGIcon, tr("&Copy"));
+      copyAction->setToolTip(tr("Copy selected drum events to clipboard (Ctrl+C)"));
       copyRangeAction = menuEdit->addAction(*copyRangeSVGIcon, tr("Copy Events in Range"));
+      copyRangeAction->setToolTip(tr("Copy drum events within loop marker range"));
       pasteAction = menuEdit->addAction(*pasteSVGIcon, tr("&Paste"));
+      pasteAction->setToolTip(tr("Paste clipboard drum events at current playhead position (Ctrl+V)"));
       pasteToCurPartAction = menuEdit->addAction(*pasteSelectedTrackSVGIcon, tr("Paste to Current Part"));
+      pasteToCurPartAction->setToolTip(tr("Paste clipboard drum events directly into active drum part"));
       pasteDialogAction = menuEdit->addAction(*pasteDialogSVGIcon, tr("Paste (With Dialog)..."));
       menuEdit->addSeparator();
       deleteAction = menuEdit->addAction(*deleteSVGIcon, tr("Delete &Events"));
+      deleteAction->setToolTip(tr("Delete selected drum events (Del)"));
 
       connect(cutAction, &QAction::triggered, [this]() { cmd(DrumCanvas::CMD_CUT); } );
       connect(copyAction, &QAction::triggered, [this]() { cmd(DrumCanvas::CMD_COPY); } );

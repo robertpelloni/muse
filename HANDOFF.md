@@ -11,6 +11,7 @@ This handoff file documents repository discoveries, structural shifts, environme
   - Remote: `https://github.com/robertpelloni/muse`.
   - Submodules: No external submodules are currently active in this tree.
 - **Application & UI Improvements Completed**:
+  - **Drum Editor Tooltips**: Added descriptive tooltips to core drum editing operations in `src/muse/midiedit/drumedit.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part, Delete).
   - **Piano Roll Edit Tooltips**: Added descriptive tooltips to core MIDI editing operations in `src/muse/midiedit/pianoroll.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part).
   - **Wave Edit Gain Tooltips**: Added descriptive tooltip in `src/muse/waveedit/editgainbase.ui` for clip gain slider percentage adjustments.
   - **PosEdit Tooltip**: Added default fallback tooltip to `MusEGui::PosEdit` in `src/muse/components/posedit.cpp` with scroll wheel and arrow key usage tips.

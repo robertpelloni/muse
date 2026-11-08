@@ -31,6 +31,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
   - [x] Enriched PosEdit timeline widget fallback tooltip in `posedit.cpp` with wheel/key navigation instructions.
   - [x] Enriched wave edit gain dialog tooltip in `editgainbase.ui` for clip gain scaling.
   - [x] Enriched piano roll editor edit menu tooltips in `pianoroll.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part).
+  - [x] Enriched drum editor edit menu tooltips in `drumedit.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part, Delete).
 - [ ] **Workspace Layout Consolidation**:
   - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.

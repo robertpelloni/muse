@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev18] - 2025-11-04
+
+### Changed
+- **Drum Editor Edit Menu UI Guidance**:
+  - Enriched interactive tooltips in `src/muse/midiedit/drumedit.cpp` for core drum editing actions: Cut (Ctrl+X), Copy (Ctrl+C), Copy in Range, Paste (Ctrl+V), Paste to Current Part, and Delete (Del).
+  - Bumped version to `4.2.1-autonomous-rev18` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev17] - 2025-11-04
 
 ### Changed
