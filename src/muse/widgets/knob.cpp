@@ -82,6 +82,8 @@ Knob::Knob(QWidget* parent, const char* name)
       d_scale.setOrientation(ScaleDraw::Round);
       setMinimumSize(30,30);
       setUpdateTime(50);
+      if (toolTip().isEmpty())
+            setToolTip(tr("Click and drag vertically or use mouse wheel to adjust value. Double-click or Ctrl+click to reset"));
       }
 
 //------------------------------------------------------------

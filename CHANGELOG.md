@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev23] - 2025-11-04
+
+### Changed
+- **Rotary Knob Component UI Guidance**:
+  - Added default fallback tooltip to `MusEGui::Knob` (`src/muse/widgets/knob.cpp`) explaining drag, mouse wheel, double-click, and Ctrl+click interactions for all rotary controls throughout MusE.
+  - Bumped version to `4.2.1-autonomous-rev23` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev22] - 2025-11-04
 
 ### Changed
