@@ -4,6 +4,17 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev29] - 2025-11-04
+
+### Changed
+- **Compiler Flags & Build Modernization Audit**:
+  - Audited C++17 compliance (`CMAKE_CXX_STANDARD 17`, standard required, extensions off) and verified standard warning flags (`-Werror=format-security -Wextra -Wall -fPIC -fexceptions`) across all build types in `src/CMakeLists.txt`.
+  - Completed task in `TODO.md`.
+  - Bumped version to `4.2.1-autonomous-rev29` in `VERSION.md`.
+  - Updated `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev28] - 2025-11-04
 
 ### Changed

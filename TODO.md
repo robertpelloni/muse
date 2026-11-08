@@ -10,7 +10,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
 - [x] **Modernize CMake Executables & Policy CMP0153**: Replaced obsolete `EXEC_PROGRAM` with `execute_process` for Git metadata extraction in `src/CMakeLists.txt`.
 - [x] **Automated Regression Testing**: Created unit test suite in `tests/test_song_convert.py` verifying headless XML conversion and CLI reliability.
 - [x] **Automated Audio Asset Cleanup Testing**: Created unit test suite in `tests/test_find_unused_wavs.py` verifying non-interactive asset cleanup and dry-run reporting.
-- [ ] **Modernize Compiler Flags**: Audit C++17 compliance flags and warnings across all subdirectories (`src/muse`, `src/synti`, `src/libs`).
+- [x] **Modernize Compiler Flags**: Audited C++17 compliance flags (`CMAKE_CXX_STANDARD 17`, `CMAKE_CXX_STANDARD_REQUIRED ON`, `CMAKE_CXX_EXTENSIONS OFF`) and verified warning flags (`-Werror=format-security -Wextra -Wall -fPIC -fexceptions`) across all build types in `src/CMakeLists.txt`.
 
 ## 2. Dashboard & GUI Consolidation
 - [x] **System Tray Integration**:
