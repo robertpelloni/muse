@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev19] - 2025-11-04
+
+### Changed
+- **Score Editor Edit and Select Menu UI Guidance**:
+  - Enriched interactive tooltips in `src/muse/midiedit/scoreedit.cpp` for core score editing and selection actions: Cut, Copy, Copy Events in Range, Paste, Paste (With Dialog), Delete Events, Select All, Deselect All, Invert Selection, Select Inside Loop, and Select Outside Loop.
+  - Bumped version to `4.2.1-autonomous-rev19` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev18] - 2025-11-04
 
 ### Changed
