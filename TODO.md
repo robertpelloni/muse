@@ -33,6 +33,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
   - [x] Enriched piano roll editor edit menu tooltips in `pianoroll.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part).
   - [x] Enriched drum editor edit menu tooltips in `drumedit.cpp` (Cut, Copy, Copy in Range, Paste, Paste to Current Part, Delete).
   - [x] Enriched score editor edit and select menu tooltips in `scoreedit.cpp` (Cut, Copy, Copy in Range, Paste, Paste Dialog, Delete Events, Select All, Deselect All, Invert Selection, Select Inside Loop, Select Outside Loop).
+  - [x] Enriched score editor functions menu tooltips in `scoreedit.cpp` (Quantize, Note Velocity, Crescendo, Move Notes, Delete Overlaps, Erase Events, Note Length, Fixed Length, Transpose, Legato).
 - [ ] **Workspace Layout Consolidation**:
   - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.

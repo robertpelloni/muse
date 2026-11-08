@@ -452,18 +452,28 @@ ScoreEdit::ScoreEdit(QWidget* parent, const char* name, unsigned initPos)
     QMenu* functions_menu = menuBar()->addMenu(tr("Fu&nctions"));
 
         func_quantize_action = functions_menu->addAction(*quantizeSVGIcon, tr("&Quantize..."));
+        func_quantize_action->setToolTip(tr("Align note start times and lengths to the rhythmic grid"));
         func_velocity_action = functions_menu->addAction(tr("Change Note &Velocity..."));
+        func_velocity_action->setToolTip(tr("Modify or scale velocity values of selected score notes"));
         func_cresc_action = functions_menu->addAction(tr("Crescendo/Decrescendo..."));
+        func_cresc_action->setToolTip(tr("Apply gradual volume increase or decrease across selected notes"));
         func_move_action = functions_menu->addAction(tr("Move Notes..."));
+        func_move_action->setToolTip(tr("Shift selected notes in time or pitch by specified offset"));
         func_del_overlaps_action = functions_menu->addAction(tr("Delete Overlaps..."));
+        func_del_overlaps_action->setToolTip(tr("Shorten notes that overlap subsequent notes on the same pitch"));
         func_erase_action = functions_menu->addAction(tr("Erase Events..."));
+        func_erase_action->setToolTip(tr("Selectively filter and delete specific types of MIDI events"));
 
         functions_menu->addSeparator();
 
         func_notelen_action = functions_menu->addAction(tr("Change Note &Length..."));
+        func_notelen_action->setToolTip(tr("Modify note durations by scaling or adding offset"));
         func_fixed_len_action = functions_menu->addAction(tr("Set Fixed Length..."));
+        func_fixed_len_action->setToolTip(tr("Set the duration of all selected notes to an exact rhythmic value"));
         func_transpose_action = functions_menu->addAction(tr("Transpose..."));
+        func_transpose_action->setToolTip(tr("Transpose selected notes by semitones or octaves"));
         func_legato_action = functions_menu->addAction(tr("Legato..."));
+        func_legato_action->setToolTip(tr("Extend note durations so each note sustains until the next note starts"));
 
         connect(func_quantize_action,     &QAction::triggered, [this]() { menu_command(CMD_QUANTIZE); } );
         connect(func_notelen_action,      &QAction::triggered, [this]() { menu_command(CMD_NOTELEN); } );

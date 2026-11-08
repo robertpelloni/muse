@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev20] - 2025-11-04
+
+### Changed
+- **Score Editor Functions Menu UI Guidance**:
+  - Enriched interactive tooltips in `src/muse/midiedit/scoreedit.cpp` for core score transformation functions: Quantize, Change Note Velocity, Crescendo/Decrescendo, Move Notes, Delete Overlaps, Erase Events, Change Note Length, Set Fixed Length, Transpose, and Legato.
+  - Bumped version to `4.2.1-autonomous-rev20` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev19] - 2025-11-04
 
 ### Changed
