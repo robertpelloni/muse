@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev27] - 2025-11-04
+
+### Changed
+- **SpinBox Component UI Guidance**:
+  - Added default fallback tooltip to `MusEGui::SpinBox` (`src/muse/widgets/spinbox.cpp`) explaining arrow keys, scroll wheel, and Enter confirmation.
+  - Bumped version to `4.2.1-autonomous-rev27` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev26] - 2025-11-04
 
 ### Changed

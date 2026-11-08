@@ -60,6 +60,8 @@ SpinBox::SpinBox(QWidget* parent)
   connect(le, SIGNAL(doubleClicked()),     this, SIGNAL(doubleClicked()));
   connect(le, SIGNAL(ctrlDoubleClicked()), this, SIGNAL(ctrlDoubleClicked()));
   //connect(le, SIGNAL(ctrlClicked()), this, SIGNAL(ctrlClicked()));
+  if (toolTip().isEmpty())
+    setToolTip(tr("Use up/down arrow buttons, scroll wheel, or type a value. Press Enter to confirm"));
 }
 
 SpinBox::SpinBox(int minValue, int maxValue, int step, QWidget* parent)
@@ -75,6 +77,8 @@ SpinBox::SpinBox(int minValue, int maxValue, int step, QWidget* parent)
   connect(le, SIGNAL(doubleClicked()),     this, SIGNAL(doubleClicked()));
   connect(le, SIGNAL(ctrlDoubleClicked()), this, SIGNAL(ctrlDoubleClicked()));
   //connect(le, SIGNAL(ctrlClicked()), this, SIGNAL(ctrlClicked()));
+  if (toolTip().isEmpty())
+    setToolTip(tr("Use up/down arrow buttons, scroll wheel, or type a value. Press Enter to confirm"));
 }
 
 void SpinBox::keyPressEvent(QKeyEvent* ev)
