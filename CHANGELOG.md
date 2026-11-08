@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev25] - 2025-11-04
+
+### Changed
+- **CheckBox Component UI Guidance**:
+  - Added default fallback tooltip to `MusEGui::CheckBox` (`src/muse/widgets/checkbox.cpp`) explaining left-click toggling and right-click options for custom checkboxes.
+  - Bumped version to `4.2.1-autonomous-rev25` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev24] - 2025-11-04
 
 ### Changed
