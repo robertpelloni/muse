@@ -11,6 +11,7 @@ This handoff file documents repository discoveries, structural shifts, environme
   - Remote: `https://github.com/robertpelloni/muse`.
   - Submodules: No external submodules are currently active in this tree.
 - **Application & UI Improvements Completed**:
+  - **ComboBoxPI Component Tooltips (Rev 32)**: Added default fallback tooltip to `MusEGui::ComboBoxPI` in `src/muse/widgets/comboboxpi.cpp` explaining option selection and right-click context menu.
   - **Audio Driver Backend Modernization (Rev 31)**: Added `PIPEWIRE_AUDIO=3` to `MusECore::AudioDevice` device type enum in `src/muse/driver/audiodev.h`, establishing foundational driver enum support for native PipeWire SPA backend (Roadmap Milestone 4).
   - **CPU / DSP / XRun Telemetry Labels (Rev 30)**: Added rich diagnostic tooltips and status tips to `CpuToolbar` telemetry labels (`_cpuLabel`, `_dspLabel`, `_xrunsLabel`) in `src/muse/components/cpu_toolbar.cpp`.
   - **Compiler Flags & Build Modernization Audit (Rev 29)**: Audited C++17 compliance (`CMAKE_CXX_STANDARD 17`, standard required, extensions off) and verified warning flags (`-Werror=format-security -Wextra -Wall -fPIC -fexceptions`) across all build types in `src/CMakeLists.txt`.
