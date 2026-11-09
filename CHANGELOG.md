@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev32] - 2025-11-04
+
+### Changed
+- **ComboBoxPI Component UI Guidance**:
+  - Added default fallback tooltip to `MusEGui::ComboBoxPI` (`src/muse/widgets/comboboxpi.cpp`) explaining left-click option selection and right-click context menu triggering.
+  - Bumped version to `4.2.1-autonomous-rev32` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev31] - 2025-11-04
 
 ### Added
