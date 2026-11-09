@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev31] - 2025-11-04
+
+### Added
+- **Audio Driver Backend Modernization**:
+  - Added `PIPEWIRE_AUDIO=3` to `MusECore::AudioDevice` device type enum in `src/muse/driver/audiodev.h`, establishing foundational driver enum support for native PipeWire SPA backend (Roadmap Milestone 4).
+  - Bumped version to `4.2.1-autonomous-rev31` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev30] - 2025-11-04
 
 ### Changed
