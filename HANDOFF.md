@@ -11,6 +11,10 @@ This handoff file documents repository discoveries, structural shifts, environme
   - Remote: `https://github.com/robertpelloni/muse`.
   - Submodules: No external submodules are currently active in this tree.
 - **Application & UI Improvements Completed**:
+  - **CPU / DSP / XRun Telemetry Labels (Rev 30)**: Added rich diagnostic tooltips and status tips to `CpuToolbar` telemetry labels (`_cpuLabel`, `_dspLabel`, `_xrunsLabel`) in `src/muse/components/cpu_toolbar.cpp`.
+  - **Compiler Flags & Build Modernization Audit (Rev 29)**: Audited C++17 compliance (`CMAKE_CXX_STANDARD 17`, standard required, extensions off) and verified warning flags (`-Werror=format-security -Wextra -Wall -fPIC -fexceptions`) across all build types in `src/CMakeLists.txt`.
+  - **Controller Panel UI Guidance (Rev 28)**: Enriched interactive tooltips in `src/muse/ctrl/ctrlpanel.cpp` for controller selection button and lane removal button.
+  - **SpinBox Component Tooltips (Rev 27)**: Added default fallback tooltip to `MusEGui::SpinBox` in `src/muse/widgets/spinbox.cpp` explaining arrow keys, scroll wheel, and Enter confirmation.
   - **LineEdit Component Tooltips (Rev 26)**: Added default fallback tooltip to `MusEGui::LineEdit` in `src/muse/widgets/line_edit.cpp` explaining Enter key to commit changes and Escape to cancel.
   - **CheckBox Component Tooltips (Rev 25)**: Added default fallback tooltip to `MusEGui::CheckBox` in `src/muse/widgets/checkbox.cpp` explaining left-click toggling and right-click context menu options.
   - **SliderBase & Faders Tooltips (Rev 24)**: Added default fallback tooltip to `MusEGui::SliderBase` in `src/muse/widgets/sliderbase.cpp` explaining click-and-drag adjustment, double-click, and Ctrl+click reset.
