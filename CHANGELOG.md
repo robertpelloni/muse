@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev30] - 2025-11-04
+
+### Changed
+- **CPU / DSP / XRun Telemetry UI Guidance**:
+  - Enriched tooltips and status tips on `CpuToolbar` telemetry labels (`_cpuLabel`, `_dspLabel`, `_xrunsLabel`) in `src/muse/components/cpu_toolbar.cpp` with diagnostic descriptions and reset shortcuts.
+  - Bumped version to `4.2.1-autonomous-rev30` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev29] - 2025-11-04
 
 ### Changed

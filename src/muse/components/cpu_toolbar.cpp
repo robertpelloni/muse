@@ -153,13 +153,21 @@ void CpuToolbar::init()
     _resetButton->setToolTip(tr("CPU load averaged over each GUI update period\nDSP load read from JACK\nNumber of xruns\n(click to reset)"));
 
     _cpuLabel = new PaddedValueLabel(true, this, Qt::Widget, "CPU: ", "%");
+    _cpuLabel->setToolTip(tr("CPU load averaged over each GUI update period"));
+    _cpuLabel->setStatusTip(tr("CPU load averaged over each GUI update period"));
     _cpuLabel->setFieldWidth(5);
     _cpuLabel->setPrecision(1);
     _cpuLabel->setIndent(2);
+
     _dspLabel = new PaddedValueLabel(true, this, Qt::Widget, "DSP: ", "%");
+    _dspLabel->setToolTip(tr("DSP load read from audio driver backend (e.g. JACK)"));
+    _dspLabel->setStatusTip(tr("DSP load read from audio driver backend (e.g. JACK)"));
     _dspLabel->setFieldWidth(5);
     _dspLabel->setPrecision(1);
+
     _xrunsLabel = new PaddedValueLabel(false, this, Qt::Widget, "XRUNS: ");
+    _xrunsLabel->setToolTip(tr("Number of buffer underruns/overruns (xruns). Click CPU icon to reset"));
+    _xrunsLabel->setStatusTip(tr("Number of buffer underruns/overruns (xruns). Click CPU icon to reset"));
     _xrunsLabel->setFieldWidth(3);
 
     setValues(0.0f, 0.0f, 0);

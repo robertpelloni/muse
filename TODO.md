@@ -49,7 +49,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
 ## 3. Engine & Driver Stability
 - [ ] **PipeWire Native Backend**: Implement direct PipeWire SPA driver as specified in `ROADMAP.md` Milestone 4.
 - [ ] **Plugin Sandboxing Host**: Develop IPC shared-memory plugin runner to isolate third-party VST/LV2 plugins (`ROADMAP.md` Milestone 3).
-- [ ] **XRun Logging & Telemetry**: Provide a non-intrusive status bar indicator counting audio underruns with clickable diagnostics.
+- [x] **XRun Logging & Telemetry**: Enriched CPU toolbar and status bar indicators counting audio underruns (xruns) and DSP/CPU load with reset actions and diagnostics (`src/muse/components/cpu_toolbar.cpp`).
 
 ## 4. Documentation & Autonomous Governance
 - [x] Maintain synchronized single source of truth for versions in `VERSION.md`.
