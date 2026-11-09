@@ -42,6 +42,8 @@ ClipperLabel::ClipperLabel(QWidget *parent):
     _onGradient.setColorAt(1.0, fcd);
 
     setVal(_value, true);
+    if (toolTip().isEmpty())
+        setToolTip(tr("Peak level / clip indicator. Click to reset peak and clip status"));
 }
   
 QSize ClipperLabel::sizeHint() const

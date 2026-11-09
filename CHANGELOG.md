@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev33] - 2025-11-04
+
+### Changed
+- **ClipperLabel Component UI Guidance**:
+  - Added default fallback tooltip to `MusEGui::ClipperLabel` (`src/muse/widgets/clipper_label.cpp`) explaining peak level reading, clip status display, and click-to-reset.
+  - Bumped version to `4.2.1-autonomous-rev33` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev32] - 2025-11-04
 
 ### Changed
