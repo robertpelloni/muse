@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev34] - 2025-11-04
+
+### Changed
+- **Meter Component UI Guidance**:
+  - Added default fallback tooltip to `MusEGui::Meter` (`src/muse/widgets/meter.cpp`) explaining level meter and peak indicator readout.
+  - Bumped version to `4.2.1-autonomous-rev34` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev33] - 2025-11-04
 
 ### Changed

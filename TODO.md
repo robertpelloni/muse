@@ -44,6 +44,7 @@ Granular immediate tasks, bug fixes, and targeted quality-of-life enhancements.
   - [x] Enriched CtrlPanel automation lane tooltips in `ctrl/ctrlpanel.cpp` (controller selector and lane remove buttons).
   - [x] Enriched ComboBoxPI component fallback tooltip in `widgets/comboboxpi.cpp` (select option and right-click context menu guide).
   - [x] Enriched ClipperLabel component fallback tooltip in `widgets/clipper_label.cpp` (peak level and clip reset guide).
+  - [x] Enriched Meter audio level component fallback tooltip in `widgets/meter.cpp` (level and peak meter guide).
 - [ ] **Workspace Layout Consolidation**:
   - [ ] Reduce dialog fragmentation by converting standalone utility dialogs into integrated dockable views as planned in `ROADMAP.md` Milestone 2.
   - [ ] Provide default "Compact Dashboard" view grouping arranger, track inspector, and master transport into a single view.
