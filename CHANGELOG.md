@@ -4,6 +4,16 @@ All notable changes to MusE are documented in this file. Version numbers track t
 
 ---
 
+## [4.2.1-autonomous-rev35] - 2025-11-04
+
+### Changed
+- **BigTime Position Display UI Guidance**:
+  - Added default fallback tooltip to `BigTime` window and enriched `fmtButton` tooltip with full explanation of musical time vs SMPTE timecode format toggling (`src/muse/components/bigtime.cpp`).
+  - Bumped version to `4.2.1-autonomous-rev35` in `VERSION.md`.
+  - Updated `TODO.md` and `HANDOFF.md`.
+
+---
+
 ## [4.2.1-autonomous-rev34] - 2025-11-04
 
 ### Changed

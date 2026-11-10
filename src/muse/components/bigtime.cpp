@@ -62,10 +62,13 @@ BigTime::BigTime(QWidget* parent)
   dwin->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
   dwin->setStyleSheet("QWidget {font-size:10px; font-family:'Courier'}");   // Tim p4.0.8
 
+  if (toolTip().isEmpty())
+    setToolTip(tr("BigTime: Large real-time musical and SMPTE position display"));
+
   fmtButton = new QCheckBox(QString(""), this);
   fmtButton->resize(18,18);
   fmtButton->setChecked(true);
-  fmtButton->setToolTip(tr("Format display"));
+  fmtButton->setToolTip(tr("Toggle formatted musical time (Bar.Beat.Tick) vs SMPTE timecode (Min:Sec:Frame:Subframe)"));
   fmtButton->setFocusPolicy(Qt::NoFocus);
   barLabel   = new QLabel(dwin);
   beatLabel  = new QLabel(dwin);
