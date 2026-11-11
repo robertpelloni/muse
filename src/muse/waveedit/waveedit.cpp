@@ -140,20 +140,25 @@ WaveEdit::WaveEdit(MusECore::PartList* pl, QWidget* parent, const char* name)
       QMenu* menuEdit = menuBar()->addMenu(tr("&Edit"));
       
       cutAction = menuEdit->addAction(*cutSVGIcon, tr("C&ut"));
+      cutAction->setToolTip(tr("Cut selected waveform audio data to clipboard"));
       connect(cutAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_EDIT_CUT); } );
 
       copyAction = menuEdit->addAction(*copySVGIcon, tr("&Copy"));
+      copyAction->setToolTip(tr("Copy selected waveform audio data to clipboard"));
       connect(copyAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_EDIT_COPY); } );
 
       pasteAction = menuEdit->addAction(*pasteSVGIcon, tr("&Paste"));
+      pasteAction->setToolTip(tr("Paste audio data from clipboard into wave track"));
       connect(pasteAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_EDIT_PASTE); } );
 
       menuEdit->addSeparator();
 
       copyPartRegionAction = menuEdit->addAction(tr("Create Part &from Range"));
+      copyPartRegionAction->setToolTip(tr("Generate a new independent wave part from current selection range"));
       connect(copyPartRegionAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_CREATE_PART_REGION); } );
 
       act = menuEdit->addAction(tr("Edit in E&xternal Editor..."));
+      act->setToolTip(tr("Open active audio file in configured external sample editor"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_EDIT_EXTERNAL); } );
 
       menuEdit->addSeparator();
@@ -161,20 +166,25 @@ WaveEdit::WaveEdit(MusECore::PartList* pl, QWidget* parent, const char* name)
 //      select = menuEdit->addMenu(QIcon(*selectIcon), tr("Select"));
 
       selectAllAction = menuEdit->addAction(*selectAllSVGIcon, tr("Select &All"));
+      selectAllAction->setToolTip(tr("Select the entire duration of the active wave part"));
       connect(selectAllAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_SELECT_ALL); } );
 
       selectNoneAction = menuEdit->addAction(*deselectAllSVGIcon, tr("&Deselect All"));
+      selectNoneAction->setToolTip(tr("Clear waveform selection range"));
       connect(selectNoneAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_SELECT_NONE); } );
 
       menuEdit->addSeparator();
 
       selectRangeToSelectionAction = menuEdit->addAction(*rangeToSelectionSVGIcon, tr("Set &Range to Selection"));
+      selectRangeToSelectionAction->setToolTip(tr("Snap transport loop/punch markers to match active audio selection"));
       connect(selectRangeToSelectionAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_RANGE_TO_SELECTION); } );
 
       if (parts()->size() > 1) {
           menuEdit->addSeparator();
           selectNextPartAction = menuEdit->addAction(*nextPartSVGIcon, tr("&Next Part"));
+          selectNextPartAction->setToolTip(tr("Cycle selection forward to the next wave part"));
           selectPrevPartAction = menuEdit->addAction(*lastPartSVGIcon, tr("&Previous Part"));
+          selectPrevPartAction->setToolTip(tr("Cycle selection backward to the previous wave part"));
           connect(selectNextPartAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_SELECT_NEXT_PART); } );
           connect(selectPrevPartAction, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_SELECT_PREV_PART); } );
       } else {
@@ -187,21 +197,27 @@ WaveEdit::WaveEdit(MusECore::PartList* pl, QWidget* parent, const char* name)
       menuGain = menuFunctions->addMenu(tr("&Gain"));
       
       act = menuGain->addAction("200%");
+      act->setToolTip(tr("Double audio amplitude (+6 dB) across selected range"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_GAIN_200); } );
       
       act = menuGain->addAction("150%");
+      act->setToolTip(tr("Increase audio amplitude by 150% (+3.5 dB) across selected range"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_GAIN_150); } );
       
       act = menuGain->addAction("75%");
+      act->setToolTip(tr("Scale audio amplitude to 75% (-2.5 dB) across selected range"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_GAIN_75); } );
       
       act = menuGain->addAction("50%");
+      act->setToolTip(tr("Halve audio amplitude (-6 dB) across selected range"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_GAIN_50); } );
       
       act = menuGain->addAction("25%");
+      act->setToolTip(tr("Reduce audio amplitude to 25% (-12 dB) across selected range"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_GAIN_25); } );
       
       act = menuGain->addAction(tr("Other"));
+      act->setToolTip(tr("Open custom gain adjustment dialog to specify exact percentage"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_GAIN_FREE); } );
       
       menuFunctions->addSeparator();
@@ -212,18 +228,23 @@ WaveEdit::WaveEdit(MusECore::PartList* pl, QWidget* parent, const char* name)
 //       connect(adjustWaveOffsetAction, SIGNAL(triggered()), mapper, SLOT(map()));
       
       act = menuFunctions->addAction(tr("Mute Selection"));
+      act->setToolTip(tr("Silence audio sample values to zero across selected range"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_MUTE); } );
       
       act = menuFunctions->addAction(tr("Normalize Selection"));
+      act->setToolTip(tr("Maximize peak amplitude to 0 dB full scale across selected range"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_NORMALIZE); } );
       
       act = menuFunctions->addAction(tr("Fade-in Selection"));
+      act->setToolTip(tr("Apply linear volume fade-in from zero to full amplitude across selected range"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_FADE_IN); } );
       
       act = menuFunctions->addAction(tr("Fade-out Selection"));
+      act->setToolTip(tr("Apply linear volume fade-out from full amplitude to silence across selected range"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_FADE_OUT); } );
       
       act = menuFunctions->addAction(tr("Reverse Selection"));
+      act->setToolTip(tr("Reverse audio samples backwards in time across selected range"));
       connect(act, &QAction::triggered, [this]() { cmd(WaveCanvas::CMD_REVERSE); } );
       
 

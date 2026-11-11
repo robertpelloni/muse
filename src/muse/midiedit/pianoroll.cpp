@@ -164,18 +164,23 @@ PianoRoll::PianoRoll(MusECore::PartList* pl, QWidget* parent, const char* name, 
       menuEdit->addSeparator();
       
       editCutAction = menuEdit->addAction(*cutSVGIcon, tr("C&ut"));
+      editCutAction->setToolTip(tr("Cut selected MIDI notes/events to clipboard (Ctrl+X)"));
       connect(editCutAction, &QAction::triggered, [this]() { cmd(PianoCanvas::CMD_CUT); } );
       
       editCopyAction = menuEdit->addAction(*copySVGIcon, tr("&Copy"));
+      editCopyAction->setToolTip(tr("Copy selected MIDI notes/events to clipboard (Ctrl+C)"));
       connect(editCopyAction, &QAction::triggered, [this]() { cmd(PianoCanvas::CMD_COPY); } );
       
       editCopyRangeAction = menuEdit->addAction(*copyRangeSVGIcon, tr("Copy Events in Range"));
+      editCopyRangeAction->setToolTip(tr("Copy MIDI events within loop marker range"));
       connect(editCopyRangeAction, &QAction::triggered, [this]() { cmd(PianoCanvas::CMD_COPY_RANGE); } );
       
       editPasteAction = menuEdit->addAction(*pasteSVGIcon, tr("&Paste"));
+      editPasteAction->setToolTip(tr("Paste clipboard events at current playhead position (Ctrl+V)"));
       connect(editPasteAction, &QAction::triggered, [this]() { cmd(PianoCanvas::CMD_PASTE); } );
       
       editPasteToCurPartAction = menuEdit->addAction(*pasteSelectedTrackSVGIcon, tr("Paste to Current Part"));
+      editPasteToCurPartAction->setToolTip(tr("Paste clipboard events directly into active MIDI part"));
       connect(editPasteToCurPartAction, &QAction::triggered, [this]() { cmd(PianoCanvas::CMD_PASTE_TO_CUR_PART); } );
 
       editPasteDialogAction = menuEdit->addAction(*pasteDialogSVGIcon, tr("Paste (With Dialog)..."));

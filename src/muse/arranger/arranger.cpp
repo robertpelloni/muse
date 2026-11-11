@@ -287,7 +287,7 @@ Arranger::Arranger(ArrangerView* parent, const char* name)
       QLabel* label = new QLabel(tr("Cursor"));
       toolbar->addWidget(label);
       cursorPos = new PosLabel(nullptr, "PosLabel");
-      cursorPos->setToolTip(tr("Cursor position"));
+      cursorPos->setToolTip(tr("Current playhead / cursor timeline position (Bar:Beat:Tick)"));
       cursorPos->setEnabled(false);
       toolbar->addWidget(cursorPos);
 
@@ -295,13 +295,14 @@ Arranger::Arranger(ArrangerView* parent, const char* name)
       gridOnButton->setIcon(*gridOnSVGIcon);
       gridOnButton->setFocusPolicy(Qt::NoFocus);
       gridOnButton->setCheckable(true);
-      gridOnButton->setToolTip(tr("Show grid"));
-      gridOnButton->setWhatsThis(tr("Show grid"));
+      gridOnButton->setToolTip(tr("Toggle timeline snap grid on / off"));
+      gridOnButton->setWhatsThis(tr("Toggle timeline snap grid"));
       toolbar->addWidget(gridOnButton);
       connect(gridOnButton, &QToolButton::toggled, [this](bool v) { gridOnChanged(v); } );
 
       _rasterCombo = new RasterLabelCombo(RasterLabelCombo::TableView, _rasterizerModel, this, "RasterLabelCombo");
       _rasterCombo->setFocusPolicy(Qt::TabFocus);
+      _rasterCombo->setToolTip(tr("Grid quantize raster division (e.g. 1/16, 1/8, 1/4)"));
       toolbar->addWidget(_rasterCombo);
 
       // Song len
@@ -315,7 +316,7 @@ Arranger::Arranger(ArrangerView* parent, const char* name)
       lenEntry->setFocusPolicy(Qt::StrongFocus);
       lenEntry->setKeyboardTracking(false);
       lenEntry->setValue(MusEGlobal::song->len());
-      lenEntry->setToolTip(tr("Song length - bars"));
+      lenEntry->setToolTip(tr("Project total timeline length in musical bars"));
       lenEntry->setWhatsThis(tr("Song length - bars"));
       toolbar->addWidget(lenEntry);
       connect(lenEntry, SIGNAL(valueChanged(int)), SLOT(songlenChanged(int)));
@@ -328,7 +329,7 @@ Arranger::Arranger(ArrangerView* parent, const char* name)
       globalPitchSpinBox->setFocusPolicy(Qt::StrongFocus);
       globalPitchSpinBox->setKeyboardTracking(false);
       globalPitchSpinBox->setValue(MusEGlobal::song->globalPitchShift());
-      globalPitchSpinBox->setToolTip(tr("Midi pitch"));
+      globalPitchSpinBox->setToolTip(tr("Global MIDI transpose / pitch shift in semitones"));
       globalPitchSpinBox->setWhatsThis(tr("Global midi pitch shift"));
       toolbar->addWidget(globalPitchSpinBox);
       connect(globalPitchSpinBox, SIGNAL(valueChanged(int)), SLOT(globalPitchChanged(int)));
@@ -342,7 +343,7 @@ Arranger::Arranger(ArrangerView* parent, const char* name)
       globalTempoSpinBox->setKeyboardTracking(false);
       globalTempoSpinBox->setSuffix(QString("%"));
       globalTempoSpinBox->setValue(MusEGlobal::tempomap.globalTempo());
-      globalTempoSpinBox->setToolTip(tr("Midi tempo"));
+      globalTempoSpinBox->setToolTip(tr("Global tempo scaling percentage (50% - 200%)"));
       globalTempoSpinBox->setWhatsThis(tr("Midi tempo"));
       toolbar->addWidget(globalTempoSpinBox);
       connect(globalTempoSpinBox, SIGNAL(valueChanged(int)), SLOT(globalTempoChanged(int)));
@@ -350,18 +351,21 @@ Arranger::Arranger(ArrangerView* parent, const char* name)
       QToolButton* tempo50  = new QToolButton();
       tempo50->setText(QString("50%"));
       tempo50->setFocusPolicy(Qt::NoFocus);
+      tempo50->setToolTip(tr("Scale global tempo to 50% (half speed)"));
       toolbar->addWidget(tempo50);
       connect(tempo50, SIGNAL(clicked()), SLOT(setTempo50()));
       
       QToolButton* tempo100 = new QToolButton();
       tempo100->setText(tr("N"));
       tempo100->setFocusPolicy(Qt::NoFocus);
+      tempo100->setToolTip(tr("Reset global tempo scaling to 100% (Normal speed)"));
       toolbar->addWidget(tempo100);
       connect(tempo100, SIGNAL(clicked()), SLOT(setTempo100()));
       
       QToolButton* tempo200 = new QToolButton();
       tempo200->setText(QString("200%"));
       tempo200->setFocusPolicy(Qt::NoFocus);
+      tempo200->setToolTip(tr("Scale global tempo to 200% (double speed)"));
       toolbar->addWidget(tempo200);
       connect(tempo200, SIGNAL(clicked()), SLOT(setTempo200()));
 

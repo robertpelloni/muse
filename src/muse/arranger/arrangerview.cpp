@@ -146,18 +146,26 @@ ArrangerView::ArrangerView(QWidget* parent)
 
   //-------- Edit Actions
   editDeleteAction = new QAction(*deleteSVGIcon, tr("D&elete"), this);
+  editDeleteAction->setToolTip(tr("Delete selected parts or events (Del)"));
   editCutAction = new QAction(*cutSVGIcon, tr("C&ut"), this);
+  editCutAction->setToolTip(tr("Cut selected parts or events to clipboard (Ctrl+X)"));
   editCopyAction = new QAction(*copySVGIcon, tr("&Copy"), this);
+  editCopyAction->setToolTip(tr("Copy selected parts or events to clipboard (Ctrl+C)"));
   editCopyRangeAction = new QAction(*copyRangeSVGIcon, tr("Copy in Range"), this);
+  editCopyRangeAction->setToolTip(tr("Copy parts within left/right loop markers"));
   editPasteAction = new QAction(*pasteSVGIcon, tr("&Paste"), this);
+  editPasteAction->setToolTip(tr("Paste clipboard contents at current timeline position (Ctrl+V)"));
   editPasteCloneAction = new QAction(*pasteCloneSVGIcon, tr("Paste C&lone"), this);
+  editPasteCloneAction->setToolTip(tr("Paste cloned linked parts sharing data with original"));
   editPasteToTrackAction = new QAction(*pasteSelectedTrackSVGIcon, tr("Paste to Selected &Track"), this);
   editPasteCloneToTrackAction = new QAction(*pasteCloneSelectedTrackSVGIcon, tr("Paste Clone to Selected Trac&k"), this);
   editPasteDialogAction = new QAction(*pasteDialogSVGIcon, tr("Paste (With Dialo&g)..."), this);
   editInsertEMAction = new QAction(*emptyBarSVGIcon, tr("&Insert Empty Bar"), this);
 
   editDeleteSelectedTrackAction = new QAction(*delSelTracksSVGIcon, tr("Delete Selected"), this);
+  editDeleteSelectedTrackAction->setToolTip(tr("Delete selected track(s) from project"));
   editDuplicateSelTrackAction = new QAction(*duplSelTracksSVGIcon, tr("Duplicate Selected"), this);
+  editDuplicateSelTrackAction->setToolTip(tr("Duplicate selected track(s) with parts and routing"));
   editMoveUpSelTrackAction = new QAction(tr("Move Selected Up"), this);
   editMoveDownSelTrackAction = new QAction(tr("Move Selected Down"), this);
   editMoveTopSelTrackAction = new QAction(tr("Move Selected to Top"), this);

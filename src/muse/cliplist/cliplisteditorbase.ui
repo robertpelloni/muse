@@ -31,6 +31,9 @@
    </property>
    <item>
     <widget class="QTreeWidget" name="view">
+     <property name="toolTip">
+      <string>List of available audio wave clips in project with sample rate, channels, and status</string>
+     </property>
      <property name="rootIsDecorated">
       <bool>true</bool>
      </property>
@@ -105,6 +108,9 @@
         <property name="smpte" stdset="0">
          <bool>true</bool>
         </property>
+        <property name="toolTip">
+         <string>Audio clip start offset within wave file (SMPTE time)</string>
+        </property>
        </widget>
       </item>
       <item>
@@ -121,6 +127,9 @@
        <widget class="MusEGui::PosEdit" name="len" native="true">
         <property name="smpte" stdset="0">
          <bool>true</bool>
+        </property>
+        <property name="toolTip">
+         <string>Audio clip duration / playback length (SMPTE time)</string>
         </property>
        </widget>
       </item>

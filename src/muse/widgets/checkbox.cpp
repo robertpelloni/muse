@@ -36,6 +36,8 @@ CheckBox::CheckBox(QWidget* parent, int i, const char* name)
       setObjectName(name);
       _id = i;
       connect(this, SIGNAL(toggled(bool)), SLOT(hasToggled(bool)));
+      if (toolTip().isEmpty())
+            setToolTip(tr("Click to toggle. Right-click for options"));
       }
 
 void CheckBox::hasToggled(bool val)

@@ -397,23 +397,29 @@ ScoreEdit::ScoreEdit(QWidget* parent, const char* name, unsigned initPos)
         edit_menu->addSeparator();
 
         cut_action = edit_menu->addAction(*cutSVGIcon, tr("C&ut"));
+        cut_action->setToolTip(tr("Cut selected score events and copy them to the clipboard"));
         connect(cut_action, &QAction::triggered, [this]() { menu_command(CMD_CUT); } );
 
         copy_action = edit_menu->addAction(*copySVGIcon, tr("&Copy"));
+        copy_action->setToolTip(tr("Copy selected score events to the clipboard"));
         connect(copy_action, &QAction::triggered, [this]() { menu_command(CMD_COPY); } );
 
         copy_range_action = edit_menu->addAction(*copyRangeSVGIcon, tr("Copy Events in Range"));
+        copy_range_action->setToolTip(tr("Copy score events within current loop/punch range to the clipboard"));
         connect(copy_range_action, &QAction::triggered, [this]() { menu_command(CMD_COPY_RANGE); } );
 
         paste_action = edit_menu->addAction(*pasteSVGIcon, tr("&Paste"));
+        paste_action->setToolTip(tr("Paste score events from clipboard at current position"));
         connect(paste_action, &QAction::triggered, [this]() { menu_command(CMD_PASTE); } );
 
         paste_dialog_action = edit_menu->addAction(*pasteDialogSVGIcon, tr("Paste (With Dialog)..."));
+        paste_dialog_action->setToolTip(tr("Open options dialog to customize pasting clipboard events into the score"));
         connect(paste_dialog_action, &QAction::triggered, [this]() { menu_command(CMD_PASTE_DIALOG); } );
 
         edit_menu->addSeparator();
 
         del_action = edit_menu->addAction(*deleteSVGIcon, tr("Delete &Events"));
+        del_action->setToolTip(tr("Remove selected score events from the active part"));
         connect(del_action, &QAction::triggered, [this]() { menu_command(CMD_DEL); } );
 
         edit_menu->addSeparator();
@@ -421,38 +427,53 @@ ScoreEdit::ScoreEdit(QWidget* parent, const char* name, unsigned initPos)
         QMenu* select_menu = edit_menu->addMenu(tr("&Select"));
 
             select_all_action = select_menu->addAction(*selectAllSVGIcon, tr("Select &All"));
+            select_all_action->setToolTip(tr("Select all score events in the active part"));
             connect(select_all_action, &QAction::triggered, [this]() { menu_command(CMD_SELECT_ALL); } );
 
             select_none_action = select_menu->addAction(*deselectAllSVGIcon, tr("&Deselect All"));
+            select_none_action->setToolTip(tr("Clear selection of score events"));
             connect(select_none_action, &QAction::triggered, [this]() { menu_command(CMD_SELECT_NONE); } );
 
             select_invert_action = select_menu->addAction(*selectInvertSVGIcon, tr("Invert &Selection"));
+            select_invert_action->setToolTip(tr("Invert event selection across the active score part"));
             connect(select_invert_action, &QAction::triggered, [this]() { menu_command(CMD_SELECT_INVERT); } );
 
             select_menu->addSeparator();
 
             select_iloop_action = select_menu->addAction(*selectInsideLoopSVGIcon, tr("&Inside Loop"));
+            select_iloop_action->setToolTip(tr("Select all score events occurring within the loop boundaries"));
             connect(select_iloop_action, &QAction::triggered, [this]() { menu_command(CMD_SELECT_ILOOP); } );
 
             select_oloop_action = select_menu->addAction(*selectOutsideLoopSVGIcon, tr("&Outside Loop"));
+            select_oloop_action->setToolTip(tr("Select all score events occurring outside the loop boundaries"));
             connect(select_oloop_action, &QAction::triggered, [this]() { menu_command(CMD_SELECT_OLOOP); } );
 
 
     QMenu* functions_menu = menuBar()->addMenu(tr("Fu&nctions"));
 
         func_quantize_action = functions_menu->addAction(*quantizeSVGIcon, tr("&Quantize..."));
+        func_quantize_action->setToolTip(tr("Align note start times and lengths to the rhythmic grid"));
         func_velocity_action = functions_menu->addAction(tr("Change Note &Velocity..."));
+        func_velocity_action->setToolTip(tr("Modify or scale velocity values of selected score notes"));
         func_cresc_action = functions_menu->addAction(tr("Crescendo/Decrescendo..."));
+        func_cresc_action->setToolTip(tr("Apply gradual volume increase or decrease across selected notes"));
         func_move_action = functions_menu->addAction(tr("Move Notes..."));
+        func_move_action->setToolTip(tr("Shift selected notes in time or pitch by specified offset"));
         func_del_overlaps_action = functions_menu->addAction(tr("Delete Overlaps..."));
+        func_del_overlaps_action->setToolTip(tr("Shorten notes that overlap subsequent notes on the same pitch"));
         func_erase_action = functions_menu->addAction(tr("Erase Events..."));
+        func_erase_action->setToolTip(tr("Selectively filter and delete specific types of MIDI events"));
 
         functions_menu->addSeparator();
 
         func_notelen_action = functions_menu->addAction(tr("Change Note &Length..."));
+        func_notelen_action->setToolTip(tr("Modify note durations by scaling or adding offset"));
         func_fixed_len_action = functions_menu->addAction(tr("Set Fixed Length..."));
+        func_fixed_len_action->setToolTip(tr("Set the duration of all selected notes to an exact rhythmic value"));
         func_transpose_action = functions_menu->addAction(tr("Transpose..."));
+        func_transpose_action->setToolTip(tr("Transpose selected notes by semitones or octaves"));
         func_legato_action = functions_menu->addAction(tr("Legato..."));
+        func_legato_action->setToolTip(tr("Extend note durations so each note sustains until the next note starts"));
 
         connect(func_quantize_action,     &QAction::triggered, [this]() { menu_command(CMD_QUANTIZE); } );
         connect(func_notelen_action,      &QAction::triggered, [this]() { menu_command(CMD_NOTELEN); } );

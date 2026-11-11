@@ -40,6 +40,9 @@
         </item>
         <item>
          <widget class="QSlider" name="sliderGain">
+          <property name="toolTip">
+           <string>Adjust audio clip gain percentage (0% to 200%)</string>
+          </property>
           <property name="minimumSize">
            <size>
             <width>40</width>

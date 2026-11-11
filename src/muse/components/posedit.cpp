@@ -49,6 +49,7 @@ PosEdit::PosEdit(QWidget* parent)
       validator = new QIntValidator(this);
       
       initialized = false;
+      setToolTip(tr("Time / measure position (use mouse wheel or up/down keys to adjust segment)"));
       setReadOnly(false);
       setSmpte(false);
       }

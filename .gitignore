@@ -2,6 +2,7 @@
 src/build*
 src/*.kdev4
 src/CMakeLists.txt.user
-build*
+/build*
 *.code-workspace
 src/*.code-workspace
+__pycache__/

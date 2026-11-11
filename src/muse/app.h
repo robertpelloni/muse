@@ -64,6 +64,7 @@ class QMdiSubWindow;
 class MuseMdiArea;
 class QDockWidget;
 class QAction;
+class QSystemTrayIcon;
 
 namespace MusECore {
 class AudioOutput;
@@ -250,6 +251,11 @@ class MusE : public QMainWindow
     BigTime* bigtime;
     EditInstrument* editInstrument;
 
+    // System tray controller
+    QSystemTrayIcon* trayIcon;
+    QMenu* trayMenu;
+    void initSystemTray();
+
     // when adding a menu to the main window, remember adding it to
     // either the leadingMenus or trailingMenus list!
     QMenu *menu_file, *menuView, *menuSettings, *menuWindows, *menuHelp;
@@ -430,6 +436,8 @@ private slots:
     void setDirty();
     void toggleRewindOnStop(bool);
     void toggleDocks(bool show);
+    void toggleWindowVisibility();
+    void panicStop();
 
 public slots:
     void saveNewRevision();

@@ -215,6 +215,8 @@ Meter::Meter(QWidget* parent,
       connect(&fallingTimer, SIGNAL(timeout()), this, SLOT(updateTargetMeterValue()));
 
       setPrimaryColor(_primaryColor);
+      if (toolTip().isEmpty())
+          setToolTip(tr("Audio level meter with peak indicator (dBFS)"));
       
 //       updateText(targetVal);
       }

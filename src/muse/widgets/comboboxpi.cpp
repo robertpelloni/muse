@@ -11,6 +11,8 @@ ComboBoxPI::ComboBoxPI(QWidget* parent, int i, const char* name)
 {
     setObjectName(name);
     pid = i;
+    if (toolTip().isEmpty())
+        setToolTip(tr("Click to select option. Right-click for context menu"));
 }
 
 //------------------------------------------------------------

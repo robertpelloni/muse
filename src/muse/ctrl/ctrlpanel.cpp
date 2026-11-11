@@ -116,7 +116,7 @@ CtrlPanel::CtrlPanel(QWidget* parent, MidiEditor* e, CtrlCanvas* c, const char* 
       selCtrl->setContentsMargins(4, 4, 4, 4);
       selCtrl->setFocusPolicy(Qt::NoFocus);
       selCtrl->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum));
-      selCtrl->setToolTip(tr("Select controller"));
+      selCtrl->setToolTip(tr("Choose which MIDI/audio automation controller or parameter this strip displays"));
       
       // Remove panel (destroy button)
       CompactToolButton* destroy = new CompactToolButton(this);
@@ -126,7 +126,7 @@ CtrlPanel::CtrlPanel(QWidget* parent, MidiEditor* e, CtrlCanvas* c, const char* 
       destroy->setContentsMargins(4, 4, 4, 4);
       destroy->setFocusPolicy(Qt::NoFocus);
       destroy->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum));
-      destroy->setToolTip(tr("Remove panel"));
+      destroy->setToolTip(tr("Remove this controller automation lane from the editor"));
 
       connect(selCtrl, SIGNAL(clicked()), SLOT(ctrlPopup()));
       connect(destroy, SIGNAL(clicked()), SIGNAL(destroyPanel()));
